@@ -20,7 +20,7 @@ public class SwaggerConfig {
     public ApiInfo createAI(){
         ApiInfo apiInfo=new ApiInfoBuilder().title("鲸落-学习平台")
                 .description("实现一款学习平台")
-                .contact(new Contact("焦斌","http://www.17feri.top","xingfei_work@163.com"))
+                .contact(new Contact("焦斌","http://www.17feri.top","jiaobin5229@153.com"))
                 .build();
         return apiInfo;
     }
@@ -28,6 +28,6 @@ public class SwaggerConfig {
     @Bean
     public Docket createD(){
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(createAI()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.feri.bootssm.controller")).build();
+                .apis(RequestHandlerSelectors.basePackage("com.jingluo.jingluo.controller")).build();
     }
 }
