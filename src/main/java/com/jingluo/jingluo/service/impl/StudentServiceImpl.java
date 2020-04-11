@@ -19,6 +19,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public ReturnInfo queryAll() {
-        return ReturnInfo.setOK(dao.selectAll());
+        return ReturnInfo.success(dao.selectAll());
     }
 }
