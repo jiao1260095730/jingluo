@@ -19,4 +19,7 @@ public class SystemConfig {
     public static final String OSS_IMG_OBJECT_NAME="img-1";
     //OSS访问连接的有效期  默认十年
     public static final int OSS_URL_MONTHS=120;
+    //短信验证码的有效期5分钟
+    public static final int SMS_CODE_TIME=5;
+
 }

@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2 //启用swagger
-@MapperScan("com.jingluo.jingluo.dao") //Mybatis的dao层扫描
+@MapperScan("com.jingluo.jingluo.mapper") //Mybatis的dao层扫描
 public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

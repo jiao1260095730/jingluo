@@ -33,8 +33,12 @@ public class NumberUtil {
     /**
     * 生成指定位数验证码
     */
-    public static int createNum(int len) {
+    public static int createIntNum(int len) {
         return (int) (new Random().nextInt((int) (Math.pow(10, len) - Math.pow(10, len - 1))) +
                 Math.pow(10, len - 1));
+    }
+
+    public static String createStrNum(int len) {
+        return String.valueOf(createIntNum(len));
     }
 }

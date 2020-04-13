@@ -1,6 +1,6 @@
 package com.jingluo.jingluo.service.impl;
 
-import com.jingluo.jingluo.dao.StudentDao;
+import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.service.StudentService;
 import com.jingluo.jingluo.vo.ReturnInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    private StudentDao dao;
+    private StudentMapper dao;
 
     @Override
     public ReturnInfo queryAll() {
