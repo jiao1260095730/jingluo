@@ -173,3 +173,19 @@ java.lang.NullPointerException: null
 2020-04-11 16:32:11.800  INFO 16380 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2020-04-11 16:32:11.802  INFO 16380 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2020-04-11 16:32:11.825  INFO 16380 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 22 ms
+2020-04-13 21:04:36.978  INFO 3200 --- [main] com.jingluo.jingluo.Application          : Starting Application on wyh with PID 3200 (E:\a\jingluo\target\classes started by 吴 in E:\a\jingluo)
+2020-04-13 21:04:36.982  INFO 3200 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-04-13 21:04:39.389  INFO 3200 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-04-13 21:04:39.967  INFO 3200 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-04-13 21:04:39.982  INFO 3200 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-04-13 21:04:39.983  INFO 3200 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-04-13 21:04:40.267  INFO 3200 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-04-13 21:04:40.267  INFO 3200 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3152 ms
+2020-04-13 21:04:40.676  INFO 3200 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2020-04-13 21:05:17.208  INFO 3200 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-04-13 21:05:17.340  INFO 3200 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-04-13 21:05:17.615  INFO 3200 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-04-13 21:05:17.659  INFO 3200 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-04-13 21:05:17.713  INFO 3200 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-04-13 21:05:18.223  INFO 3200 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-04-13 21:05:18.227  INFO 3200 --- [main] com.jingluo.jingluo.Application          : Started Application in 42.225 seconds (JVM running for 46.432)
