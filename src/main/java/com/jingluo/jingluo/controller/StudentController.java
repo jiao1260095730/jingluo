@@ -6,7 +6,7 @@ import com.jingluo.jingluo.dto.UserUpdatePSWDto;
 import com.jingluo.jingluo.dto.UserValidDto;
 import com.jingluo.jingluo.service.StudentService;
 import com.jingluo.jingluo.service.UserService;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,13 +31,13 @@ public class StudentController {
 
     @ApiOperation(value = "学生登录", notes = "学生登录")
     @PostMapping("api/student/login.do")
-    public ReturnInfo login(@RequestBody UserLoginDto userDto) {
+    public ResultInfo login(@RequestBody UserLoginDto userDto) {
         return userService.login(userDto, UserType.student.getCode());
     }
 
     @ApiOperation(value = "学生绑定手机号", notes = "学生绑定手机号")
     @PostMapping("api/student/bindPhone.do")
-    public ReturnInfo bindPhone(@RequestBody UserValidDto userDto) {
+    public ResultInfo bindPhone(@RequestBody UserValidDto userDto) {
         return userService.bindPhone(userDto, UserType.student.getCode());
     }
 
@@ -48,13 +48,13 @@ public class StudentController {
             @ApiImplicitParam(name = "password", value = "新密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "oldPassword",value = "旧密码", required = false,dataType = "String"),
             @ApiImplicitParam(name = "validateCode",value = "验证码", required = false,dataType = "String")})
-    public ReturnInfo updatePSW(@RequestBody UserUpdatePSWDto userDto) {
+    public ResultInfo updatePSW(@RequestBody UserUpdatePSWDto userDto) {
         return userService.updatePassword(userDto, UserType.student.getCode());
     }
 
     @ApiOperation(value = "查询学生列表",notes = "查询学生列表")
     @GetMapping("api/student/queryAll.do")
-    public ReturnInfo queryAllStudent(){
+    public ResultInfo queryAllStudent(){
         return studentService.queryAll();
     }
 }

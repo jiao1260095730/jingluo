@@ -2,7 +2,7 @@ package com.jingluo.jingluo.service.impl;
 
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.service.StudentService;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentMapper dao;
 
     @Override
-    public ReturnInfo queryAll() {
-        return ReturnInfo.success(dao.selectAll());
+    public ResultInfo queryAll() {
+        return ResultInfo.success(dao.selectAll());
     }
 }

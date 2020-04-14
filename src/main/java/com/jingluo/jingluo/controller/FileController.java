@@ -1,7 +1,7 @@
 package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.service.FileService;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class FileController {
 
     @PostMapping("api/file/uploadImg.do")
     @ApiOperation(value = "上传图片到服务器", notes = "上传图片")
-    public ReturnInfo uploadImg(@RequestParam MultipartFile file) {
+    public ResultInfo uploadImg(@RequestParam MultipartFile file) {
         return service.uploadImg(file);
     }
 }

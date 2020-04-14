@@ -1,11 +1,7 @@
 package com.jingluo.jingluo.utils;
 
-import com.jingluo.jingluo.common.LoggerCommon;
-import com.jingluo.jingluo.common.SmsType;
 import com.jingluo.jingluo.config.RedisConfig;
 import com.jingluo.jingluo.config.SystemConfig;
-import com.jingluo.jingluo.entity.SmsLog;
-import com.jingluo.jingluo.vo.ReturnInfo;
 import org.junit.Test;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

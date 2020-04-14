@@ -10,7 +10,7 @@ import com.jingluo.jingluo.utils.AliyunSmsUtil;
 import com.jingluo.jingluo.utils.DateUtil;
 import com.jingluo.jingluo.utils.NumberUtil;
 import com.jingluo.jingluo.utils.RedissonUtil;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +33,7 @@ public class SmsServiceImpl implements SmsService {
      * @date 2020/4/12
      */
     @Override
-    public ReturnInfo sendSms(String phone, int intType, String strType) {
+    public ResultInfo sendSms(String phone, int intType, String strType) {
 
         try {
             /*
@@ -52,7 +52,7 @@ public class SmsServiceImpl implements SmsService {
                 if (days >= 10) {
                     LoggerCommon.commonerror("当日发送次数已达10次");
                     tag = 1;
-                    return ReturnInfo.fail("当日发送次数已达10次，请明天再试");
+                    return ResultInfo.fail("当日发送次数已达10次，请明天再试");
                 }
             } else if (RedissonUtil.checkKey(RedisConfig.SMS_HOUR + phone)) {
                 hours = Integer.parseInt(RedissonUtil.getStr(RedisConfig.SMS_HOUR + phone));
@@ -62,12 +62,12 @@ public class SmsServiceImpl implements SmsService {
                     //本小时已达上限
                     LoggerCommon.commonerror("一小时内发送次数已达5次");
                     tag = 2;
-                    return ReturnInfo.fail("一小时内发送次数已达5次，请稍后再试");
+                    return ResultInfo.fail("一小时内发送次数已达5次，请稍后再试");
                 }
             } else if (RedissonUtil.checkKey(RedisConfig.SMS_MINUTE + phone)) {
                 LoggerCommon.commonerror("一分钟内已发送消息");
                 tag = 3;
-                return ReturnInfo.fail("一分钟内已发送消息，请稍后再试");
+                return ResultInfo.fail("一分钟内已发送消息，请稍后再试");
             }
             if (tag == 0) {
                 //1小时 5条
@@ -93,7 +93,7 @@ public class SmsServiceImpl implements SmsService {
                     RedissonUtil.setStr(RedisConfig.SMS_DAY + phone, days + 1 + "", DateUtil.getDaySeconds());
 
                     LoggerCommon.commoninfo("发送给手机号：" + phone + "的验证码为：" + code);
-                    return ReturnInfo.success("发送验证码成功，请注意查看");
+                    return ResultInfo.success("发送验证码成功，请注意查看");
                 }
                 //记录本次操作到数据库
                 smsLog.setRecPhone(phone);
@@ -107,10 +107,10 @@ public class SmsServiceImpl implements SmsService {
                 smsLog.setType(intType);
                 smsLogDao.insert(smsLog);
             }
-            return ReturnInfo.fail("发送消息失败");
+            return ResultInfo.fail("发送消息失败");
         } catch (Exception e) {
             LoggerCommon.commonerror("发送短信出现异常", e);
-            return ReturnInfo.fail("发送短信出现异常");
+            return ResultInfo.fail("发送短信出现异常");
         }
     }
 }

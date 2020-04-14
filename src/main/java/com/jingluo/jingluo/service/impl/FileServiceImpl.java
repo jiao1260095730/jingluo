@@ -6,7 +6,7 @@ import com.jingluo.jingluo.dto.OssBeanDto;
 import com.jingluo.jingluo.service.FileService;
 import com.jingluo.jingluo.utils.IdGenerator;
 import com.jingluo.jingluo.utils.OSSClientUtil;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import jodd.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class FileServiceImpl implements FileService {
     private IdGenerator idGenerator;
 
     @Override
-    public ReturnInfo uploadImg(MultipartFile file) {
+    public ResultInfo uploadImg(MultipartFile file) {
         //1.验证是否为空
         if (!file.isEmpty()) {
             //2.获取上传文件名
@@ -50,9 +50,9 @@ public class FileServiceImpl implements FileService {
                 OssBeanDto beanDto = new OssBeanDto();
                 beanDto.setObjName(fileName);
                 beanDto.setUrl(url);
-                return ReturnInfo.success(beanDto);
+                return ResultInfo.success(beanDto);
             }
         }
-        return ReturnInfo.fail();
+        return ResultInfo.fail();
     }
 }

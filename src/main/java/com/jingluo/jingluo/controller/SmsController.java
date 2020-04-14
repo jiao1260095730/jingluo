@@ -3,7 +3,7 @@ package com.jingluo.jingluo.controller;
 import com.jingluo.jingluo.common.SmsType;
 import com.jingluo.jingluo.config.RedisConfig;
 import com.jingluo.jingluo.service.SmsService;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ public class SmsController {
 
     @ApiOperation(value = "绑定手机时发送验证码", notes = "绑定手机号时发送验证码给指定手机号")
     @PostMapping("api/sms/sendBindCode")
-    public ReturnInfo sendBindSms(@RequestParam String phone) {
+    public ResultInfo sendBindSms(@RequestParam String phone) {
         return smsService.sendSms(phone, SmsType.bindcode.getCode(), RedisConfig.SMS_CODE_BIND);
     }
 
 
     @ApiOperation(value = "找回密码时发送验证码", notes = "找回密码时发送验证码给指定手机号")
     @PostMapping("api/sms/sendFindCode")
-    public ReturnInfo sendFindSms(@RequestParam String phone) {
+    public ResultInfo sendFindSms(@RequestParam String phone) {
         return smsService.sendSms(phone, SmsType.findcode.getCode(), RedisConfig.SMS_CODE_FIND);
     }
 

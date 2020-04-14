@@ -3,7 +3,7 @@ package com.jingluo.jingluo.service;
 import com.jingluo.jingluo.dto.UserLoginDto;
 import com.jingluo.jingluo.dto.UserUpdatePSWDto;
 import com.jingluo.jingluo.dto.UserValidDto;
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
  * @Description TODO
@@ -12,9 +12,9 @@ import com.jingluo.jingluo.vo.ReturnInfo;
  */
 public interface UserService {
 
-    ReturnInfo login(UserLoginDto userDto, int type);
+    ResultInfo login(UserLoginDto userDto, int type);
 
-    ReturnInfo bindPhone(UserValidDto userDto, int type);
+    ResultInfo bindPhone(UserValidDto userDto, int type);
 
-    ReturnInfo updatePassword(UserUpdatePSWDto userDto, int type);
+    ResultInfo updatePassword(UserUpdatePSWDto userDto, int type);
 }

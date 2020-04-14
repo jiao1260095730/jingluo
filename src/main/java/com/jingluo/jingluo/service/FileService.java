@@ -1,6 +1,6 @@
 package com.jingluo.jingluo.service;
 
-import com.jingluo.jingluo.vo.ReturnInfo;
+import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
  * @Date 2020/4/11 15:31
  */
 public interface FileService {
-    ReturnInfo uploadImg(MultipartFile file);
+    ResultInfo uploadImg(MultipartFile file);
 }
