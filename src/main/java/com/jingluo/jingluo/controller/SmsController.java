@@ -23,21 +23,15 @@ public class SmsController {
     @Autowired
     private SmsService smsService;
 
-<<<<<<< HEAD
+
     @ApiOperation(value = "绑定手机时发送验证码", notes = "绑定手机号时发送验证码给指定手机号")
-=======
-    @ApiOperation(value = "发送验证码", notes = "绑定手机号时发送验证码给指定手机号")
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
     @PostMapping("api/sms/sendBindCode")
     public ReturnInfo sendBindSms(@RequestParam String phone) {
         return smsService.sendSms(phone, SmsType.bindcode.getCode(), RedisConfig.SMS_CODE_BIND);
     }
 
-<<<<<<< HEAD
+
     @ApiOperation(value = "找回密码时发送验证码", notes = "找回密码时发送验证码给指定手机号")
-=======
-    @ApiOperation(value = "发送验证码", notes = "找回密码时发送验证码给指定手机号")
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
     @PostMapping("api/sms/sendFindCode")
     public ReturnInfo sendFindSms(@RequestParam String phone) {
         return smsService.sendSms(phone, SmsType.findcode.getCode(), RedisConfig.SMS_CODE_FIND);

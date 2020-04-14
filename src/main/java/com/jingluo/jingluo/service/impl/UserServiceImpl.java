@@ -3,17 +3,12 @@ package com.jingluo.jingluo.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.RedisConfig;
-<<<<<<< HEAD
 import com.jingluo.jingluo.dto.UserLoginDto;
 import com.jingluo.jingluo.dto.UserUpdatePSWDto;
 import com.jingluo.jingluo.dto.UserValidDto;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.mapper.TeacherMapper;
-=======
-import com.jingluo.jingluo.mapper.StudentMapper;
-import com.jingluo.jingluo.mapper.TeacherMapper;
 import com.jingluo.jingluo.dto.UserDto;
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
 import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.entity.Teacher;
 import com.jingluo.jingluo.service.UserService;
@@ -42,11 +37,7 @@ public class UserServiceImpl implements UserService {
      * 登录
      */
     @Override
-<<<<<<< HEAD
     public ReturnInfo login(UserLoginDto userDto, int type) {
-=======
-    public ReturnInfo login(UserDto userDto, int type) {
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
         //校验参数是否为空
         if (!StringUtil.isEmpty(userDto.getUserCode(), userDto.getPassword())) {
             //区分学生、教师，学生为1  教师为2
@@ -93,28 +84,17 @@ public class UserServiceImpl implements UserService {
      * 校验验证码，绑定手机号
      */
     @Override
-<<<<<<< HEAD
     public ReturnInfo bindPhone(UserValidDto userDto, int type) {
-=======
-    public ReturnInfo bindPhone(UserDto userDto, int type) {
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
         try {
             //校验redis中是否存在
             if (RedissonUtil.checkKey(RedisConfig.SMS_CODE_BIND + userDto.getPhone())) {
                 //校验验证码是否相同
-<<<<<<< HEAD
                 if (StringUtils.equals(userDto.getCode(), RedissonUtil.getStr(RedisConfig.SMS_CODE_BIND + userDto.getPhone()))) {
-=======
-                if (StringUtils.equals(userDto.getValidateCode(), RedissonUtil.getStr(RedisConfig.SMS_CODE_BIND + userDto.getPhone()))) {
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
                     //区分学生、教师，学生为1  教师为2
                     if (type == 1) {
                         Student student = new Student();
                         student.setPhone(userDto.getPhone());
-<<<<<<< HEAD
                         student.setStudentCode(userDto.getUserCode());
-=======
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
                         //绑定手机号
                         LoggerCommon.commoninfo("验证通过");
                         if (studentDao.update(student) == 1) {
@@ -126,10 +106,7 @@ public class UserServiceImpl implements UserService {
                     if (type == 2) {
                         Teacher teacher = new Teacher();
                         teacher.setPhone(userDto.getPhone());
-<<<<<<< HEAD
                         teacher.setTeacherCode(userDto.getUserCode());
-=======
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
                         //绑定手机号
                         LoggerCommon.commoninfo("验证通过");
                         if (teacherDao.update(teacher) == 1) {
@@ -153,11 +130,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-<<<<<<< HEAD
     public ReturnInfo updatePassword(UserUpdatePSWDto userDto, int type) {
-=======
-    public ReturnInfo updatePassword(UserDto userDto, int type) {
->>>>>>> bb48385dad6f33bdf1c2257aad7490069620ca51
         try {
             String userCode = userDto.getUserCode();
             String oldPassword = userDto.getOldPassword();
