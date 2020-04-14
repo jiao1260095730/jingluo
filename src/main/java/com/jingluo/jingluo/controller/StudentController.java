@@ -49,6 +49,9 @@ public class StudentController {
             @ApiImplicitParam(name = "oldPassword",value = "旧密码", required = false,dataType = "String"),
             @ApiImplicitParam(name = "validateCode",value = "验证码", required = false,dataType = "String")})
     public ResultInfo updatePSW(@RequestBody UserUpdatePSWDto userDto) {
+
+
+
         return userService.updatePassword(userDto, UserType.student.getCode());
     }
 
