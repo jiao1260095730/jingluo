@@ -8,7 +8,7 @@ import lombok.Data;
  * @Date 2020/4/12 13:37
  */
 @Data
-public class UserDto {
+public class UserUpdatePSWDto {
     private String userCode;
     //password 可用做密码、修改密码时的新密码
     private String password;

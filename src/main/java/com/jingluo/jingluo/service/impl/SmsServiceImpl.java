@@ -1,6 +1,7 @@
 package com.jingluo.jingluo.service.impl;
 
 import com.jingluo.jingluo.common.LoggerCommon;
+import com.jingluo.jingluo.common.SmsType;
 import com.jingluo.jingluo.config.RedisConfig;
 import com.jingluo.jingluo.config.SystemConfig;
 import com.jingluo.jingluo.mapper.SmsLogMapper;
@@ -54,8 +55,9 @@ public class SmsServiceImpl implements SmsService {
                     tag = 1;
                     return ReturnInfo.fail("当日发送次数已达10次，请明天再试");
                 }
-            } else if (RedissonUtil.getKeys(RedisConfig.SMS_HOUR + phone + ":*") > 0) {
-                hours = RedissonUtil.getKeys(RedisConfig.SMS_HOUR + phone + ":*");
+            } else if (RedissonUtil.checkKey(RedisConfig.SMS_HOUR + phone)) {
+                hours = Integer.parseInt(RedissonUtil.getStr(RedisConfig.SMS_HOUR + phone));
+
                 if (hours >= 5) {
                     //本小时已达上限
                     LoggerCommon.commonerror("一小时内发送次数已达5次");
@@ -79,25 +81,29 @@ public class SmsServiceImpl implements SmsService {
                     code = NumberUtil.createIntNum(6);
                 }
                 SmsLog smsLog = new SmsLog();
-                smsLog.setFlag(1);
+
                 // 2.发送消息
                 if (AliyunSmsUtil.sendSms(phone, code)) {
                     //3、验证码 存储到Redis  String
                     RedissonUtil.setStr(strType + phone, code + "", SystemConfig.SMS_CODE_TIME * 60);
                     //4、更新各种频率的Key
                     RedissonUtil.setStr(RedisConfig.SMS_MINUTE + phone, "", 60);
-                    RedissonUtil.setStr(RedisConfig.SMS_HOUR + phone + ":" + (hours + 1), "", 60 * 60);
+                    RedissonUtil.setStr(RedisConfig.SMS_HOUR + phone, hours + 1 + "", 60 * 60);
                     RedissonUtil.setStr(RedisConfig.SMS_DAY + phone, days + 1 + "", DateUtil.getDaySeconds());
 
                     LoggerCommon.commoninfo("发送给手机号：" + phone + "的验证码为：" + code);
                     //5、返回结果
+
                     return ReturnInfo.success("发送验证码成功，请注意查看");
                 }
                 //记录本次操作到数据库
                 smsLog.setRecPhone(phone);
                 smsLog.setInfo("发送给手机号：" + phone + "的验证码为：" + code);
-                //smsLog.setType(SmsType.bindcode.getCode());
+                //type 为 1 表示为绑定手机   2 为找回密码
+                smsLog.setFlag(1);
                 smsLog.setType(intType);
+                smsLog.setCode(code + "");
+                //smsLog.setSendTime(DateUtil.getTime().);
                 smsLogDao.insert(smsLog);
             }
             return ReturnInfo.fail("发送消息失败");
