@@ -12,13 +12,7 @@ public class NumberUtilTest {
     }
 
     @Test
-    public void testIntNum() {
-        System.out.println(NumberUtil.createIntNum(6));
-    }
-
-    @Test
-    public void testStrNum() {
-        String strNum = NumberUtil.createStrNum(6);
-        System.out.println(strNum);
+    public void testVolidateNum() {
+        System.out.println(NumberUtil.createNum(6));
     }
 }

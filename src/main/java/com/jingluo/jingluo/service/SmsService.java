@@ -1,7 +1,5 @@
 package com.jingluo.jingluo.service;
 
-import com.jingluo.jingluo.vo.ReturnInfo;
-
 /**
  * @Description TODO
  * @Author 焦斌
@@ -9,5 +7,4 @@ import com.jingluo.jingluo.vo.ReturnInfo;
  */
 public interface SmsService {
 
-    ReturnInfo sendSms(String phone, int intType, String strType);
 }
