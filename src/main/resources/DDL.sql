@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50646
 File Encoding         : 65001
 
-Date: 2020-04-07 22:08:07
+Date: 2020-04-12 14:45:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -245,7 +245,7 @@ CREATE TABLE `student` (
   `reserved_2` varchar(255) DEFAULT '' COMMENT '预留字段2',
   `reserved_3` varchar(255) DEFAULT '' COMMENT '预留字段1',
   PRIMARY KEY (`id`,`student_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of student
@@ -319,4 +319,23 @@ CREATE TABLE `teacher_class` (
 
 -- ----------------------------
 -- Records of teacher_class
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sms_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sms_log`;
+CREATE TABLE `sms_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rec_phone` varchar(255) DEFAULT NULL COMMENT '接收短息的手机号',
+  `code` varchar(255) DEFAULT NULL COMMENT '接收到的验证码',
+  `info` varchar(255) DEFAULT NULL COMMENT '记录信息',
+  `type` int(10) unsigned DEFAULT NULL COMMENT '记录类型（1绑定手机号  2找回密码）',
+  `flag` int(10) unsigned DEFAULT NULL COMMENT '标记（1成功  2失败）',
+  `send_time` date DEFAULT NULL COMMENT '发送时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sms_log
 -- ----------------------------
