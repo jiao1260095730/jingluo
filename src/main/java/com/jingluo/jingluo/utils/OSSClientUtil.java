@@ -3,8 +3,9 @@ package com.jingluo.jingluo.utils;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.*;
-import com.jingluo.jingluo.common.LoggerCommon;
+import com.jingluo.jingluo.common.ErrorStatusEnum;
 import com.jingluo.jingluo.config.SystemConfig;
+import com.jingluo.jingluo.exception.MyException;
 
 import java.io.*;
 
@@ -26,15 +27,15 @@ public class OSSClientUtil {
     /**
      * 此方法将文件上传到指定文件夹下
      */
-    public static String upload(String fileName, byte[] data, int months, String packageName) {
-        fileName = packageName + "/";
+    public static String upload(String fileName, byte[] data, int months, String packageName) throws MyException {
+        fileName = packageName + "/" + fileName;
         return upload(fileName, data, months);
     }
 
     /**
-    * 默认上传带文件夹的文件有效日期  十年
-    */
-    public static String upload(String fileName, byte[] data, String packageName) {
+     * 默认上传带文件夹的文件有效日期  十年
+     */
+    public static String upload(String fileName, byte[] data, String packageName) throws MyException {
         return upload(fileName, data, SystemConfig.OSS_URL_MONTHS, packageName);
     }
 
@@ -42,26 +43,30 @@ public class OSSClientUtil {
      * 上传字节，包含有效时间，默认时间传入0则默认十年，返回访问路径
      * 此方法直接传文件到bucket下
      */
-    public static String upload(String fileName, byte[] data, int months) {
+    public static String upload(String fileName, byte[] data, int months) throws MyException {
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
+        try {
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf("."))));
 
-        //上传内容
-        ossClient.putObject(SystemConfig.OSS_BUCKET, fileName, new ByteArrayInputStream(data), objectMetadata);
+            //上传内容
+            ossClient.putObject(SystemConfig.OSS_BUCKET, fileName, new ByteArrayInputStream(data), objectMetadata);
 
-        //3、获取访问路径
-        String url;
-        if (months > 0) {
-            //设置资源的有效期
-            url = ossClient.generatePresignedUrl(SystemConfig.OSS_BUCKET, fileName, DateUtil.getDateByMonths(months)).toString();
-        } else {
-            //不设置资源有效期
-            url = ossClient.generatePresignedUrl(SystemConfig.OSS_BUCKET, fileName, DateUtil.getDateByMonths(SystemConfig.OSS_URL_MONTHS)).toString();
+            //3、获取访问路径
+            String url;
+            if (months > 0) {
+                //设置资源的有效期
+                url = ossClient.generatePresignedUrl(SystemConfig.OSS_BUCKET, fileName, DateUtil.getDateByMonths(months)).toString();
+            } else {
+                //不设置资源有效期
+                url = ossClient.generatePresignedUrl(SystemConfig.OSS_BUCKET, fileName, DateUtil.getDateByMonths(SystemConfig.OSS_URL_MONTHS)).toString();
+            }
+            //4、关闭 销毁
+            ossClient.shutdown();
+            return url;
+        } catch (Exception e) {
+            throw new MyException(ErrorStatusEnum.fileUploadErro);
         }
-        //4、关闭 销毁
-        ossClient.shutdown();
-        return url;
     }
 
     public static String getcontentType(String FilenameExtension) {

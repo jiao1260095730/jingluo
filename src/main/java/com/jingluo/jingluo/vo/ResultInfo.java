@@ -21,6 +21,26 @@ public class ResultInfo {
         r.setData(obj);
         return r;
     }
+    public static ResultInfo fail(String msg, Object obj) {
+        ResultInfo r = new ResultInfo();
+        r.setCode(ResultCode.FAIL.getCode());
+        r.setMsg(msg);
+        r.setData(obj);
+        return r;
+    }
+    public static ResultInfo fail(String msg, int code) {
+        ResultInfo r = new ResultInfo();
+        r.setCode(code);
+        r.setMsg(msg);
+        return r;
+    }
+    public static ResultInfo fail(String msg, Object obj, int code) {
+        ResultInfo r = new ResultInfo();
+        r.setCode(code);
+        r.setMsg(msg);
+        r.setData(obj);
+        return r;
+    }
     public static ResultInfo success(Object obj){
         return success("OK",obj);
     }

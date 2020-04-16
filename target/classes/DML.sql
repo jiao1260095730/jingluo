@@ -1,3 +1,5 @@
 
 INSERT INTO `db_jingluo`.`student` (`id`, `student_id`, `class_id`, `group_id`, `is_admin`, `student_code`, `password`, `phone`, `head_img`, `nick_name`, `reserved_1`, `reserved_2`, `reserved_3`) VALUES ('1', '1', '1', '1', '1', '111', '994e497b0222ccab2bbd1be99c007a46', '12313213331', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3173584241,3533290860&fm=26&gp=0.jpg', '123', '', '', '');
 INSERT INTO `db_jingluo`.`student` (`id`, `student_id`, `class_id`, `group_id`, `is_admin`, `student_code`, `password`, `phone`, `head_img`, `nick_name`, `reserved_1`, `reserved_2`, `reserved_3`) VALUES ('2', '2', '2', '2', '2', '222', '994e497b0222ccab2bbd1be99c007a46', '123', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3173584241,3533290860&fm=26&gp=0.jpg', '123', '', '', '');
+
+INSERT INTO `db_jingluo`.`teacher` (`id`, `teacher_id`, `teacher_code`, `password`, `phone`, `nick_name`, `head_img`, `reserved_1`, `reserved_2`, `reserved_3`) VALUES ('1', '1', '111', '71a47d7fec346b42409137a79a526c97', '13213538971', '11', '1111', '1', '1', '1');

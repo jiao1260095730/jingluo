@@ -3,8 +3,9 @@ package com.jingluo.jingluo.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.RedisConfig;
+import com.jingluo.jingluo.dto.FindPSWDTO;
 import com.jingluo.jingluo.dto.UserLoginDto;
-import com.jingluo.jingluo.dto.UserUpdatePSWDto;
+import com.jingluo.jingluo.dto.UpdatePSWDTO;
 import com.jingluo.jingluo.dto.UserValidDto;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.mapper.TeacherMapper;
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
                 LoggerCommon.commoninfo("学生账号：" + userDto.getUserCode() + "的加密后密码为" + password);
                 //校验输入密码和教师密码是否一致
                 if (StringUtils.equals(password, student.getPassword())) {
+
                     LoggerCommon.commonerror("登陆成功");
                     return ResultInfo.success("登录成功");
                 }
@@ -128,93 +130,117 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 使用旧密码修改密码
+     */
     @Override
-    public ResultInfo updatePassword(UserUpdatePSWDto userDto, int type) {
+    public ResultInfo updatePassword(UpdatePSWDTO userDto, int type) {
         try {
+            //获取参数值
             String userCode = userDto.getUserCode();
             String oldPassword = userDto.getOldPassword();
-            String password = userDto.getPassword();
-            String validateCode = userDto.getValidateCode();
-            String phone = userDto.getPhone();
-            if (userDto.getOldPassword() != null) {
-                //oldPassword字段不为空则为使用就密码更改密码
-                if (type == 1) {
-                    //type 为 1 是学生
-                    Student student = studentDao.selectByCode(userCode);
-                    if (StringUtils.equals(student.getPassword(), oldPassword)) {
-                        Student student1 = new Student();
-                        student1.setStudentCode(userCode);
-                        student1.setPassword(password);
-                        //密码校验通过
-                        if (studentDao.update(student1) == 1) {
-                            //密码重置成功
-                            LoggerCommon.commoninfo("重置学生密码成功");
-                            return ResultInfo.success("重置学生密码成功");
-                        }
-                        LoggerCommon.commonerror("重置密码时更新数据库失败");
-                        return ResultInfo.fail("重置密码时更新数据库失败");
-                    }
-                    LoggerCommon.commonerror("旧密码不正确");
-                    return ResultInfo.fail("旧密码不正确");
-                } else if (type == 2) {
-                    //type 为 2 是教师
-                    Teacher teacher = teacherDao.selectByCode(userCode);
-                    if (StringUtils.equals(teacher.getPassword(), oldPassword)) {
-                        Teacher teacher1 = new Teacher();
-                        teacher1.setPassword(password);
-                        teacher1.setTeacherCode(userCode);
-                        //密码校验通过
-                        if (teacherDao.update(teacher) == 1) {
-                            //密码重置成功
-                            LoggerCommon.commoninfo("重置教师密码成功");
-                            return ResultInfo.success("重置教师密码成功");
-                        }
-                        LoggerCommon.commonerror("重置密码时更新数据库失败");
-                        return ResultInfo.fail("重置密码时更新数据库失败");
-                    }
-                    LoggerCommon.commonerror("旧密码不正确");
-                    return ResultInfo.fail("旧密码不正确");
-                }
-            }
-            if (userDto.getValidateCode() != null) {
-                if (!RedissonUtil.checkKey(RedisConfig.SMS_CODE_FIND + phone)) {
-                    //Redis中没有对应的验证码、验证码已过期
-                    LoggerCommon.commonerror("redis中没有对应的验证码");
-                    return ResultInfo.fail("redis中没有对应的验证码，验证码过期");
-                }
-                //找回密码时使用验证码校验
-                if (StringUtils.equals(validateCode, RedisConfig.SMS_CODE_FIND + phone)) {
-                    //校验通过，重置密码
-                    if (type == 1) {
-                        //学生
-                        Student student = new Student();
-                        student.setStudentCode(userCode);
-                        student.setPassword(password);
+            String newPassword = userDto.getNewPassword();
 
-                        if (studentDao.update(student) == 1) {
-                            LoggerCommon.commoninfo("重置学生密码成功");
-                            return ResultInfo.success("重置学生密码成功");
-                        }
-                    } else if (type == 2) {
-                        //老师
-                        Teacher teacher = new Teacher();
-                        teacher.setTeacherCode(userCode);
-                        teacher.setPassword(password);
-                        if (teacherDao.update(teacher) == 1) {
-                            LoggerCommon.commoninfo("重置教师密码成功");
-                            return ResultInfo.success("重置教师密码成功");
-                        }
+            //判断学生1、老师2
+            if (type == 1) {
+                //type 为 1 是学生
+                Student student = studentDao.selectByCode(userCode);
+                if (StringUtils.equals(student.getPassword(), NumberUtil.getMd5Str(oldPassword))) {
+                    Student student1 = new Student();
+                    student1.setStudentCode(userCode);
+                    //加密
+                    student1.setPassword(NumberUtil.getMd5Str(newPassword));
+                    //密码校验通过
+                    if (studentDao.update(student1) == 1) {
+                        //密码重置成功
+                        LoggerCommon.commoninfo("重置学生密码成功");
+                        return ResultInfo.success("重置学生密码成功");
                     }
-                    LoggerCommon.commonerror("重置密码失败");
-                    return ResultInfo.fail("重置密码失败");
+                    LoggerCommon.commonerror("重置密码时更新数据库失败");
+                    return ResultInfo.fail("重置密码时更新数据库失败");
                 }
-                LoggerCommon.commonerror("验证码不正确");
-                return ResultInfo.fail("验证码不正确");
+                LoggerCommon.commonerror("密码不正确");
+                return ResultInfo.fail("密码不正确");
+            } else if (type == 2) {
+                //type 为 2 是教师
+                Teacher teacher = teacherDao.selectByCode(userCode);
+                if (StringUtils.equals(teacher.getPassword(), NumberUtil.getMd5Str(oldPassword))) {
+                    Teacher teacher1 = new Teacher();
+                    //加密
+                    teacher1.setPassword(NumberUtil.getMd5Str(newPassword));
+                    teacher1.setTeacherCode(userCode);
+                    //密码校验通过
+                    if (teacherDao.update(teacher1) == 1) {
+                        //密码重置成功
+                        LoggerCommon.commoninfo("重置教师密码成功");
+                        return ResultInfo.success("重置教师密码成功");
+                    }
+                    LoggerCommon.commonerror("重置密码时更新数据库失败");
+                    return ResultInfo.fail("重置密码时更新数据库失败");
+                }
+                LoggerCommon.commonerror("旧密码不正确");
+                return ResultInfo.fail("旧密码不正确");
             }
             return ResultInfo.fail("重置密码失败");
         } catch (Exception e) {
             LoggerCommon.commonerror("修改密码时出异常");
             return ResultInfo.fail("修改密码时出异常");
+        }
+    }
+
+    /**
+     * 忘记密码时找回密码，使用手机验证码找回
+     */
+    @Override
+    public ResultInfo findPassword(FindPSWDTO findPSWDTO, int type) {
+        try {
+            //获取参数值
+            String userCode = findPSWDTO.getUserCode();
+            String phone = findPSWDTO.getPhone();
+            String validateCode = findPSWDTO.getValidateCode();
+            String newPassword = findPSWDTO.getNewPassword();
+
+            String redisKey = RedisConfig.SMS_CODE_FIND + phone;
+
+            //查找Redis中key
+            if (!RedissonUtil.checkKey(redisKey)) {
+                //Redis中没有对应的验证码、验证码已过期
+                LoggerCommon.commonerror("redis中没有对应的验证码");
+                return ResultInfo.fail("redis中没有对应的验证码，验证码过期");
+            }
+            //找回密码时使用验证码校验
+            if (StringUtils.equals(validateCode, RedissonUtil.getStr(redisKey))) {
+                //校验通过，重置密码
+                if (type == 1) {
+                    //学生
+                    Student student = new Student();
+                    student.setStudentCode(userCode);
+                    student.setPassword(newPassword);
+
+                    if (studentDao.update(student) == 1) {
+                        LoggerCommon.commoninfo("重置学生密码成功");
+                        return ResultInfo.success("重置学生密码成功");
+                    }
+                } else if (type == 2) {
+                    //老师
+                    Teacher teacher = new Teacher();
+                    //userCode，筛选条件
+                    teacher.setTeacherCode(userCode);
+                    teacher.setPassword(newPassword);
+
+                    if (teacherDao.update(teacher) == 1) {
+                        LoggerCommon.commoninfo("重置教师密码成功");
+                        return ResultInfo.success("重置教师密码成功");
+                    }
+                }
+                LoggerCommon.commonerror("重置密码失败");
+                return ResultInfo.fail("重置密码失败");
+            }
+            LoggerCommon.commonerror("验证码不正确");
+            return ResultInfo.fail("验证码不正确");
+        } catch (Exception e) {
+            LoggerCommon.commonerror("找回密码异常");
+            return ResultInfo.fail("找回密码异常");
         }
     }
 }

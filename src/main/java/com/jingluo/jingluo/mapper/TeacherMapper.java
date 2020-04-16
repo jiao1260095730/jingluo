@@ -1,6 +1,9 @@
 package com.jingluo.jingluo.mapper;
 
 import com.jingluo.jingluo.entity.Teacher;
+import com.jingluo.jingluo.vo.ResultInfo;
+
+import java.util.List;
 
 /**
  * @Description TODO
@@ -14,4 +17,6 @@ public interface TeacherMapper {
     int insert(Teacher teacher);
 
     int update(Teacher teacher);
+
+    List<Teacher> selectAll();
 }

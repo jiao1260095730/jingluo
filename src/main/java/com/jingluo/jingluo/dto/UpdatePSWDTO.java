@@ -8,11 +8,11 @@ import lombok.Data;
  * @Date 2020/4/12 13:37
  */
 @Data
-public class UserUpdatePSWDto {
+public class UpdatePSWDTO {
+    //用户code  学号、工号
     private String userCode;
-    //password 可用做密码、修改密码时的新密码
-    private String password;
-    private String phone;
-    private String validateCode;
+    //新密码
+    private String newPassword;
+    //旧密码
     private String oldPassword;
 }

@@ -2,6 +2,7 @@ package com.jingluo.jingluo.service.impl;
 
 import com.jingluo.jingluo.mapper.TeacherMapper;
 import com.jingluo.jingluo.service.TeacherService;
+import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,4 +16,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private TeacherMapper dao;
+
+    @Override
+    public ResultInfo selectAll() {
+        return ResultInfo.success(dao.selectAll());
+    }
 }

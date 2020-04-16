@@ -18,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentMapper dao;
 
     @Override
-    public ResultInfo queryAll() {
+    public ResultInfo selectAll() {
         return ResultInfo.success(dao.selectAll());
     }
 }

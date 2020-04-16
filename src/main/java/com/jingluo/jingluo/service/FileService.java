@@ -9,5 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
  * @Date 2020/4/11 15:31
  */
 public interface FileService {
-    ResultInfo uploadImg(MultipartFile file);
+    ResultInfo uploadImg(MultipartFile file, String typeName);
 }

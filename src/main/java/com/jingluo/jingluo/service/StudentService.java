@@ -9,5 +9,5 @@ import com.jingluo.jingluo.vo.ResultInfo;
  */
 public interface StudentService {
 
-    ResultInfo queryAll();
+    ResultInfo selectAll();
 }

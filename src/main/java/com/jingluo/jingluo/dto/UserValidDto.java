@@ -3,7 +3,7 @@ package com.jingluo.jingluo.dto;
 import lombok.Data;
 
 /**
- * @Description 验证码实体类
+ * @Description 验证码实体类，用于绑定手机号
  * @Author 焦斌
  * @Date 2020/4/13 22:21
  */

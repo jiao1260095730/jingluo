@@ -18,6 +18,10 @@
     select * from teacher where teacher_code = #{userCode}
   </select>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from teacher
+  </select>
+
   <insert id="insert" parameterType="com.jingluo.jingluo.entity.Teacher" >
     <!--
       WARNING - @mbggenerated
