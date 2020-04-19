@@ -101,14 +101,14 @@ public class SmsServiceImpl implements SmsService {
 
                     //记录短信日志表
                     smsLog.setFlag(1);
+                    //记录本次操作到数据库
+                    smsLog.setInfo("发送给手机号：" + phone + "的验证码为：" + code);
                     smsLog.setCode(code + "");
                     smsLog.setSendTime(new Date());
                     smsLogDao.insert(smsLog);
 
                     return ResultInfo.success("发送验证码成功，请注意查看");
                 } else {
-                    //记录本次操作到数据库
-                    smsLog.setInfo("发送给手机号：" + phone + "的验证码为：" + code);
                     //flag 1成功 2失败
                     smsLog.setFlag(2);
                     smsLogDao.insert(smsLog);
