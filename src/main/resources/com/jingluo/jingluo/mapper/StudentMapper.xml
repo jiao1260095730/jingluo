@@ -17,6 +17,10 @@
     <result column="reserved_3" jdbcType="VARCHAR" property="reserved3" />
   </resultMap>
 
+  <select id="selectById"  resultMap="BaseResultMap">
+    select * from student where student_id = #{id}
+  </select>
+
   <select id="selectByCode" parameterType="String" resultMap="BaseResultMap">
     select * from student where student_code = #{userCode}
   </select>

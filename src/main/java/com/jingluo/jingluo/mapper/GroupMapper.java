@@ -1,6 +1,7 @@
 package com.jingluo.jingluo.mapper;
 
 import com.jingluo.jingluo.entity.Group;
+import com.jingluo.jingluo.entity.StudentGroup;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -39,4 +40,14 @@ public interface GroupMapper {
      * @mbggenerated Sun Apr 12 14:02:13 CST 2020
      */
     int updateByPrimaryKey(Group record);
+
+    int insertGroupStudent(StudentGroup sg);
+
+    int deleteGroup(Integer groupId);
+
+    int deleteStudentGroup(Integer groupId);
+
+    Group findGroupId(Integer groupId);
+
+    void deleteGroupMember(Integer studentId);
 }
