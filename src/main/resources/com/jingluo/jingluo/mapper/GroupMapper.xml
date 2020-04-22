@@ -273,8 +273,7 @@
         reserved_3 = #{reserved3,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-      and group_id = #{groupId,jdbcType=INTEGER}
+    where group_id = #{groupId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jingluo.jingluo.entity.Group" >
     <!--
@@ -294,6 +293,6 @@
       reserved_2 = #{reserved2,jdbcType=VARCHAR},
       reserved_3 = #{reserved3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
-      and group_id = #{groupId,jdbcType=INTEGER}
+    and group_id = #{groupId,jdbcType=INTEGER}
   </update>
 </mapper>
