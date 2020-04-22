@@ -34,4 +34,7 @@ public interface ClassMapper {
      * @mbggenerated Sun Apr 12 14:02:13 CST 2020
      */
     int updateByPrimaryKey(Class record);
+
+    //根据班级名称查询  班级信息
+    Class selectById(String selectName);
 }

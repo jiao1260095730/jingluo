@@ -43,6 +43,14 @@
         delete from  student_group where student_id = #{studentId}
     </delete>
 
+  <select id="selectGroupByClassId" resultMap="BaseResultMap">
+        select * from `group` where class_id = #{classId}
+  </select>
+
+  <select id="selectGroupByGroupName" resultMap="BaseResultMap">
+        select * from `group` where group_name = #{selectName}
+  </select>
+
 
 
 

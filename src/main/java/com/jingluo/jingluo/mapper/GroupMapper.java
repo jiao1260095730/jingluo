@@ -50,4 +50,8 @@ public interface GroupMapper {
     Group findGroupId(Integer groupId);
 
     void deleteGroupMember(Integer studentId);
+
+    List<Group> selectGroupByClassId(Integer classId);
+
+    Group selectGroupByGroupName(String selectName);
 }

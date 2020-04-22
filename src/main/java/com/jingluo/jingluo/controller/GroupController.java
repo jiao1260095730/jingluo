@@ -19,15 +19,9 @@ public class GroupController {
     @ApiOperation(value = "创建个人团队", notes = "创建个人团队")
     @PostMapping("api/group/groupCreateOne.do")
     public ResultInfo groupCreate(@RequestBody Group group, String stuCode){
-        System.out.println("-------------------");
-        System.out.println("-------------------");
-        System.out.println("-------------------");
-        System.out.println("-------------------");
-        System.out.println(group.getGroupName());
-        System.out.println(group.getCreateTime());
+
         return groupService.groupCreate(group,stuCode);
     }
-
 
         @ApiOperation(value = "添加团队成员",notes = "添加团队成员")
         @PostMapping("api/group/addGroupMember.do")
@@ -49,6 +43,24 @@ public class GroupController {
 
             return groupService.deleteGroupMember(groupId,StudentId);
         }
+
+
+    @ApiOperation(value = "查询团队 type 0:班级名称 1:团队名称 ",notes = "查询团队 type 0:班级名称 1:团队名称")
+    @PostMapping("api/group/selectGroup.do")
+    public ResultInfo selectGroup(String selevtName,String type){
+
+        return groupService.selectGroup(selevtName,type);
+    }
+
+    @ApiOperation(value = "修改团队信息",notes = "修改团队信息")
+    @PostMapping("api/group/updataGroup.do")
+    public ResultInfo updataGroup(@RequestBody Group group){
+
+        return groupService.updataGroup(group);
+    }
+
+
+
 
 
     }

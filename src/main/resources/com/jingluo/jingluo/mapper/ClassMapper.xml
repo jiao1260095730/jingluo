@@ -15,6 +15,12 @@
     <result column="reserved_2" property="reserved2" jdbcType="VARCHAR" />
     <result column="reserved_3" property="reserved3" jdbcType="VARCHAR" />
   </resultMap>
+
+ <!--根据班级名称查询  班级信息-->
+  <select id="selectById" resultMap="BaseResultMap">
+    select * from `class` where class_name = #{selectName}
+  </select>
+
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated

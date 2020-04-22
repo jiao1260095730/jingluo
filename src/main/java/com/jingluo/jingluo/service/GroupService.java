@@ -17,4 +17,10 @@ public interface GroupService {
 
     //添加成员
     ResultInfo addGroupMember(Integer groupId, Integer studentId);
+
+    //根据 班级名称 或者 团队名称 查询团队信息
+    ResultInfo selectGroup(String selectName,String  type);
+
+    //修改团队信息
+    ResultInfo updataGroup(Group group);
 }
