@@ -18,7 +18,7 @@ import java.util.Objects;
 public class AliyunSmsUtil {
     //发送验证码
     public static boolean sendSms(String phone, int code) {
-        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4Fj6vtSyVJhMj6yT7FF1", "cMF6HO0YOrQ5eIWfTlPmNaNFhUBvBg");
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4G9MNjcy5v8pwdgyzwWh", "pPVK9KAkMilPlae7viLVEkncx9gjK8");
         IAcsClient client = new DefaultAcsClient(profile);
         CommonRequest request = new CommonRequest();
         request.setMethod(MethodType.POST);
