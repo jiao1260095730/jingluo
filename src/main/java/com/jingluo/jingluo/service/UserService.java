@@ -1,9 +1,6 @@
 package com.jingluo.jingluo.service;
 
-import com.jingluo.jingluo.dto.FindPSWDTO;
-import com.jingluo.jingluo.dto.UserLoginDto;
-import com.jingluo.jingluo.dto.UpdatePSWDTO;
-import com.jingluo.jingluo.dto.UserValidDto;
+import com.jingluo.jingluo.dto.*;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
@@ -20,4 +17,6 @@ public interface UserService {
     ResultInfo updatePassword(UpdatePSWDTO userDto, int type);
 
     ResultInfo findPassword(FindPSWDTO findPSWDTO, int type);
+
+    ResultInfo logOut(TokenDto tokenDto, int type);
 }

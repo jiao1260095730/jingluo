@@ -1,10 +1,7 @@
 package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.common.UserType;
-import com.jingluo.jingluo.dto.FindPSWDTO;
-import com.jingluo.jingluo.dto.UserLoginDto;
-import com.jingluo.jingluo.dto.UpdatePSWDTO;
-import com.jingluo.jingluo.dto.UserValidDto;
+import com.jingluo.jingluo.dto.*;
 import com.jingluo.jingluo.service.TeacherService;
 import com.jingluo.jingluo.service.UserService;
 import com.jingluo.jingluo.vo.ResultInfo;
@@ -28,33 +25,41 @@ public class TeacherController {
     @Autowired
     private UserService userService;
 
+    private int teaType = UserType.teacher.getCode();
+
     @ApiOperation(value = "教师登录", notes = "教师登录")
     @PostMapping("api/teacher/login.do")
     public ResultInfo login(UserLoginDto userDto) {
-        return userService.login(userDto, UserType.teacher.getCode());
+        return userService.login(userDto, teaType);
     }
 
     @ApiOperation(value = "教师绑定手机号", notes = "教师绑定手机号")
     @PostMapping("api/teacher/bindPhone.do")
     public ResultInfo bindPhone(@RequestBody UserValidDto userDto) {
-        return userService.bindPhone(userDto, UserType.teacher.getCode());
+        return userService.bindPhone(userDto, teaType);
     }
 
     @ApiOperation(value = "教师修改密码", notes = "教师修改密码，输入旧密码修改")
     @PostMapping("api/teacher/updatePSW.do")
     public ResultInfo updatePSW(@RequestBody UpdatePSWDTO userDto) {
-        return userService.updatePassword(userDto, UserType.teacher.getCode());
+        return userService.updatePassword(userDto, teaType);
     }
 
     @ApiOperation(value = "找回密码", notes = "教师修改密码，使用手机验证码修改，用于忘记密码时找回密码")
     @PostMapping("api/teacher/findPSW.do")
     public ResultInfo findPSW(@RequestBody FindPSWDTO findPSWDTO) {
-        return userService.findPassword(findPSWDTO, UserType.teacher.getCode());
+        return userService.findPassword(findPSWDTO, teaType);
     }
 
-    @ApiOperation(value = "查询教师列表",notes = "查询教师列表")
+    @ApiOperation(value = "查询教师列表", notes = "查询教师列表")
     @GetMapping("api/teacher/selectAll.do")
-    public ResultInfo selectAll(){
+    public ResultInfo selectAll() {
         return teacherService.selectAll();
+    }
+
+    @ApiOperation(value = "学生退出登陆", notes = "学生退出登陆")
+    @PostMapping("api/student/logOut.do")
+    public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
+        return userService.logOut(tokenDto, teaType);
     }
 }

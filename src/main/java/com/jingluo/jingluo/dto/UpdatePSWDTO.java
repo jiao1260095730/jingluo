@@ -15,4 +15,6 @@ public class UpdatePSWDTO {
     private String newPassword;
     //旧密码
     private String oldPassword;
+    //token
+    private String token;
 }

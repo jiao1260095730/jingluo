@@ -3,10 +3,7 @@ package com.jingluo.jingluo.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.RedisConfig;
-import com.jingluo.jingluo.dto.FindPSWDTO;
-import com.jingluo.jingluo.dto.UserLoginDto;
-import com.jingluo.jingluo.dto.UpdatePSWDTO;
-import com.jingluo.jingluo.dto.UserValidDto;
+import com.jingluo.jingluo.dto.*;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.mapper.TeacherMapper;
 import com.jingluo.jingluo.entity.Student;
@@ -175,48 +172,56 @@ public class UserServiceImpl implements UserService {
             String userCode = userDto.getUserCode();
             String oldPassword = userDto.getOldPassword();
             String newPassword = userDto.getNewPassword();
+            //获取token值和存储的key
+            String token = userDto.getToken();
+            String teaTokenKey = RedisConfig.TOKEN_TEACHER_PRE + userCode;
+            String stuTokenKey = RedisConfig.TOKEN_STUDENT_PRE + userCode;
+            //拿出Redis中token进行比较，如果不一致或者没有，返回登录
+            if (!StringUtils.equals(token, RedissonUtil.getStr(stuTokenKey))
+                    && !StringUtils.equals(token, RedissonUtil.getStr(teaTokenKey))) {
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
 
             //判断学生1、老师2
             if (type == 1) {
                 //type 为 1 是学生
                 Student student = studentDao.selectByCode(userCode);
-                if (StringUtils.equals(student.getPassword(), NumberUtil.getMd5Str(oldPassword))) {
-                    Student student1 = new Student();
-                    student1.setStudentCode(userCode);
-                    //加密
-                    student1.setPassword(NumberUtil.getMd5Str(newPassword));
-                    //密码校验通过
-                    if (studentDao.update(student1) == 1) {
-                        //密码重置成功
-                        LoggerCommon.info("重置学生密码成功");
-                        return ResultInfo.success("重置学生密码成功");
-                    }
-                    LoggerCommon.error("重置密码时更新数据库失败");
-                    return ResultInfo.fail("重置密码时更新数据库失败");
+                if (!StringUtils.equals(student.getPassword(), NumberUtil.getMd5Str(oldPassword))) {
+                    LoggerCommon.error("密码不正确，重置密码失败");
+                    return ResultInfo.fail("密码不正确，重置密码失败");
                 }
-                LoggerCommon.error("密码不正确");
-                return ResultInfo.fail("密码不正确");
-            } else if (type == 2) {
+                Student student1 = new Student();
+                student1.setStudentCode(userCode);
+                //加密
+                student1.setPassword(NumberUtil.getMd5Str(newPassword));
+                //密码校验通过
+                if (studentDao.update(student1) == 1) {
+                    //密码重置成功
+                    LoggerCommon.info("重置学生密码成功");
+                    return ResultInfo.success("重置学生密码成功");
+                }
+            }
+            if (type == 2) {
                 //type 为 2 是教师
                 Teacher teacher = teacherDao.selectByCode(userCode);
-                if (StringUtils.equals(teacher.getPassword(), NumberUtil.getMd5Str(oldPassword))) {
-                    Teacher teacher1 = new Teacher();
-                    //加密
-                    teacher1.setPassword(NumberUtil.getMd5Str(newPassword));
-                    teacher1.setTeacherCode(userCode);
-                    //密码校验通过
-                    if (teacherDao.update(teacher1) == 1) {
-                        //密码重置成功
-                        LoggerCommon.info("重置教师密码成功");
-                        return ResultInfo.success("重置教师密码成功");
-                    }
-                    LoggerCommon.error("重置密码时更新数据库失败");
-                    return ResultInfo.fail("重置密码时更新数据库失败");
+                if (!StringUtils.equals(teacher.getPassword(), NumberUtil.getMd5Str(oldPassword))) {
+                    LoggerCommon.error("密码不正确，重置密码失败");
+                    return ResultInfo.fail("密码不正确，重置密码失败");
                 }
-                LoggerCommon.error("旧密码不正确");
-                return ResultInfo.fail("旧密码不正确");
+                Teacher teacher1 = new Teacher();
+                //加密
+                teacher1.setPassword(NumberUtil.getMd5Str(newPassword));
+                teacher1.setTeacherCode(userCode);
+                //密码校验通过
+                if (teacherDao.update(teacher1) == 1) {
+                    //密码重置成功
+                    LoggerCommon.info("重置教师密码成功");
+                    return ResultInfo.success("重置教师密码成功");
+                }
             }
-            return ResultInfo.fail("重置密码失败");
+            LoggerCommon.error("修改密码失败");
+            return ResultInfo.fail("修改密码失败");
+
         } catch (Exception e) {
             LoggerCommon.error("修改密码时出异常");
             return ResultInfo.fail("修改密码时出异常");
@@ -244,38 +249,60 @@ public class UserServiceImpl implements UserService {
                 return ResultInfo.fail("redis中没有对应的验证码，验证码过期");
             }
             //找回密码时使用验证码校验
-            if (StringUtils.equals(validateCode, RedissonUtil.getStr(redisKey))) {
-                //校验通过，重置密码
-                if (type == 1) {
-                    //学生
-                    Student student = new Student();
-                    student.setStudentCode(userCode);
-                    student.setPassword(newPassword);
-
-                    if (studentDao.update(student) == 1) {
-                        LoggerCommon.info("重置学生密码成功");
-                        return ResultInfo.success("重置学生密码成功");
-                    }
-                } else if (type == 2) {
-                    //老师
-                    Teacher teacher = new Teacher();
-                    //userCode，筛选条件
-                    teacher.setTeacherCode(userCode);
-                    teacher.setPassword(newPassword);
-
-                    if (teacherDao.update(teacher) == 1) {
-                        LoggerCommon.info("重置教师密码成功");
-                        return ResultInfo.success("重置教师密码成功");
-                    }
-                }
-                LoggerCommon.error("重置密码失败");
-                return ResultInfo.fail("重置密码失败");
+            if (!StringUtils.equals(validateCode, RedissonUtil.getStr(redisKey))){
+                LoggerCommon.error("验证码不正确，请重新输入");
+                return ResultInfo.fail("验证码不正确，请重新输入");
             }
-            LoggerCommon.error("验证码不正确");
-            return ResultInfo.fail("验证码不正确");
+            //校验通过，重置密码
+            if (type == 1) {
+                //学生
+                Student student = new Student();
+                student.setStudentCode(userCode);
+                student.setPassword(newPassword);
+
+                if (studentDao.update(student) == 1) {
+                    LoggerCommon.info("重置学生密码成功");
+                    return ResultInfo.success("重置学生密码成功");
+                }
+            } else if (type == 2) {
+                //老师
+                Teacher teacher = new Teacher();
+                //userCode，筛选条件
+                teacher.setTeacherCode(userCode);
+                teacher.setPassword(newPassword);
+
+                if (teacherDao.update(teacher) == 1) {
+                    LoggerCommon.info("重置教师密码成功");
+                    return ResultInfo.success("重置教师密码成功");
+                }
+            }
+            LoggerCommon.error("重置密码失败");
+            return ResultInfo.fail("重置密码失败");
         } catch (Exception e) {
             LoggerCommon.error("找回密码异常");
             return ResultInfo.fail("找回密码异常");
         }
+    }
+
+    @Override
+    public ResultInfo logOut(TokenDto tokenDto, int type) {
+        String userCode = tokenDto.getUserCode();
+        String token = tokenDto.getToken();
+        String stuTokenKey = RedisConfig.TOKEN_STUDENT_PRE + userCode;
+        String teaTokenKey = RedisConfig.TOKEN_TEACHER_PRE + userCode;
+        //拿出Redis中token进行比较，如果不一致或者没有，返回登录
+        if (!StringUtils.equals(token, RedissonUtil.getStr(stuTokenKey)) && !StringUtils.equals(token, RedissonUtil.getStr(teaTokenKey))) {
+            LoggerCommon.error("登录已失效，请重新登陆");
+            return ResultInfo.fail("登录已失效，请重新登陆");
+        }
+        //区分学生、教师，学生为1  教师为2
+        if (type == 1) {
+            RedissonUtil.delKey(stuTokenKey);
+        }
+        if (type == 2) {
+            RedissonUtil.delKey(teaTokenKey);
+        }
+        LoggerCommon.info("退出登录成功");
+        return ResultInfo.success("退出登录成功");
     }
 }
