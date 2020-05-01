@@ -25,18 +25,23 @@ public class SmsController {
     @Autowired
     private SmsService smsService;
 
+    //绑定手机号时的类型 1
+    private int bindCode = SmsType.bindcode.getCode();
+
+    //找回密码时的类型 2
+    private int findCode = SmsType.bindcode.getCode();
 
     @ApiOperation(value = "绑定手机时发送验证码", notes = "绑定手机号时发送验证码给指定手机号")
     @PostMapping("api/sms/sendBindCode")
     public ResultInfo sendBindSms(@RequestParam String phone) {
-        return smsService.sendSms(phone, SmsType.bindcode.getCode(), RedisConfig.SMS_CODE_BIND);
+        return smsService.sendSms(phone, bindCode, RedisConfig.SMS_CODE_BIND);
     }
 
 
     @ApiOperation(value = "找回密码时发送验证码", notes = "找回密码时发送验证码给指定手机号")
     @PostMapping("api/sms/sendFindCode")
     public ResultInfo sendFindSms(@RequestParam String phone) {
-        return smsService.sendSms(phone, SmsType.findcode.getCode(), RedisConfig.SMS_CODE_FIND);
+        return smsService.sendSms(phone, findCode, RedisConfig.SMS_CODE_FIND);
     }
 
 }

@@ -3,6 +3,7 @@ package com.jingluo.jingluo.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.RedisConfig;
+import com.jingluo.jingluo.config.SystemConfig;
 import com.jingluo.jingluo.dto.*;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.mapper.TeacherMapper;
@@ -40,47 +41,45 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultInfo login(UserLoginDto userDto, int type) {
         //校验参数是否为空
-        if (!StringUtil.isEmpty(userDto.getUserCode(), userDto.getPassword())) {
-            String userCode = userDto.getUserCode();
-            //区分学生、教师，学生为1  教师为2
-            if (type == 1) {
-                Student student = studentDao.selectByCode(userCode);
+        if (StringUtil.isEmpty(userDto.getUserCode(), userDto.getPassword())) {
+            LoggerCommon.error("用户名密码为空，操作失败");
+            return ResultInfo.fail("用户名密码为空，操作失败");
+        }
+        String userCode = userDto.getUserCode();
+        //区分学生、教师，学生为1  教师为2
+        if (type == 1) {
+            Student student = studentDao.selectByCode(userCode);
 
-                if (student == null) {
-                    LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
-                    return ResultInfo.fail("学生信息不存在");
-                }
-                //MD5加密
-                String md5Password = NumberUtil.getMd5Str(userDto.getPassword());
-                LoggerCommon.info("学生账号：" + userCode + "的加密后密码为" + md5Password);
-                //校验输入密码和教师密码是否一致
-                if (StringUtils.equals(md5Password, student.getPassword())) {
-                    //登录成功， 提取共用方法
-                    return isLogin(userCode, RedisConfig.TOKEN_STUDENT_PRE);
-                }
-                LoggerCommon.error("密码不正确");
-                return ResultInfo.fail("密码不正确");
+            if (student == null) {
+                LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
+                return ResultInfo.fail("学生信息不存在");
             }
-            if (type == 2) {
-                Teacher teacher = teacherDao.selectByCode(userCode);
-                if (teacher == null) {
-                    LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
-                    return ResultInfo.fail("教师信息不存在");
-                }
-                //MD5加密
-                String md5Password = NumberUtil.getMd5Str(userDto.getPassword());
-                LoggerCommon.info("教师账号：" + userCode + "的加密后密码为" + md5Password);
-                //校验输入密码和教师密码是否一致
-                if (StringUtils.equals(md5Password, teacher.getPassword())) {
-                    //登录成功， 提取共用方法
-                    return isLogin(userCode, RedisConfig.TOKEN_TEACHER_PRE);
-                }
-                LoggerCommon.error("密码不正确");
-                return ResultInfo.fail("密码不正确");
+            //MD5加密
+            String md5Password = NumberUtil.getMd5Str(userDto.getPassword());
+            LoggerCommon.info("学生账号：" + userCode + "的加密后密码为" + md5Password);
+            //校验输入密码和教师密码是否一致
+            if (StringUtils.equals(md5Password, student.getPassword())) {
+                //登录成功， 提取共用方法
+                return isLogin(userCode, RedisConfig.TOKEN_STUDENT_PRE);
             }
         }
-        LoggerCommon.error("用户名密码为空，操作失败");
-        return ResultInfo.fail("用户名密码为空，操作失败");
+        if (type == 2) {
+            Teacher teacher = teacherDao.selectByCode(userCode);
+            if (teacher == null) {
+                LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
+                return ResultInfo.fail("教师信息不存在");
+            }
+            //MD5加密
+            String md5Password = NumberUtil.getMd5Str(userDto.getPassword());
+            LoggerCommon.info("教师账号：" + userCode + "的加密后密码为" + md5Password);
+            //校验输入密码和教师密码是否一致
+            if (StringUtils.equals(md5Password, teacher.getPassword())) {
+                //登录成功， 提取共用方法
+                return isLogin(userCode, RedisConfig.TOKEN_TEACHER_PRE);
+            }
+        }
+        LoggerCommon.error("密码不正确");
+        return ResultInfo.fail("密码不正确");
     }
 
     /**
@@ -90,7 +89,7 @@ public class UserServiceImpl implements UserService {
         //登录成功，设置token
         String token = idGenerator.nextId() + userCode;
         //将学生token存入redis中，30分钟
-        RedissonUtil.setStr(tokenStr + userCode, token, 30 * 60);
+        RedissonUtil.setStr(tokenStr + userCode, token, SystemConfig.TOKEN_REDIS_TIME);
         LoggerCommon.info("登陆成功,用户userCode为 ：" + userCode + " 的token为: " + token);
         //将token返回到前端
         return ResultInfo.success("登录成功", token);
@@ -249,7 +248,7 @@ public class UserServiceImpl implements UserService {
                 return ResultInfo.fail("redis中没有对应的验证码，验证码过期");
             }
             //找回密码时使用验证码校验
-            if (!StringUtils.equals(validateCode, RedissonUtil.getStr(redisKey))){
+            if (!StringUtils.equals(validateCode, RedissonUtil.getStr(redisKey))) {
                 LoggerCommon.error("验证码不正确，请重新输入");
                 return ResultInfo.fail("验证码不正确，请重新输入");
             }
