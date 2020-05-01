@@ -57,8 +57,8 @@ public class TeacherController {
         return teacherService.selectAll();
     }
 
-    @ApiOperation(value = "学生退出登陆", notes = "学生退出登陆")
-    @PostMapping("api/student/logOut.do")
+    @ApiOperation(value = "教师退出登陆", notes = "教师退出登陆")
+    @PostMapping("api/teacher/logOut.do")
     public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
         return userService.logOut(tokenDto, teaType);
     }
