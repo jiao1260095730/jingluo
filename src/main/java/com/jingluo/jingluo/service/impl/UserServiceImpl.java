@@ -44,40 +44,40 @@ public class UserServiceImpl implements UserService {
             if (type == 1) {
                 Student student = studentDao.selectByCode(userDto.getUserCode());
                 if (student == null) {
-                    LoggerCommon.commonerror("没有从数据库中查询到用户信息，用户不存在");
+                    LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
                     return ResultInfo.fail("学生信息不存在");
                 }
                 //MD5加密
                 String password = NumberUtil.getMd5Str(userDto.getPassword());
-                LoggerCommon.commoninfo("学生账号：" + userDto.getUserCode() + "的加密后密码为" + password);
+                LoggerCommon.info("学生账号：" + userDto.getUserCode() + "的加密后密码为" + password);
                 //校验输入密码和教师密码是否一致
                 if (StringUtils.equals(password, student.getPassword())) {
 
-                    LoggerCommon.commonerror("登陆成功");
+                    LoggerCommon.error("登陆成功");
                     return ResultInfo.success("登录成功");
                 }
-                LoggerCommon.commonerror("密码不正确");
+                LoggerCommon.error("密码不正确");
                 return ResultInfo.fail("密码不正确");
             }
             if (type == 2) {
                 Teacher teacher = teacherDao.selectByCode(userDto.getUserCode());
                 if (teacher == null) {
-                    LoggerCommon.commonerror("没有从数据库中查询到用户信息，用户不存在");
+                    LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
                     return ResultInfo.fail("教师信息不存在");
                 }
                 //MD5加密
                 String password = NumberUtil.getMd5Str(userDto.getPassword());
-                LoggerCommon.commoninfo("教师账号：" + userDto.getUserCode() + "的加密后密码为" + password);
+                LoggerCommon.info("教师账号：" + userDto.getUserCode() + "的加密后密码为" + password);
                 //校验输入密码和教师密码是否一致
                 if (StringUtils.equals(password, teacher.getPassword())) {
-                    LoggerCommon.commonerror("登陆成功");
+                    LoggerCommon.error("登陆成功");
                     return ResultInfo.success("登录成功");
                 }
-                LoggerCommon.commonerror("密码不正确");
+                LoggerCommon.error("密码不正确");
                 return ResultInfo.fail("密码不正确");
             }
         }
-        LoggerCommon.commonerror("用户名密码为空，操作失败");
+        LoggerCommon.error("用户名密码为空，操作失败");
         return ResultInfo.fail("用户名密码为空，操作失败");
     }
 
@@ -97,9 +97,9 @@ public class UserServiceImpl implements UserService {
                         student.setPhone(userDto.getPhone());
                         student.setStudentCode(userDto.getUserCode());
                         //绑定手机号
-                        LoggerCommon.commoninfo("验证通过");
+                        LoggerCommon.info("验证通过");
                         if (studentDao.update(student) == 1) {
-                            LoggerCommon.commoninfo("更新用户手机号成功");
+                            LoggerCommon.info("更新用户手机号成功");
                             return ResultInfo.success("验证码验证通过");
                         }
                         return ResultInfo.fail("更改用户数据异常");
@@ -109,23 +109,23 @@ public class UserServiceImpl implements UserService {
                         teacher.setPhone(userDto.getPhone());
                         teacher.setTeacherCode(userDto.getUserCode());
                         //绑定手机号
-                        LoggerCommon.commoninfo("验证通过");
+                        LoggerCommon.info("验证通过");
                         if (teacherDao.update(teacher) == 1) {
-                            LoggerCommon.commoninfo("更新用户手机号成功");
+                            LoggerCommon.info("更新用户手机号成功");
                             return ResultInfo.success("验证码验证通过");
                         }
                         return ResultInfo.fail("更改用户数据异常");
                     }
 
                 }
-                LoggerCommon.commonerror("输入的验证码校验不通过");
+                LoggerCommon.error("输入的验证码校验不通过");
                 return ResultInfo.fail("输入的验证码校验不通过");
 
             }
-            LoggerCommon.commonerror("校验失败，没有获取到redis中数据");
+            LoggerCommon.error("校验失败，没有获取到redis中数据");
             return ResultInfo.fail("校验失败，没有获取到redis中数据");
         } catch (Exception e) {
-            LoggerCommon.commonerror("绑定手机号实现类中出现异常");
+            LoggerCommon.error("绑定手机号实现类中出现异常");
             return ResultInfo.fail("出现异常");
         }
     }
@@ -153,13 +153,13 @@ public class UserServiceImpl implements UserService {
                     //密码校验通过
                     if (studentDao.update(student1) == 1) {
                         //密码重置成功
-                        LoggerCommon.commoninfo("重置学生密码成功");
+                        LoggerCommon.info("重置学生密码成功");
                         return ResultInfo.success("重置学生密码成功");
                     }
-                    LoggerCommon.commonerror("重置密码时更新数据库失败");
+                    LoggerCommon.error("重置密码时更新数据库失败");
                     return ResultInfo.fail("重置密码时更新数据库失败");
                 }
-                LoggerCommon.commonerror("密码不正确");
+                LoggerCommon.error("密码不正确");
                 return ResultInfo.fail("密码不正确");
             } else if (type == 2) {
                 //type 为 2 是教师
@@ -172,18 +172,18 @@ public class UserServiceImpl implements UserService {
                     //密码校验通过
                     if (teacherDao.update(teacher1) == 1) {
                         //密码重置成功
-                        LoggerCommon.commoninfo("重置教师密码成功");
+                        LoggerCommon.info("重置教师密码成功");
                         return ResultInfo.success("重置教师密码成功");
                     }
-                    LoggerCommon.commonerror("重置密码时更新数据库失败");
+                    LoggerCommon.error("重置密码时更新数据库失败");
                     return ResultInfo.fail("重置密码时更新数据库失败");
                 }
-                LoggerCommon.commonerror("旧密码不正确");
+                LoggerCommon.error("旧密码不正确");
                 return ResultInfo.fail("旧密码不正确");
             }
             return ResultInfo.fail("重置密码失败");
         } catch (Exception e) {
-            LoggerCommon.commonerror("修改密码时出异常");
+            LoggerCommon.error("修改密码时出异常");
             return ResultInfo.fail("修改密码时出异常");
         }
     }
@@ -205,7 +205,7 @@ public class UserServiceImpl implements UserService {
             //查找Redis中key
             if (!RedissonUtil.checkKey(redisKey)) {
                 //Redis中没有对应的验证码、验证码已过期
-                LoggerCommon.commonerror("redis中没有对应的验证码");
+                LoggerCommon.error("redis中没有对应的验证码");
                 return ResultInfo.fail("redis中没有对应的验证码，验证码过期");
             }
             //找回密码时使用验证码校验
@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
                     student.setPassword(newPassword);
 
                     if (studentDao.update(student) == 1) {
-                        LoggerCommon.commoninfo("重置学生密码成功");
+                        LoggerCommon.info("重置学生密码成功");
                         return ResultInfo.success("重置学生密码成功");
                     }
                 } else if (type == 2) {
@@ -229,17 +229,17 @@ public class UserServiceImpl implements UserService {
                     teacher.setPassword(newPassword);
 
                     if (teacherDao.update(teacher) == 1) {
-                        LoggerCommon.commoninfo("重置教师密码成功");
+                        LoggerCommon.info("重置教师密码成功");
                         return ResultInfo.success("重置教师密码成功");
                     }
                 }
-                LoggerCommon.commonerror("重置密码失败");
+                LoggerCommon.error("重置密码失败");
                 return ResultInfo.fail("重置密码失败");
             }
-            LoggerCommon.commonerror("验证码不正确");
+            LoggerCommon.error("验证码不正确");
             return ResultInfo.fail("验证码不正确");
         } catch (Exception e) {
-            LoggerCommon.commonerror("找回密码异常");
+            LoggerCommon.error("找回密码异常");
             return ResultInfo.fail("找回密码异常");
         }
     }

@@ -54,7 +54,7 @@ public class SmsServiceImpl implements SmsService {
                 //如果当天已发送消息
                 days = Integer.parseInt(RedissonUtil.getStr(RedisConfig.SMS_DAY + phone));
                 if (days >= 10) {
-                    LoggerCommon.commonerror("当日发送次数已达10次");
+                    LoggerCommon.error("当日发送次数已达10次");
                     tag = 1;
                     return ResultInfo.fail(ErrorStatusEnum.smsDaysErro.getDescription(), ErrorStatusEnum.smsDaysErro.getCode());
                 }
@@ -64,12 +64,12 @@ public class SmsServiceImpl implements SmsService {
 
                 if (hours >= 5) {
                     //本小时已达上限
-                    LoggerCommon.commonerror("一小时内发送次数已达5次");
+                    LoggerCommon.error("一小时内发送次数已达5次");
                     tag = 2;
                     return ResultInfo.fail(ErrorStatusEnum.smsHoursErro.getDescription(), ErrorStatusEnum.smsHoursErro.getCode());
                 }
             } else if (RedissonUtil.checkKey(RedisConfig.SMS_MINUTE + phone)) {
-                LoggerCommon.commonerror("一分钟内已发送消息");
+                LoggerCommon.error("一分钟内已发送消息");
                 tag = 3;
                 return ResultInfo.fail(ErrorStatusEnum.smsMinute.getDescription(), ErrorStatusEnum.smsMinute.getCode());
             }
@@ -97,7 +97,7 @@ public class SmsServiceImpl implements SmsService {
                     RedissonUtil.setStr(RedisConfig.SMS_HOUR + phone, hours + 1 + "", 60 * 60);
                     RedissonUtil.setStr(RedisConfig.SMS_DAY + phone, days + 1 + "", DateUtil.getDaySeconds());
 
-                    LoggerCommon.commoninfo("发送给手机号：" + phone + "的验证码为：" + code);
+                    LoggerCommon.info("发送给手机号：" + phone + "的验证码为：" + code);
 
                     //记录短信日志表
                     smsLog.setFlag(1);
@@ -117,7 +117,7 @@ public class SmsServiceImpl implements SmsService {
             }
             return ResultInfo.fail(ErrorStatusEnum.unKnownErro.getDescription(), ErrorStatusEnum.unKnownErro.getCode());
         } catch (Exception e) {
-            LoggerCommon.commonerror("发送短信出现异常", e);
+            LoggerCommon.error("发送短信出现异常", e);
             return ResultInfo.fail("发送短信出现异常");
         }
     }

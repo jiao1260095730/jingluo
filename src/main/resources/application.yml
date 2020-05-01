@@ -1,0 +1,42 @@
+#数据库的连接信息
+spring:
+  application:
+    name: jingluo
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.98.174.241:3306/db_jingluo?serverTimezone=UTC&characterEncoding=utf-8
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+#配置上传文件限制大小  -1不限制   10MB  100MB
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
+  #开启驼峰命名转换
+  #mybatis.configuration.map-underscore-to-camel-case=true
+#Tomcat发布端口号
+server:
+  port: 8080
+  #启用调试日志
+debug: true
+  #启用日志文件
+  #logging.file.name=system.log
+  #需要加上这句，否则不会自动执行sql文件
+  #spring.datasource.initialization-mode=always
+  # DDL.sql中一般存放的是建表语句DDL
+  #spring.datasource.schema=classpath:DDL.sql
+  # DML.sql中一般存放的是需要插入更新等sql语句DML
+  #spring.datasource.data=classpath:DML.sql
+  #配置.xml文件路径
+mybatis:
+  mapper-locations: classpath:/com/jingluo/jingluo/mapper/*.xml
+  #配置模型路径
+  type-aliases-package: com.jingluo.jingluo.mapper
+#日志配置文件
+logging:
+  pattern:
+    console: "%d - %msg%n"
+    #path: g:/jingluolog/
+    file: g:/jingluolog/system.log

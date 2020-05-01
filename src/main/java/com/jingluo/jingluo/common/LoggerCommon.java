@@ -1,137 +1,62 @@
 package com.jingluo.jingluo.common;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * @Description TODO
+ * @Description 日志工具类
  * @Author 焦斌
- * @Date 2020/4/10 23:20
+ * @Date 2020/4/28 23:23
  */
 public class LoggerCommon {
-    public final static int MAX_WORD=5000;
-    public static boolean DEBUG = false;
 
-    /**
-     * common Info 记录日志
-     * @param infoMsg
-     */
-    public static void commoninfo(String infoMsg){
-        commonLogger().info(infoMsg);
+    private final static Logger logger = LoggerFactory.getLogger(LoggerCommon.class);
+
+
+    public static void info(String msg) {
+        logger.info(msg);
     }
 
-    /**
-     * common Debug 记录日志
-     * @param debugMsg
-     */
-    public static void commondebug(String debugMsg){
-        commonLogger().debug(debugMsg);
+    public static void info(String msg, Object obj) {
+        logger.info(msg, obj);
     }
 
-    /**
-     * common Warn记录日志
-     * @param warnMsg
-     */
-    public static void commonwarn(String warnMsg){
-        commonLogger().warn(warnMsg);
+    public static void info(String msg, Object... obj) {
+        logger.info(msg, obj);
     }
 
-    /**
-     * common Error 记录日志
-     * @param errorMsg
-     */
-    public static void commonerror(String errorMsg, Throwable e){
-        commonErrorLogger().error(errorMsg + ": " + getExceptionInfo(e));
+    public static void error(String msg) {
+        logger.error(msg);
     }
 
-    /**
-     * common Error 记录日志
-     * @param errorMsg
-     */
-    public static void commonerror(String errorMsg, String error){
-        commonErrorLogger().error(errorMsg + ": " + error);
+    public static void error(String msg, Object obj) {
+        logger.error(msg, obj);
+    }
+    public static void error(String msg, Object... obj) {
+        logger.error(msg, obj);
     }
 
-    /**
-     * packet Info 记录日志
-     * @param msg
-     */
-    public static void packetinfo(String msg){
-        packetLogger().info(msg);
-    }
-    /**
-     * common Error 记录单个日志
-     * @param errorMsg
-     */
-    public static void commonerror(String errorMsg){
-        commonErrorLogger().error(errorMsg);
+    public static void debug(String msg) {
+        logger.debug(msg);
     }
 
-    /***********************************************************************
-     * 取得log4j日志记录对象common，此对象将log运行日志保存到common.log
-     * @return
-     * 2018年5月9日
-     ***********************************************************************/
-    private static Logger commonLogger() {
-        return Logger.getLogger("common");
+    public static void debug(String msg, Object obj) {
+        logger.debug(msg, obj);
     }
 
-
-    /***********************************************************************
-     * 取得log4j日志记录对象commonErrorLogger，此对象将log错误日志保存到common-error.log
-     * @return
-     * 2018年5月9日
-     ***********************************************************************/
-    private static Logger commonErrorLogger() {
-        return Logger.getLogger("common-error");
+    public static void debug(String msg, Object... obj) {
+        logger.debug(msg, obj);
     }
 
-
-    /**********************************************************************
-     *  取得log4j日志记录对象packetLogger，此对象将log错误日志保存到packet-info.log
-     * @return
-     * 2018年5月9日
-     **********************************************************************/
-    private static Logger packetLogger() {
-        return Logger.getLogger("packet");
+    public static void warn(String msg) {
+        logger.warn(msg);
     }
 
+    public static void warn(String msg, Object obj) {
+        logger.warn(msg, obj);
+    }
 
-    /**
-     * 将异常信息中内容转换为字符串形式返回
-     * @param e 异常对象
-     * @return String    返回类型
-     * @throws
-     */
-    public static String getExceptionInfo(Throwable e) {
-        String s = null;
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw, true);
-        e.printStackTrace(pw);
-        pw.flush();
-        sw.flush();
-        s = sw.toString();
-        // 控制最大字符
-        if (s.length()>MAX_WORD) {
-            s = s.substring(0, MAX_WORD);
-        }
-        if (null != sw) {
-            try {
-                sw.close();
-                sw = null;
-            } catch (IOException e2) {}
-            finally {
-                sw = null;
-            }
-        }
-        if (null != pw) {
-            pw.close();
-            pw = null;
-        }
-        return s;
+    public static void warn(String msg, Object... obj) {
+        logger.warn(msg, obj);
     }
 }

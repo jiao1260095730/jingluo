@@ -1,7 +1,6 @@
 package com.jingluo.jingluo.service.impl;
 
 import com.jingluo.jingluo.common.LoggerCommon;
-import com.jingluo.jingluo.config.SystemConfig;
 import com.jingluo.jingluo.dto.OssBeanDto;
 import com.jingluo.jingluo.exception.MyException;
 import com.jingluo.jingluo.service.FileService;
@@ -44,7 +43,7 @@ public class FileServiceImpl implements FileService {
                 //调用上传方法，上传资源到服务器
                 url = OSSClientUtil.upload(fileName, file.getBytes(), typeName);
             } catch (IOException e) {
-                LoggerCommon.commonerror("文件操作异常");
+                LoggerCommon.error("文件操作异常");
                 return ResultInfo.fail(" IOException ");
             } catch (MyException e) {
                 return ResultInfo.fail(e.getMessage(), e.getCode());
