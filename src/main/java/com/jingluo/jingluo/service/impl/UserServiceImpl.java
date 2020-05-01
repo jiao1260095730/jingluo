@@ -12,6 +12,7 @@ import com.jingluo.jingluo.mapper.TeacherMapper;
 import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.entity.Teacher;
 import com.jingluo.jingluo.service.UserService;
+import com.jingluo.jingluo.utils.IdGenerator;
 import com.jingluo.jingluo.utils.NumberUtil;
 import com.jingluo.jingluo.utils.RedissonUtil;
 import com.jingluo.jingluo.utils.StringUtil;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TeacherMapper teacherDao;
 
+    @Autowired
+    private IdGenerator idGenerator;
+
     /**
      * 登录
      */
@@ -40,38 +44,39 @@ public class UserServiceImpl implements UserService {
     public ResultInfo login(UserLoginDto userDto, int type) {
         //校验参数是否为空
         if (!StringUtil.isEmpty(userDto.getUserCode(), userDto.getPassword())) {
+            String userCode = userDto.getUserCode();
             //区分学生、教师，学生为1  教师为2
             if (type == 1) {
-                Student student = studentDao.selectByCode(userDto.getUserCode());
+                Student student = studentDao.selectByCode(userCode);
+
                 if (student == null) {
                     LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
                     return ResultInfo.fail("学生信息不存在");
                 }
                 //MD5加密
-                String password = NumberUtil.getMd5Str(userDto.getPassword());
-                LoggerCommon.info("学生账号：" + userDto.getUserCode() + "的加密后密码为" + password);
+                String md5Password = NumberUtil.getMd5Str(userDto.getPassword());
+                LoggerCommon.info("学生账号：" + userCode + "的加密后密码为" + md5Password);
                 //校验输入密码和教师密码是否一致
-                if (StringUtils.equals(password, student.getPassword())) {
-
-                    LoggerCommon.error("登陆成功");
-                    return ResultInfo.success("登录成功");
+                if (StringUtils.equals(md5Password, student.getPassword())) {
+                    //登录成功， 提取共用方法
+                    return isLogin(userCode, RedisConfig.TOKEN_STUDENT_PRE);
                 }
                 LoggerCommon.error("密码不正确");
                 return ResultInfo.fail("密码不正确");
             }
             if (type == 2) {
-                Teacher teacher = teacherDao.selectByCode(userDto.getUserCode());
+                Teacher teacher = teacherDao.selectByCode(userCode);
                 if (teacher == null) {
                     LoggerCommon.error("没有从数据库中查询到用户信息，用户不存在");
                     return ResultInfo.fail("教师信息不存在");
                 }
                 //MD5加密
-                String password = NumberUtil.getMd5Str(userDto.getPassword());
-                LoggerCommon.info("教师账号：" + userDto.getUserCode() + "的加密后密码为" + password);
+                String md5Password = NumberUtil.getMd5Str(userDto.getPassword());
+                LoggerCommon.info("教师账号：" + userCode + "的加密后密码为" + md5Password);
                 //校验输入密码和教师密码是否一致
-                if (StringUtils.equals(password, teacher.getPassword())) {
-                    LoggerCommon.error("登陆成功");
-                    return ResultInfo.success("登录成功");
+                if (StringUtils.equals(md5Password, teacher.getPassword())) {
+                    //登录成功， 提取共用方法
+                    return isLogin(userCode, RedisConfig.TOKEN_TEACHER_PRE);
                 }
                 LoggerCommon.error("密码不正确");
                 return ResultInfo.fail("密码不正确");
@@ -79,6 +84,19 @@ public class UserServiceImpl implements UserService {
         }
         LoggerCommon.error("用户名密码为空，操作失败");
         return ResultInfo.fail("用户名密码为空，操作失败");
+    }
+
+    /**
+     * 如果登录成功教师、学生共用方法
+     */
+    private ResultInfo isLogin(String userCode, String tokenStr) {
+        //登录成功，设置token
+        String token = idGenerator.nextId() + userCode;
+        //将学生token存入redis中，30分钟
+        RedissonUtil.setStr(tokenStr + userCode, token, 30 * 60);
+        LoggerCommon.info("登陆成功,用户userCode为 ：" + userCode + " 的token为: " + token);
+        //将token返回到前端
+        return ResultInfo.success("登录成功", token);
     }
 
     /**

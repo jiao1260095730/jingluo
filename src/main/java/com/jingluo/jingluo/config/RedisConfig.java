@@ -16,5 +16,8 @@ public class RedisConfig {
     public static final String SMS_HOUR = "sms:hour:";
     //每天发送次数
     public static final String SMS_DAY = "sms:day:";
-
+    //学生登录token
+    public static final String TOKEN_STUDENT_PRE = "token:student:";
+    //教师登录token
+    public static final String TOKEN_TEACHER_PRE = "token:teacher:";
 }

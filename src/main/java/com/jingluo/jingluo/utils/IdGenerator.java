@@ -95,7 +95,7 @@ public class IdGenerator {
 
     /**
      * 获得下一个ID (该方法是线程安全的)
-     * 
+     *      705860311512514560(18位)
      * @return SnowflakeId
      */
     public synchronized long nextId() {
