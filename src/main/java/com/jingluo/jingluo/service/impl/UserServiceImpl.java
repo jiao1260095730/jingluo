@@ -105,43 +105,60 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultInfo bindPhone(UserValidDto userDto, int type) {
         try {
-            //校验redis中是否存在
-            if (RedissonUtil.checkKey(RedisConfig.SMS_CODE_BIND + userDto.getPhone())) {
-                //校验验证码是否相同
-                if (StringUtils.equals(userDto.getCode(), RedissonUtil.getStr(RedisConfig.SMS_CODE_BIND + userDto.getPhone()))) {
-                    //区分学生、教师，学生为1  教师为2
-                    if (type == 1) {
-                        Student student = new Student();
-                        student.setPhone(userDto.getPhone());
-                        student.setStudentCode(userDto.getUserCode());
-                        //绑定手机号
-                        LoggerCommon.info("验证通过");
-                        if (studentDao.update(student) == 1) {
-                            LoggerCommon.info("更新用户手机号成功");
-                            return ResultInfo.success("验证码验证通过");
-                        }
-                        return ResultInfo.fail("更改用户数据异常");
-                    }
-                    if (type == 2) {
-                        Teacher teacher = new Teacher();
-                        teacher.setPhone(userDto.getPhone());
-                        teacher.setTeacherCode(userDto.getUserCode());
-                        //绑定手机号
-                        LoggerCommon.info("验证通过");
-                        if (teacherDao.update(teacher) == 1) {
-                            LoggerCommon.info("更新用户手机号成功");
-                            return ResultInfo.success("验证码验证通过");
-                        }
-                        return ResultInfo.fail("更改用户数据异常");
-                    }
+            String userCode = userDto.getUserCode();
+            String phone = userDto.getPhone();
+            String validCode = userDto.getCode();
+            String token = userDto.getToken();
 
-                }
+            //校验redis中是否存在
+            if (!RedissonUtil.checkKey(RedisConfig.SMS_CODE_BIND + phone)) {
+                LoggerCommon.error("redis中没有验证码信息");
+                return ResultInfo.fail("没有获取到验证码信息，请发送验证码");
+            }
+
+            //校验验证码是否相同
+            if (!StringUtils.equals(validCode, RedissonUtil.getStr(RedisConfig.SMS_CODE_BIND + phone))) {
+
                 LoggerCommon.error("输入的验证码校验不通过");
                 return ResultInfo.fail("输入的验证码校验不通过");
-
             }
-            LoggerCommon.error("校验失败，没有获取到redis中数据");
-            return ResultInfo.fail("校验失败，没有获取到redis中数据");
+            //区分学生、教师，学生为1  教师为2
+            if (type == 1) {
+                //校验token，是否已经登录
+                if ("".equals(token) || !StringUtils.equals(token, RedissonUtil.getStr(RedisConfig.TOKEN_STUDENT_PRE + userCode))) {
+                    //没有token值或者登录已过期，需重新登录
+                    LoggerCommon.error("登录已过期，请重新登陆");
+                    return ResultInfo.fail("登录已过期，请重新登陆");
+                }
+
+                Student student = new Student();
+                student.setPhone(phone);
+                student.setStudentCode(userCode);
+                //绑定手机号
+                if (studentDao.update(student) == 1) {
+                    LoggerCommon.info("更新用户手机号成功");
+                    return ResultInfo.success("验证码验证通过");
+                }
+            }
+            //区分学生、教师，学生为1  教师为2
+            if (type == 2) {
+                //校验token，是否已经登录
+                if ("".equals(token) || !StringUtils.equals(token, RedissonUtil.getStr(RedisConfig.TOKEN_TEACHER_PRE + userCode))) {
+                    //没有token值或者登录已过期，需重新登录
+                    LoggerCommon.error("登录已过期，请重新登陆");
+                    return ResultInfo.fail("登录已过期，请重新登陆");
+                }
+
+                Teacher teacher = new Teacher();
+                teacher.setPhone(phone);
+                teacher.setTeacherCode(userCode);
+                //绑定手机号
+                if (teacherDao.update(teacher) == 1) {
+                    LoggerCommon.info("更新用户手机号成功");
+                    return ResultInfo.success("验证码验证通过");
+                }
+            }
+            return ResultInfo.fail("更改用户数据异常");
         } catch (Exception e) {
             LoggerCommon.error("绑定手机号实现类中出现异常");
             return ResultInfo.fail("出现异常");

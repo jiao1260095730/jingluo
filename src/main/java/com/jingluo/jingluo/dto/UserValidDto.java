@@ -15,4 +15,6 @@ public class UserValidDto {
     private String phone;
     //验证码
     private String code;
+    //token
+    private String token;
 }
