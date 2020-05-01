@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api(value = "学生相关操作",tags = "学生相关操作")
+@CrossOrigin
 public class StudentController {
 
     @Autowired

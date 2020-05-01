@@ -6,6 +6,7 @@ import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @Api(value = "文件上传各种方法", tags = "文件上传")
+@CrossOrigin
 public class FileController {
 
     @Autowired

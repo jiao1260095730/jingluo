@@ -11,10 +11,7 @@ import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description 教师的相关操作controller
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(value = "教师的相关操作", tags = "教师的相关操作")
+@CrossOrigin
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;

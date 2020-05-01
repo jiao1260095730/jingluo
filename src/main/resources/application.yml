@@ -13,7 +13,6 @@ spring:
     multipart:
       max-file-size: -1
       max-request-size: -1
-
   #开启驼峰命名转换
   #mybatis.configuration.map-underscore-to-camel-case=true
 #Tomcat发布端口号
@@ -35,8 +34,10 @@ mybatis:
   #配置模型路径
   type-aliases-package: com.jingluo.jingluo.mapper
 #日志配置文件
-logging:
-  pattern:
-    console: "%d - %msg%n"
-    #path: g:/jingluolog/
-    file: g:/jingluolog/system.log
+#logging:
+#  pattern:
+#    console: "%d - %msg%n"
+#    #path: g:/jingluolog/
+    #file: g:/jingluolog/system.log
+#logging:
+#  config: classpath:/config/logback-spring.xml

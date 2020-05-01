@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(value = "团队创建", tags = "团队创建")
+@CrossOrigin
 public class GroupController {
 
     @Autowired
