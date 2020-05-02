@@ -1,5 +1,7 @@
 package com.jingluo.jingluo.controller;
 
+import com.jingluo.jingluo.dto.GroupDto;
+import com.jingluo.jingluo.dto.GroupStuId;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.service.GroupService;
 import com.jingluo.jingluo.vo.ResultInfo;
@@ -18,16 +20,16 @@ public class GroupController {
 
     @ApiOperation(value = "创建个人团队", notes = "创建个人团队")
     @PostMapping("api/group/groupCreateOne.do")
-    public ResultInfo groupCreate(@RequestBody Group group, String stuCode) {
+    public ResultInfo groupCreate(@RequestBody GroupDto groupDto, String stuCode) {
 
-        return groupService.groupCreate(group, stuCode);
+        return groupService.groupCreate(groupDto, stuCode);
     }
 
     @ApiOperation(value = "添加团队成员", notes = "添加团队成员")
     @PostMapping("api/group/addGroupMember.do")
-    public ResultInfo addGroupMember(Integer groupId, Integer StudentId) {
+    public ResultInfo addGroupMember(@RequestBody GroupStuId groupStuId) {
 
-        return groupService.addGroupMember(groupId, StudentId);
+        return groupService.addGroupMember(groupStuId);
     }
 
     @ApiOperation(value = "删除团队", notes = "删除团队")
@@ -39,11 +41,10 @@ public class GroupController {
 
     @ApiOperation(value = "删除团队中成员", notes = "删除团队中成员")
     @DeleteMapping("api/group/deleteGroupMember.do")
-    public ResultInfo deleteGroupMember(Integer groupId, Integer StudentId) {
+    public ResultInfo deleteGroupMember(GroupStuId groupStuId) {
 
-        return groupService.deleteGroupMember(groupId, StudentId);
+        return groupService.deleteGroupMember(groupStuId);
     }
-
 
     @ApiOperation(value = "查询团队 type 0:班级名称 1:团队名称 ", notes = "查询团队 type 0:班级名称 1:团队名称")
     @PostMapping("api/group/selectGroup.do")
@@ -54,10 +55,9 @@ public class GroupController {
 
     @ApiOperation(value = "修改团队信息", notes = "修改团队信息")
     @PostMapping("api/group/updataGroup.do")
-    public ResultInfo updataGroup(@RequestBody Group group) {
+    public ResultInfo updataGroup(@RequestBody GroupDto groupDto) {
 
-        return groupService.updataGroup(group);
+        return groupService.updataGroup(groupDto);
     }
-
 
 }

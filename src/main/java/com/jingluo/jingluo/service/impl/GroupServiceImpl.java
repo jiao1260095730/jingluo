@@ -1,5 +1,7 @@
 package com.jingluo.jingluo.service.impl;
 
+import com.jingluo.jingluo.dto.GroupDto;
+import com.jingluo.jingluo.dto.GroupStuId;
 import com.jingluo.jingluo.entity.Class;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.entity.Student;
@@ -13,6 +15,8 @@ import com.jingluo.jingluo.vo.ResultInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -28,19 +32,17 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     private ClassMapper classMapper;
 
-    @Autowired
-    private IdCode idCode;
-    //IdCode idCode = new IdCode();
+
 
     /**
      * 创建团队
      *
-     * @param group
+     * @param groupDto
      * @param stuCode
      * @return
      */
     @Override
-    public ResultInfo groupCreate(Group group, String stuCode) {
+    public ResultInfo groupCreate(GroupDto groupDto, String stuCode) {
 
         try {
             //获取学生个人信息
@@ -49,26 +51,35 @@ public class GroupServiceImpl implements GroupService {
                 return ResultInfo.fail("学生信息不能为空");
             }
             StudentGroup sg = new StudentGroup();
-
+            Group group = new Group();
             //判断学生是否加入过团队
             if (stu.getGroupId() == null) {
                 //团队id
-                group.setGroupId(idCode.id());
+                group.setGroupId(IdCode.id());
+                //团队名称
+                group.setGroupName(groupDto.getGroupName());
+                //团队简介
+                group.setGroupInfo(groupDto.getGroupInfe());
+                //创建来源
+                group.setCreateFrom(groupDto.getCreateFrom());
                 //所在班级
                 group.setClassId(stu.getClassId());
                 //团队成员加 1
-                group.setStuNum(group.getStuNum() + 1);
+                group.setStuNum(1);
                 //创建时间
-                // group.setCreateTime(new Date());
+                group.setCreateTime(new Date());
 
                 int count2 = groupMapper.insertSelective(group);
                 //学生团队关联
                 sg.setStudentId(stu.getStudentId());
                 sg.setGroupId(group.getGroupId());
-                sg.setStuGroId(idCode.id());
+                sg.setStuGroId(IdCode.id());
                 int count = groupMapper.insertGroupStudent(sg);
 
-                if (count == 1 && count2 == 1) {
+                //学生信息添加团队id
+                stu.setGroupId(group.getGroupId());
+                int insert = studentMapper.update(stu);
+                if (count == 1 && count2 == 1 && insert ==1) {
                     return ResultInfo.success("团队创建成功");
                 } else {
                     return ResultInfo.fail("团队创建失败");
@@ -103,19 +114,17 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 删除团队中的成员
-     *
-     * @param groupId
-     * @param studentId
+     * @param groupStuId
      * @return
      */
     @Override
-    public ResultInfo deleteGroupMember(Integer groupId, Integer studentId) {
+    public ResultInfo deleteGroupMember(GroupStuId groupStuId) {
         try {
-            Group group = groupMapper.findGroupId(groupId);
+            Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             //成员减一
             group.setStuNum(group.getStuNum() - 1);
             groupMapper.updateByPrimaryKey(group);
-            groupMapper.deleteGroupMember(studentId);
+            groupMapper.deleteGroupMember(groupStuId.getStudentId());
             return ResultInfo.success("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,17 +134,15 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 添加成员
-     *
-     * @param groupId
-     * @param studentId
+     * @param groupStuId
      * @return
      */
     @Override
-    public ResultInfo addGroupMember(Integer groupId, Integer studentId) {
+    public ResultInfo addGroupMember(GroupStuId groupStuId) {
 
         try {
 
-            Group group = groupMapper.findGroupId(groupId);
+            Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             StudentGroup sg = new StudentGroup();
             if (group != null) {
                 //成员加一
@@ -146,9 +153,9 @@ public class GroupServiceImpl implements GroupService {
             }
 
             //学生团队关联
-            sg.setStudentId(studentId);
-            sg.setGroupId(groupId);
-            sg.setStuGroId(idCode.id());
+            sg.setStudentId(groupStuId.getStudentId());
+            sg.setGroupId(groupStuId.getGroupId());
+            sg.setStuGroId(IdCode.id());
             groupMapper.insertGroupStudent(sg);
 
             return ResultInfo.success("添加成员成功");
@@ -161,7 +168,6 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 通过 班级名称 团队名称查询 团队
-     *
      * @param selectName
      * @param type
      * @return
@@ -192,12 +198,15 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 修改团队信息
-     *
-     * @param group
+     * @param groupDto
      * @return
      */
     @Override
-    public ResultInfo updataGroup(Group group) {
+    public ResultInfo updataGroup(GroupDto groupDto) {
+
+        Group group = new Group();
+        group.setGroupName(groupDto.getGroupName());
+        group.setGroupInfo(groupDto.getGroupInfe());
 
         int count = groupMapper.updateByPrimaryKeySelective(group);
         if (count == 1) {
