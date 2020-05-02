@@ -12,7 +12,7 @@ public interface GroupService {
     ResultInfo groupCreate(GroupDto groupDto, String stuCode);
 
     //删除团队
-    ResultInfo deleteGroup(Integer groupId);
+    ResultInfo deleteGroup(GroupStuId groupStuId);
 
     //删除团队中的成员
     ResultInfo deleteGroupMember(GroupStuId groupStuId);

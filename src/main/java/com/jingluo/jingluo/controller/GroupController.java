@@ -34,9 +34,9 @@ public class GroupController {
 
     @ApiOperation(value = "删除团队", notes = "删除团队")
     @DeleteMapping("api/group/deleteGroup.do")
-    public ResultInfo deleteGroup(Integer groupId) {
+    public ResultInfo deleteGroup(@RequestBody GroupStuId groupStuId) {
 
-        return groupService.deleteGroup(groupId);
+        return groupService.deleteGroup(groupStuId);
     }
 
     @ApiOperation(value = "删除团队中成员", notes = "删除团队中成员")
