@@ -13,16 +13,6 @@ spring:
     multipart:
       max-file-size: -1
       max-request-size: -1
-#  redis:
-#    port: 6379
-#    host: 47.98.174.241
-#    password: 123456
-#    jedis:
-#      pool:
-#        max-active: 500
-#        max-idle: 1000
-#        max-wait: 6000ms
-#        min-idle: 4
   #开启驼峰命名转换
   #mybatis.configuration.map-underscore-to-camel-case=true
 #Tomcat发布端口号

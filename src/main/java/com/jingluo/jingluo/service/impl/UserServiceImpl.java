@@ -300,6 +300,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+    * 退出登录
+    */
     @Override
     public ResultInfo logOut(TokenDto tokenDto, int type) {
         String userCode = tokenDto.getUserCode();
@@ -322,6 +325,9 @@ public class UserServiceImpl implements UserService {
         return ResultInfo.success("退出登录成功");
     }
 
+    /**
+    * 使用手机号登陆
+    */
     @Override
     public ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type) {
         String phone = loginDto.getPhone();
