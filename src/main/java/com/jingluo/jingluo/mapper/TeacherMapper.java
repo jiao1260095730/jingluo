@@ -19,4 +19,6 @@ public interface TeacherMapper {
     int update(Teacher teacher);
 
     List<Teacher> selectAll();
+
+    int selectBindPhone(String phone);
 }

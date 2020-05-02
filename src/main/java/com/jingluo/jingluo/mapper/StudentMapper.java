@@ -20,4 +20,6 @@ public interface StudentMapper {
     int update(Student student);
 
     Student selectById(Integer id);
+
+    int selectBindPhone(String phone);
 }

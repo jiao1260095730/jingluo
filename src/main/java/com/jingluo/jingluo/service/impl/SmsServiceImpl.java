@@ -29,8 +29,9 @@ public class SmsServiceImpl implements SmsService {
 
     /**
      * 发送短信验证码共用方法
+     * 保存到redis中的key为 strType + phone
      *
-     * @param intType 类型，1绑定手机号   2找回密码   在SmsType中定义
+     * @param intType 类型，1绑定手机号   2找回密码  3手机号登陆 在SmsType中定义
      * @param strType 类型，存储在redis中key不同，在RedisConfig中定义
      * @author 焦斌
      * @date 2020/4/12
@@ -73,49 +74,47 @@ public class SmsServiceImpl implements SmsService {
                 tag = 3;
                 return ResultInfo.fail(ErrorStatusEnum.smsMinute.getDescription(), ErrorStatusEnum.smsMinute.getCode());
             }
-            if (tag == 0) {
-                //1小时 5条
-                //1分钟
-                //1、发送短信验证码
-                int code;
-                //1、验证验证码是否生效
-                if (RedissonUtil.checkKey(strType + phone)) {
-                    code = Integer.parseInt(RedissonUtil.getStr(RedisConfig.SMS_CODE_BIND + phone));
-                } else {
-                    code = NumberUtil.createIntNum(6);
-                }
-                // 2.发送消息
-                SmsLog smsLog = new SmsLog();
-                smsLog.setRecPhone(phone);
-                smsLog.setType(intType);
 
-                if (AliyunSmsUtil.sendSms(phone, code)) {
-                    //3、验证码 存储到Redis  String    时效5分钟
-                    RedissonUtil.setStr(strType + phone, code + "", SystemConfig.SMS_CODE_TIME * 60);
-                    //4、更新各种频率的Key
-                    RedissonUtil.setStr(RedisConfig.SMS_MINUTE + phone, "", 60);
-                    RedissonUtil.setStr(RedisConfig.SMS_HOUR + phone, hours + 1 + "", 60 * 60);
-                    RedissonUtil.setStr(RedisConfig.SMS_DAY + phone, days + 1 + "", DateUtil.getDaySeconds());
-
-                    LoggerCommon.info("发送给手机号：" + phone + "的验证码为：" + code);
-
-                    //记录短信日志表
-                    smsLog.setFlag(1);
-                    //记录本次操作到数据库
-                    smsLog.setInfo("发送给手机号：" + phone + "的验证码为：" + code);
-                    smsLog.setCode(code + "");
-                    smsLog.setSendTime(new Date());
-                    smsLogDao.insert(smsLog);
-
-                    return ResultInfo.success("发送验证码成功，请注意查看");
-                } else {
-                    //flag 1成功 2失败
-                    smsLog.setFlag(2);
-                    smsLogDao.insert(smsLog);
-                    return ResultInfo.fail(ErrorStatusEnum.smsSendErro.getDescription(), ErrorStatusEnum.smsSendErro.getCode());
-                }
+            //1小时 5条
+            //1分钟
+            //1、发送短信验证码
+            int code;
+            //1、验证验证码是否生效
+            if (RedissonUtil.checkKey(strType + phone)) {
+                code = Integer.parseInt(RedissonUtil.getStr(RedisConfig.SMS_CODE_BIND + phone));
+            } else {
+                code = NumberUtil.createIntNum(6);
             }
-            return ResultInfo.fail(ErrorStatusEnum.unKnownErro.getDescription(), ErrorStatusEnum.unKnownErro.getCode());
+            // 2.发送消息
+            SmsLog smsLog = new SmsLog();
+            smsLog.setRecPhone(phone);
+            smsLog.setType(intType);
+
+            if (AliyunSmsUtil.sendSms(phone, code)) {
+                //3、验证码 存储到Redis  String    时效5分钟
+                RedissonUtil.setStr(strType + phone, code + "", SystemConfig.SMS_CODE_TIME * 60);
+                //4、更新各种频率的Key
+                RedissonUtil.setStr(RedisConfig.SMS_MINUTE + phone, "", 60);
+                RedissonUtil.setStr(RedisConfig.SMS_HOUR + phone, hours + 1 + "", 60 * 60);
+                RedissonUtil.setStr(RedisConfig.SMS_DAY + phone, days + 1 + "", DateUtil.getDaySeconds());
+
+                LoggerCommon.info("发送给手机号：" + phone + "的验证码为：" + code);
+
+                //记录短信日志表
+                smsLog.setFlag(1);
+                //记录本次操作到数据库
+                smsLog.setInfo("发送给手机号：" + phone + "的验证码为：" + code);
+                smsLog.setCode(code + "");
+                smsLog.setSendTime(new Date());
+                smsLogDao.insert(smsLog);
+
+                return ResultInfo.success("发送验证码成功，请注意查看");
+            } else {
+                //flag 1成功 2失败
+                smsLog.setFlag(2);
+                smsLogDao.insert(smsLog);
+                return ResultInfo.fail(ErrorStatusEnum.smsSendErro.getDescription(), ErrorStatusEnum.smsSendErro.getCode());
+            }
         } catch (Exception e) {
             LoggerCommon.error("发送短信出现异常", e);
             return ResultInfo.fail("发送短信出现异常");

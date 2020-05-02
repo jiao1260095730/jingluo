@@ -21,7 +21,11 @@ public class RedissonUtil {
     static {
         //设置用户名密码
         Config config = new Config();
-        config.useSingleServer().setAddress(SystemConfig.REDIS_HOST).setPassword(SystemConfig.REDIS_PASS).setConnectionPoolSize(64);
+        config.useSingleServer()
+                .setAddress(SystemConfig.REDIS_HOST)
+                .setPassword(SystemConfig.REDIS_PASS)
+                .setConnectionPoolSize(1000)
+                .setTimeout(10000);
         client = Redisson.create(config);
     }
 

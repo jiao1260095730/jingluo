@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2020/4/9 21:29
  */
 @RestController
-@Api(value = "短信服务", tags = "实现各种短信功能")
+@Api(value = "短信服务", tags = "短信功能")
 @CrossOrigin
 public class SmsController {
 
@@ -26,10 +26,13 @@ public class SmsController {
     private SmsService smsService;
 
     //绑定手机号时的类型 1
-    private int bindCode = SmsType.bindcode.getCode();
+    private int bindCode = SmsType.BIND_CODE.getCode();
 
     //找回密码时的类型 2
-    private int findCode = SmsType.bindcode.getCode();
+    private int findCode = SmsType.FIND_CODE.getCode();
+
+    //手机号登陆时的类型 3
+    private int loginCode = SmsType.LOGIN_CODE.getCode();
 
     @ApiOperation(value = "绑定手机时发送验证码", notes = "绑定手机号时发送验证码给指定手机号")
     @PostMapping("api/sms/sendBindCode")
@@ -37,11 +40,15 @@ public class SmsController {
         return smsService.sendSms(phone, bindCode, RedisConfig.SMS_CODE_BIND);
     }
 
-
     @ApiOperation(value = "找回密码时发送验证码", notes = "找回密码时发送验证码给指定手机号")
     @PostMapping("api/sms/sendFindCode")
     public ResultInfo sendFindSms(@RequestParam String phone) {
         return smsService.sendSms(phone, findCode, RedisConfig.SMS_CODE_FIND);
     }
 
+    @ApiOperation(value = "使用手机登录时发送验证码", notes = "发送验证码给指定手机号")
+    @PostMapping("api/sms/sendLoginSms")
+    public ResultInfo sendLoginSms(@RequestParam String phone) {
+        return smsService.sendSms(phone, loginCode, RedisConfig.SMS_CODE_LOGIN);
+    }
 }

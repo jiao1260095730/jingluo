@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2020/3/28 19:54
  */
 @RestController
-@Api(value = "学生相关操作",tags = "学生相关操作")
+@Api(value = "学生的用户操作",tags = "学生的用户操作")
 @CrossOrigin
 public class StudentController {
 
@@ -28,7 +28,7 @@ public class StudentController {
 
     private int stuType = UserType.student.getCode();
 
-    @ApiOperation(value = "学生登录", notes = "学生登录，使用学号、密码")
+    @ApiOperation(value = "学生使用学号登录", notes = "学生登录，使用学号、密码")
     @PostMapping("api/student/login.do")
     public ResultInfo login(@RequestBody UserLoginDto userDto) {
         return userService.login(userDto, stuType);
@@ -62,6 +62,12 @@ public class StudentController {
     @PostMapping("api/student/logOut.do")
     public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
         return userService.logOut(tokenDto, stuType);
+    }
+
+    @ApiOperation(value = "学生使用已绑定手机登录", notes = "学生登录，使用手机号、验证码")
+    @PostMapping("api/student/phoneLogin.do")
+    public ResultInfo phoneLogin(@RequestBody UserPhoneLoginDto userDto) {
+        return userService.phoneLogin(userDto, stuType);
     }
 }
 

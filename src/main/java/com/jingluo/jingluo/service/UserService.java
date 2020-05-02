@@ -19,4 +19,6 @@ public interface UserService {
     ResultInfo findPassword(FindPSWDTO findPSWDTO, int type);
 
     ResultInfo logOut(TokenDto tokenDto, int type);
+
+    ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type);
 }

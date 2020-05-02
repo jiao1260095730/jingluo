@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2020/4/12 13:32
  */
 @RestController
-@Api(value = "教师的相关操作", tags = "教师的相关操作")
+@Api(value = "教师的用户操作", tags = "教师的用户操作")
 @CrossOrigin
 public class TeacherController {
     @Autowired
@@ -27,7 +27,7 @@ public class TeacherController {
 
     private int teaType = UserType.teacher.getCode();
 
-    @ApiOperation(value = "教师登录", notes = "教师登录")
+    @ApiOperation(value = "教师使用工号登录", notes = "教师登录")
     @PostMapping("api/teacher/login.do")
     public ResultInfo login(UserLoginDto userDto) {
         return userService.login(userDto, teaType);
@@ -61,5 +61,11 @@ public class TeacherController {
     @PostMapping("api/teacher/logOut.do")
     public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
         return userService.logOut(tokenDto, teaType);
+    }
+
+    @ApiOperation(value = "教师使用已绑定手机登录", notes = "教师登录，使用手机号、验证码")
+    @PostMapping("api/teacher/phoneLogin.do")
+    public ResultInfo phoneLogin(@RequestBody UserPhoneLoginDto userDto) {
+        return userService.phoneLogin(userDto, teaType);
     }
 }

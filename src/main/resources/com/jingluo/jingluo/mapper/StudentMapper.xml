@@ -29,6 +29,11 @@
     select * from student
   </select>
 
+  <select id="selectBindPhone" resultType="int">
+    select count(1) from student
+    where phone = #{phone}
+  </select>
+
   <insert id="insert" parameterType="com.jingluo.jingluo.entity.Student">
     <!--
       WARNING - @mbggenerated

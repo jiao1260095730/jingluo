@@ -10,6 +10,8 @@ public class RedisConfig {
     public static final String SMS_CODE_BIND = "sms:code:bind:";
     //找回密码验证码存储
     public static final String SMS_CODE_FIND = "sms:code:find:";
+    //手机号登录时验证码存储
+    public static final String SMS_CODE_LOGIN = "sms:code:login:";
     //每分钟发送次数
     public static final String SMS_MINUTE = "sms:min:";
     //每小时发送次数

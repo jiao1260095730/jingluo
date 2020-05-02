@@ -35,6 +35,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private IdGenerator idGenerator;
 
+    private String stuTokenPre = RedisConfig.TOKEN_STUDENT_PRE;
+    private String teaTokenPre = RedisConfig.TOKEN_TEACHER_PRE;
+
     /**
      * 登录
      */
@@ -60,7 +63,7 @@ public class UserServiceImpl implements UserService {
             //校验输入密码和教师密码是否一致
             if (StringUtils.equals(md5Password, student.getPassword())) {
                 //登录成功， 提取共用方法
-                return isLogin(userCode, RedisConfig.TOKEN_STUDENT_PRE);
+                return isLogin(userCode, stuTokenPre);
             }
         }
         if (type == 2) {
@@ -75,7 +78,7 @@ public class UserServiceImpl implements UserService {
             //校验输入密码和教师密码是否一致
             if (StringUtils.equals(md5Password, teacher.getPassword())) {
                 //登录成功， 提取共用方法
-                return isLogin(userCode, RedisConfig.TOKEN_TEACHER_PRE);
+                return isLogin(userCode, teaTokenPre);
             }
         }
         LoggerCommon.error("密码不正确");
@@ -84,13 +87,18 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 如果登录成功教师、学生共用方法
+     * @param code 用于存储 token 的 key 和值的后缀
+     *             如果是userCode登陆则为userCode，如果是手机登陆则为phone
+     * @param tokenStr 存储token 的 key 的前缀，
+     *                 老师：token:teacher:
+     *                 学生：token:student:
      */
-    private ResultInfo isLogin(String userCode, String tokenStr) {
+    private ResultInfo isLogin(String code, String tokenStr) {
         //登录成功，设置token
-        String token = idGenerator.nextId() + userCode;
+        String token = idGenerator.nextId() + code;
         //将学生token存入redis中，30分钟
-        RedissonUtil.setStr(tokenStr + userCode, token, SystemConfig.TOKEN_REDIS_TIME);
-        LoggerCommon.info("登陆成功,用户userCode为 ：" + userCode + " 的token为: " + token);
+        RedissonUtil.setStr(tokenStr + code, token, SystemConfig.TOKEN_REDIS_TIME);
+        LoggerCommon.info("登陆成功,用户userCode为 ：" + code + " 的token为: " + token);
         //将token返回到前端
         return ResultInfo.success("登录成功", token);
     }
@@ -105,6 +113,15 @@ public class UserServiceImpl implements UserService {
             String phone = userDto.getPhone();
             String validCode = userDto.getCode();
             String token = userDto.getToken();
+
+            //校验是否该手机号是否已绑定
+            int stu = studentDao.selectBindPhone(phone);
+            int tea = teacherDao.selectBindPhone(phone);
+            if (stu != 0 || tea != 0) {
+                //该手机号已经绑定
+                LoggerCommon.error("该手机号已经绑定，请直接登陆");
+                return ResultInfo.fail("该手机号已经绑定，请直接登陆");
+            }
 
             //校验redis中是否存在
             if (!RedissonUtil.checkKey(RedisConfig.SMS_CODE_BIND + phone)) {
@@ -303,5 +320,41 @@ public class UserServiceImpl implements UserService {
         }
         LoggerCommon.info("退出登录成功");
         return ResultInfo.success("退出登录成功");
+    }
+
+    @Override
+    public ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type) {
+        String phone = loginDto.getPhone();
+        String validCode = loginDto.getValidCode();
+        String redisKey = RedisConfig.SMS_CODE_LOGIN + phone;
+
+        //校验是否该手机号是否已绑定
+        int stu = studentDao.selectBindPhone(phone);
+        int tea = teacherDao.selectBindPhone(phone);
+        if (stu == 0 && tea == 0) {
+            //此手机号没有绑定，需要绑定手机号后进行登陆
+            LoggerCommon.error("此手机号没有绑定，需要绑定手机号后进行登陆");
+            return ResultInfo.fail("此手机号没有绑定，需要绑定手机号后进行登陆");
+        }
+
+        if (!RedissonUtil.checkKey(redisKey)){
+            LoggerCommon.error("验证码已过期");
+            return ResultInfo.fail("验证码已过期");
+        }
+
+        if (!StringUtils.equals(RedissonUtil.getStr(redisKey), validCode)) {
+            //验证码不正确
+            LoggerCommon.error("验证码不正确");
+            return ResultInfo.fail("验证码不正确");
+        }
+        if (type == 1) {
+            //学生
+            return isLogin(phone, stuTokenPre);
+        }
+        if (type == 2) {
+            //老师
+            return isLogin(phone, teaTokenPre);
+        }
+        return ResultInfo.fail("失败");
     }
 }
