@@ -13,10 +13,6 @@ import com.jingluo.jingluo.vo.ResultInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Connection;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -75,7 +71,7 @@ public class GroupServiceImpl implements GroupService {
                 if (count == 1 && count2 == 1) {
                     return ResultInfo.success("团队创建成功");
                 } else {
-                    return ResultInfo.fail("团队创建失败l");
+                    return ResultInfo.fail("团队创建失败");
                 }
             } else {
                 return ResultInfo.fail("团队创建失败");
