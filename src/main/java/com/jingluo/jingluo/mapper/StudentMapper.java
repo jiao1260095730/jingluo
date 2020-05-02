@@ -21,5 +21,5 @@ public interface StudentMapper {
 
     Student selectById(Integer id);
 
-    int selectBindPhone(String phone);
+    Student selectBindPhone(String phone);
 }

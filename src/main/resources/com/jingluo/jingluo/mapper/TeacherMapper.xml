@@ -22,8 +22,8 @@
     select * from teacher
   </select>
 
-  <select id="selectBindPhone" resultType="int">
-    select count(1) from teacher
+  <select id="selectBindPhone" resultMap="BaseResultMap">
+    select * from teacher
     where phone = #{phone}
   </select>
 

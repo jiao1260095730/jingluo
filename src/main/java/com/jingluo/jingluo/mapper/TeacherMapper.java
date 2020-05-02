@@ -20,5 +20,5 @@ public interface TeacherMapper {
 
     List<Teacher> selectAll();
 
-    int selectBindPhone(String phone);
+    Teacher selectBindPhone(String phone);
 }

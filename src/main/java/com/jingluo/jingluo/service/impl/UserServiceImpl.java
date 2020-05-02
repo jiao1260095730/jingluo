@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 如果登录成功教师、学生共用方法
-     * @param code 用于存储 token 的 key 和值的后缀
-     *             如果是userCode登陆则为userCode，如果是手机登陆则为phone
+     *
+     * @param code     用于存储 token 的 key 和值的后缀 统一为userCode
      * @param tokenStr 存储token 的 key 的前缀，
      *                 老师：token:teacher:
      *                 学生：token:student:
@@ -115,9 +115,9 @@ public class UserServiceImpl implements UserService {
             String token = userDto.getToken();
 
             //校验是否该手机号是否已绑定
-            int stu = studentDao.selectBindPhone(phone);
-            int tea = teacherDao.selectBindPhone(phone);
-            if (stu != 0 || tea != 0) {
+            Student stu = studentDao.selectBindPhone(phone);
+            Teacher tea = teacherDao.selectBindPhone(phone);
+            if (stu != null || tea != null) {
                 //该手机号已经绑定
                 LoggerCommon.error("该手机号已经绑定，请直接登陆");
                 return ResultInfo.fail("该手机号已经绑定，请直接登陆");
@@ -301,8 +301,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-    * 退出登录
-    */
+     * 退出登录
+     */
     @Override
     public ResultInfo logOut(TokenDto tokenDto, int type) {
         String userCode = tokenDto.getUserCode();
@@ -326,24 +326,27 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-    * 使用手机号登陆
-    */
+     * 使用手机号登陆
+     */
     @Override
     public ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type) {
         String phone = loginDto.getPhone();
         String validCode = loginDto.getValidCode();
         String redisKey = RedisConfig.SMS_CODE_LOGIN + phone;
+        String userCode;
 
         //校验是否该手机号是否已绑定
-        int stu = studentDao.selectBindPhone(phone);
-        int tea = teacherDao.selectBindPhone(phone);
-        if (stu == 0 && tea == 0) {
+        Student stu = studentDao.selectBindPhone(phone);
+        Teacher tea = teacherDao.selectBindPhone(phone);
+        if (stu == null && tea == null) {
             //此手机号没有绑定，需要绑定手机号后进行登陆
             LoggerCommon.error("此手机号没有绑定，需要绑定手机号后进行登陆");
             return ResultInfo.fail("此手机号没有绑定，需要绑定手机号后进行登陆");
         }
+        //存入redis的token，学生或者老师的userCode
+        userCode = stu == null ? tea.getTeacherCode() : stu.getStudentCode();
 
-        if (!RedissonUtil.checkKey(redisKey)){
+        if (!RedissonUtil.checkKey(redisKey)) {
             LoggerCommon.error("验证码已过期");
             return ResultInfo.fail("验证码已过期");
         }
@@ -355,11 +358,11 @@ public class UserServiceImpl implements UserService {
         }
         if (type == 1) {
             //学生
-            return isLogin(phone, stuTokenPre);
+            return isLogin(userCode, stuTokenPre);
         }
         if (type == 2) {
             //老师
-            return isLogin(phone, teaTokenPre);
+            return isLogin(userCode, teaTokenPre);
         }
         return ResultInfo.fail("失败");
     }
