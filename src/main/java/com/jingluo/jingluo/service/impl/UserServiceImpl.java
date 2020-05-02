@@ -10,10 +10,7 @@ import com.jingluo.jingluo.mapper.TeacherMapper;
 import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.entity.Teacher;
 import com.jingluo.jingluo.service.UserService;
-import com.jingluo.jingluo.utils.IdGenerator;
-import com.jingluo.jingluo.utils.NumberUtil;
-import com.jingluo.jingluo.utils.RedissonUtil;
-import com.jingluo.jingluo.utils.StringUtil;
+import com.jingluo.jingluo.utils.*;
 import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,8 +32,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private IdGenerator idGenerator;
 
-    private String stuTokenPre = RedisConfig.TOKEN_STUDENT_PRE;
-    private String teaTokenPre = RedisConfig.TOKEN_TEACHER_PRE;
+    private  String stuTokenPre = RedisConfig.TOKEN_STUDENT_PRE;
+    private  String teaTokenPre = RedisConfig.TOKEN_TEACHER_PRE;
 
     /**
      * 登录
@@ -112,8 +109,10 @@ public class UserServiceImpl implements UserService {
             String userCode = userDto.getUserCode();
             String phone = userDto.getPhone();
             String validCode = userDto.getCode();
-            String token = userDto.getToken();
-
+            String userToken = userDto.getToken();
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
             //校验是否该手机号是否已绑定
             Student stu = studentDao.selectBindPhone(phone);
             Teacher tea = teacherDao.selectBindPhone(phone);
@@ -137,13 +136,6 @@ public class UserServiceImpl implements UserService {
             }
             //区分学生、教师，学生为1  教师为2
             if (type == 1) {
-                //校验token，是否已经登录
-                if ("".equals(token) || !StringUtils.equals(token, RedissonUtil.getStr(RedisConfig.TOKEN_STUDENT_PRE + userCode))) {
-                    //没有token值或者登录已过期，需重新登录
-                    LoggerCommon.error("登录已过期，请重新登陆");
-                    return ResultInfo.fail("登录已过期，请重新登陆");
-                }
-
                 Student student = new Student();
                 student.setPhone(phone);
                 student.setStudentCode(userCode);
@@ -155,13 +147,6 @@ public class UserServiceImpl implements UserService {
             }
             //区分学生、教师，学生为1  教师为2
             if (type == 2) {
-                //校验token，是否已经登录
-                if ("".equals(token) || !StringUtils.equals(token, RedissonUtil.getStr(RedisConfig.TOKEN_TEACHER_PRE + userCode))) {
-                    //没有token值或者登录已过期，需重新登录
-                    LoggerCommon.error("登录已过期，请重新登陆");
-                    return ResultInfo.fail("登录已过期，请重新登陆");
-                }
-
                 Teacher teacher = new Teacher();
                 teacher.setPhone(phone);
                 teacher.setTeacherCode(userCode);
@@ -189,12 +174,8 @@ public class UserServiceImpl implements UserService {
             String oldPassword = userDto.getOldPassword();
             String newPassword = userDto.getNewPassword();
             //获取token值和存储的key
-            String token = userDto.getToken();
-            String teaTokenKey = RedisConfig.TOKEN_TEACHER_PRE + userCode;
-            String stuTokenKey = RedisConfig.TOKEN_STUDENT_PRE + userCode;
-            //拿出Redis中token进行比较，如果不一致或者没有，返回登录
-            if (!StringUtils.equals(token, RedissonUtil.getStr(stuTokenKey))
-                    && !StringUtils.equals(token, RedissonUtil.getStr(teaTokenKey))) {
+            String userToken = userDto.getToken();
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
 
@@ -306,12 +287,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultInfo logOut(TokenDto tokenDto, int type) {
         String userCode = tokenDto.getUserCode();
-        String token = tokenDto.getToken();
-        String stuTokenKey = RedisConfig.TOKEN_STUDENT_PRE + userCode;
-        String teaTokenKey = RedisConfig.TOKEN_TEACHER_PRE + userCode;
-        //拿出Redis中token进行比较，如果不一致或者没有，返回登录
-        if (!StringUtils.equals(token, RedissonUtil.getStr(stuTokenKey)) && !StringUtils.equals(token, RedissonUtil.getStr(teaTokenKey))) {
-            LoggerCommon.error("登录已失效，请重新登陆");
+        String userToken = tokenDto.getToken();
+        String stuTokenKey = stuTokenPre + userCode;
+        String teaTokenKey = teaTokenPre + userCode;
+        if (TokenUtil.tokenValidate(userToken, userCode)) {
             return ResultInfo.fail("登录已失效，请重新登陆");
         }
         //区分学生、教师，学生为1  教师为2

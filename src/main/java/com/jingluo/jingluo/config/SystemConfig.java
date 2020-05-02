@@ -23,4 +23,8 @@ public class SystemConfig {
     public static final int SMS_CODE_TIME = 5;
     //登录成功后token的时效  30分钟
     public static final int TOKEN_REDIS_TIME = 30 * 60;
+    //知识库创建来源 1个人 2团队 3教师通过课程创建
+    public static final String CREATE_FROM_PERSON = "1";
+    public static final String CREATE_FROM_GROUP = "2";
+    public static final String CREATE_FROM_COURSE = "3";
 }
