@@ -27,4 +27,10 @@ public class SystemConfig {
     public static final String CREATE_FROM_PERSON = "1";
     public static final String CREATE_FROM_GROUP = "2";
     public static final String CREATE_FROM_COURSE = "3";
+    //知识库是否对外开放 0私有 1共享
+    public static final String KNOWBASE_PUBLIC = "0";
+    public static final String KNOWBASE_PRIVATE = "1";
+    //知识库是否已删除 0否 1是
+    public static final String KNOWBASE_NOT_DELETE = "0";
+    public static final String KNOWBASE_IS_DELETE = "1";
 }
