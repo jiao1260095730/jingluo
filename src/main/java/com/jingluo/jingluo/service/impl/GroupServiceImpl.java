@@ -13,14 +13,16 @@ import com.jingluo.jingluo.service.GroupService;
 import com.jingluo.jingluo.utils.IdCode;
 import com.jingluo.jingluo.vo.ResultInfo;
 
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Component
-
+@Transactional
 public class GroupServiceImpl implements GroupService {
 
     @Autowired
@@ -31,8 +33,6 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private ClassMapper classMapper;
-
-
 
     /**
      * 创建团队
@@ -53,7 +53,7 @@ public class GroupServiceImpl implements GroupService {
             StudentGroup sg = new StudentGroup();
             Group group = new Group();
             //判断学生是否加入过团队
-            if (stu.getGroupId() == null) {
+            if (stu.getGroupId() == null || stu.getGroupId() == 0) {
                 //团队id
                 group.setGroupId(IdCode.id());
                 //团队名称
@@ -79,7 +79,7 @@ public class GroupServiceImpl implements GroupService {
                 //学生信息添加团队id
                 stu.setGroupId(group.getGroupId());
                 int insert = studentMapper.update(stu);
-                if (count == 1 && count2 == 1 && insert ==1) {
+                if (count == 1 && count2 == 1 && insert == 1) {
                     return ResultInfo.success("团队创建成功");
                 } else {
                     return ResultInfo.fail("团队创建失败");
@@ -95,16 +95,18 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 删除团队
-     *
-     * @param groupId
+     * @param groupStuId
      * @return
      */
     @Override
-    public ResultInfo deleteGroup(Integer groupId) {
-        int count = groupMapper.deleteGroup(groupId);
-        int count2 = groupMapper.deleteStudentGroup(groupId);
-
-        if (count == 1 && count2 == 1) {
+    public ResultInfo deleteGroup(GroupStuId groupStuId) {
+        int count = groupMapper.deleteGroup(groupStuId.getGroupId());
+        int count2 = groupMapper.deleteStudentGroup(groupStuId.getGroupId());
+        //删除学生信息里的团队id
+        Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
+        student.setGroupId(0);
+        int count3 = studentMapper.update(student);
+        if (count == 1 && count2 == 1 && count3 == 1) {
             return ResultInfo.success("删除成功");
         } else {
             return ResultInfo.fail("删除失败");
@@ -123,8 +125,11 @@ public class GroupServiceImpl implements GroupService {
             Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             //成员减一
             group.setStuNum(group.getStuNum() - 1);
-            groupMapper.updateByPrimaryKey(group);
             groupMapper.deleteGroupMember(groupStuId.getStudentId());
+            //删除学生信息里的团队id
+            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
+            student.setGroupId(0);
+            studentMapper.update(student);
             return ResultInfo.success("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,9 +144,7 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     public ResultInfo addGroupMember(GroupStuId groupStuId) {
-
         try {
-
             Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             StudentGroup sg = new StudentGroup();
             if (group != null) {
@@ -151,13 +154,11 @@ public class GroupServiceImpl implements GroupService {
             } else {
                 return ResultInfo.fail("没有这个团队");
             }
-
             //学生团队关联
             sg.setStudentId(groupStuId.getStudentId());
             sg.setGroupId(groupStuId.getGroupId());
             sg.setStuGroId(IdCode.id());
             groupMapper.insertGroupStudent(sg);
-
             return ResultInfo.success("添加成员成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,18 +204,15 @@ public class GroupServiceImpl implements GroupService {
      */
     @Override
     public ResultInfo updataGroup(GroupDto groupDto) {
-
         Group group = new Group();
         group.setGroupName(groupDto.getGroupName());
         group.setGroupInfo(groupDto.getGroupInfe());
-
         int count = groupMapper.updateByPrimaryKeySelective(group);
         if (count == 1) {
             return ResultInfo.success("修改成功");
         } else {
             return ResultInfo.fail("修改失败");
         }
-
     }
 
 }
