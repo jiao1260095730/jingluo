@@ -21,4 +21,6 @@ public interface UserService {
     ResultInfo logOut(TokenDto tokenDto, int type);
 
     ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type);
+
+    ResultInfo selectOne(String token, int type);
 }

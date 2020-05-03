@@ -18,7 +18,7 @@ public class RedissonUtilTest {
 
     private static RedissonClient client;
 
-    //sms:code:bind:
+    //sms:validCode:bind:
     private String strType = RedisConfig.SMS_CODE_BIND;
 
     static {
@@ -30,18 +30,21 @@ public class RedissonUtilTest {
 
     @Test
     public void testStr() {
-        String key = "phone";
-        String value = "13213538971";
-        RedissonUtil.setStr(key, value);
+        for (int i = 0; i < 10; i++) {
 
-        if (RedissonUtil.checkKey(key)) {
-            System.out.println(RedissonUtil.getStr(key));
+            String key = "phone1";
+            String value = "13213538971";
+            RedissonUtil.setStr(key, value, 20);
+
+            if (RedissonUtil.checkKey(key)) {
+                System.out.println(RedissonUtil.getStr(key));
+            }
         }
     }
 
     @Test
     public void testDel() {
-        String key = "phone";
+        String key = "phone1";
         RedissonUtil.delKey(key);
     }
 

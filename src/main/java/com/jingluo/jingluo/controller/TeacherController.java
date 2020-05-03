@@ -27,19 +27,19 @@ public class TeacherController {
 
     private int teaType = UserType.teacher.getCode();
 
-    @ApiOperation(value = "教师使用工号登录", notes = "教师登录")
+    @ApiOperation(value = "工号登录", notes = "教师登录")
     @PostMapping("api/teacher/login.do")
     public ResultInfo login(UserLoginDto userDto) {
         return userService.login(userDto, teaType);
     }
 
-    @ApiOperation(value = "教师绑定手机号", notes = "教师绑定手机号")
+    @ApiOperation(value = "绑定手机号", notes = "教师绑定手机号")
     @PostMapping("api/teacher/bindPhone.do")
     public ResultInfo bindPhone(@RequestBody UserValidDto userDto) {
         return userService.bindPhone(userDto, teaType);
     }
 
-    @ApiOperation(value = "教师修改密码", notes = "教师修改密码，输入旧密码修改")
+    @ApiOperation(value = "修改密码", notes = "教师修改密码，输入旧密码修改")
     @PostMapping("api/teacher/updatePSW.do")
     public ResultInfo updatePSW(@RequestBody UpdatePSWDTO userDto) {
         return userService.updatePassword(userDto, teaType);
@@ -51,21 +51,27 @@ public class TeacherController {
         return userService.findPassword(findPSWDTO, teaType);
     }
 
-    @ApiOperation(value = "查询教师列表", notes = "查询教师列表")
+    @ApiOperation(value = "查询所有教师", notes = "查询教师列表")
     @GetMapping("api/teacher/selectAll.do")
     public ResultInfo selectAll() {
         return teacherService.selectAll();
     }
 
-    @ApiOperation(value = "教师退出登陆", notes = "教师退出登陆")
+    @ApiOperation(value = "退出登陆", notes = "教师退出登陆")
     @PostMapping("api/teacher/logOut.do")
     public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
         return userService.logOut(tokenDto, teaType);
     }
 
-    @ApiOperation(value = "教师使用已绑定手机登录", notes = "教师登录，使用手机号、验证码")
+    @ApiOperation(value = "手机号登录", notes = "教师登录，使用手机号、验证码")
     @PostMapping("api/teacher/phoneLogin.do")
     public ResultInfo phoneLogin(@RequestBody UserPhoneLoginDto userDto) {
         return userService.phoneLogin(userDto, teaType);
+    }
+
+    @ApiOperation(value = "获取教师信息", notes = "根据教师token查询学生信息")
+    @PostMapping("api/teacher/selectOne.do")
+    public ResultInfo selectOne(@RequestParam String token) {
+        return userService.selectOne(token, teaType);
     }
 }

@@ -22,15 +22,15 @@ public class StudentKnowBaseController {
     @Autowired
     private KnowBaseService knowBaseService;
 
-    @ApiOperation(value = "创建个人知识库", notes = "学生创建个人知识库" )
-    @PostMapping("api/student/knowBase/createPersonKnowBase.do")
-    public ResultInfo createPersonKnowBase(@RequestBody KnowBaseCreateDto dto) {
-        return knowBaseService.createKnowBase(dto);
-    }
-
-    @ApiOperation(value = "创建团队知识库", notes = "学生创建团队知识库" )
-    @PostMapping("api/student/knowBase/createGroupKnowBase.do")
-    public ResultInfo createGroupKnowBase(@RequestBody KnowBaseCreateDto dto) {
-        return knowBaseService.createKnowBase(dto);
-    }
+//    @ApiOperation(value = "创建个人知识库", notes = "学生创建个人知识库" )
+//    @PostMapping("api/student/knowBase/createPersonKnowBase.do")
+//    public ResultInfo createPersonKnowBase(@RequestBody KnowBaseCreateDto dto) {
+//        return knowBaseService.createKnowBase(dto);
+//    }
+//
+//    @ApiOperation(value = "创建团队知识库", notes = "学生创建团队知识库" )
+//    @PostMapping("api/student/knowBase/createGroupKnowBase.do")
+//    public ResultInfo createGroupKnowBase(@RequestBody KnowBaseCreateDto dto) {
+//        return knowBaseService.createKnowBase(dto);
+//    }
 }

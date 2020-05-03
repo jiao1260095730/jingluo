@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private IdGenerator idGenerator;
 
-    private  String stuTokenPre = RedisConfig.TOKEN_STUDENT_PRE;
-    private  String teaTokenPre = RedisConfig.TOKEN_TEACHER_PRE;
+    private String stuTokenPre = RedisConfig.TOKEN_STUDENT_PRE;
+    private String teaTokenPre = RedisConfig.TOKEN_TEACHER_PRE;
 
     /**
      * 登录
@@ -101,6 +101,69 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 使用手机号登陆
+     */
+    @Override
+    public ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type) {
+        String phone = loginDto.getPhone();
+        String validCode = loginDto.getValidCode();
+        String redisKey = RedisConfig.SMS_CODE_LOGIN + phone;
+        String userCode;
+
+        //校验是否该手机号是否已绑定
+        Student stu = studentDao.selectBindPhone(phone);
+        Teacher tea = teacherDao.selectBindPhone(phone);
+        if (stu == null && tea == null) {
+            //此手机号没有绑定，需要绑定手机号后进行登陆
+            LoggerCommon.error("此手机号没有绑定，需要绑定手机号后进行登陆");
+            return ResultInfo.fail("此手机号没有绑定，需要绑定手机号后进行登陆");
+        }
+        //存入redis的token，学生或者老师的userCode
+        userCode = stu == null ? tea.getTeacherCode() : stu.getStudentCode();
+
+        if (!RedissonUtil.checkKey(redisKey)) {
+            LoggerCommon.error("验证码已过期");
+            return ResultInfo.fail("验证码已过期");
+        }
+
+        if (!StringUtils.equals(RedissonUtil.getStr(redisKey), validCode)) {
+            //验证码不正确
+            LoggerCommon.error("验证码不正确");
+            return ResultInfo.fail("验证码不正确");
+        }
+        if (type == 1) {
+            //学生
+            return isLogin(userCode, stuTokenPre);
+        }
+        if (type == 2) {
+            //老师
+            return isLogin(userCode, teaTokenPre);
+        }
+        return ResultInfo.fail("失败");
+    }
+
+    /**
+     * 根据token中的userCode查询用户信息
+     */
+    @Override
+    public ResultInfo selectOne(String token, int type) {
+        if (StringUtil.isEmpty(token) || token.length() <= 18) {
+            LoggerCommon.error("token字符串异常，token：" + token);
+            return ResultInfo.fail("token字符串异常，token：" + token);
+        }
+        String userCode = TokenUtil.getUserCodeFormToken(token);
+        if (type == 1) {
+            Student student = studentDao.selectByCode(userCode);
+            return ResultInfo.success("获取成功", student);
+        }
+        if (type == 2) {
+            Teacher teacher = teacherDao.selectByCode(userCode);
+            return ResultInfo.success("获取成功", teacher);
+        }
+        return ResultInfo.fail("获取失败");
+    }
+
+    /**
      * 校验验证码，绑定手机号
      */
     @Override
@@ -108,7 +171,7 @@ public class UserServiceImpl implements UserService {
         try {
             String userCode = userDto.getUserCode();
             String phone = userDto.getPhone();
-            String validCode = userDto.getCode();
+            String validCode = userDto.getValidCode();
             String userToken = userDto.getToken();
             if (TokenUtil.tokenValidate(userToken, userCode)) {
                 return ResultInfo.fail("登录已失效，请重新登陆");
@@ -234,7 +297,7 @@ public class UserServiceImpl implements UserService {
             //获取参数值
             String userCode = findPSWDTO.getUserCode();
             String phone = findPSWDTO.getPhone();
-            String validateCode = findPSWDTO.getValidateCode();
+            String validateCode = findPSWDTO.getValidCode();
             String newPassword = findPSWDTO.getNewPassword();
 
             String redisKey = RedisConfig.SMS_CODE_FIND + phone;
@@ -302,47 +365,5 @@ public class UserServiceImpl implements UserService {
         }
         LoggerCommon.info("退出登录成功");
         return ResultInfo.success("退出登录成功");
-    }
-
-    /**
-     * 使用手机号登陆
-     */
-    @Override
-    public ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type) {
-        String phone = loginDto.getPhone();
-        String validCode = loginDto.getValidCode();
-        String redisKey = RedisConfig.SMS_CODE_LOGIN + phone;
-        String userCode;
-
-        //校验是否该手机号是否已绑定
-        Student stu = studentDao.selectBindPhone(phone);
-        Teacher tea = teacherDao.selectBindPhone(phone);
-        if (stu == null && tea == null) {
-            //此手机号没有绑定，需要绑定手机号后进行登陆
-            LoggerCommon.error("此手机号没有绑定，需要绑定手机号后进行登陆");
-            return ResultInfo.fail("此手机号没有绑定，需要绑定手机号后进行登陆");
-        }
-        //存入redis的token，学生或者老师的userCode
-        userCode = stu == null ? tea.getTeacherCode() : stu.getStudentCode();
-
-        if (!RedissonUtil.checkKey(redisKey)) {
-            LoggerCommon.error("验证码已过期");
-            return ResultInfo.fail("验证码已过期");
-        }
-
-        if (!StringUtils.equals(RedissonUtil.getStr(redisKey), validCode)) {
-            //验证码不正确
-            LoggerCommon.error("验证码不正确");
-            return ResultInfo.fail("验证码不正确");
-        }
-        if (type == 1) {
-            //学生
-            return isLogin(userCode, stuTokenPre);
-        }
-        if (type == 2) {
-            //老师
-            return isLogin(userCode, teaTokenPre);
-        }
-        return ResultInfo.fail("失败");
     }
 }

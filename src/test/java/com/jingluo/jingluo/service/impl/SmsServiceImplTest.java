@@ -20,8 +20,8 @@ public class SmsServiceImplTest {
     private SmsService smsService;
 
     private String phone = "13213538971";
-    private String bindStr = "sms:code:bind:";
-    private String findStr = "sms:code:find:";
+    private String bindStr = "sms:validCode:bind:";
+    private String findStr = "sms:validCode:find:";
 
     @Test
     public void testSendSms() {

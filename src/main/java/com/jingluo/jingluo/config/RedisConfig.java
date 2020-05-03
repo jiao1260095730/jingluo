@@ -7,11 +7,11 @@ package com.jingluo.jingluo.config;
  */
 public class RedisConfig {
     //绑定手机验证码存储
-    public static final String SMS_CODE_BIND = "sms:code:bind:";
+    public static final String SMS_CODE_BIND = "sms:validCode:bind:";
     //找回密码验证码存储
-    public static final String SMS_CODE_FIND = "sms:code:find:";
+    public static final String SMS_CODE_FIND = "sms:validCode:find:";
     //手机号登录时验证码存储
-    public static final String SMS_CODE_LOGIN = "sms:code:login:";
+    public static final String SMS_CODE_LOGIN = "sms:validCode:login:";
     //每分钟发送次数
     public static final String SMS_MINUTE = "sms:min:";
     //每小时发送次数

@@ -25,4 +25,9 @@ public class TokenUtil {
         }
         return false;
     }
+
+    public static String getUserCodeFormToken(String token) {
+        //706469769515106304 111  userCode 为111，截取18位之后的数字
+        return token.substring(18, token.length());
+    }
 }

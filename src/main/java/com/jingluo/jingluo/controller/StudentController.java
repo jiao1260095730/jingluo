@@ -28,13 +28,13 @@ public class StudentController {
 
     private int stuType = UserType.student.getCode();
 
-    @ApiOperation(value = "学生使用学号登录", notes = "学生登录，使用学号、密码")
+    @ApiOperation(value = "学号登录", notes = "学生使用学号、密码登录")
     @PostMapping("api/student/login.do")
     public ResultInfo login(@RequestBody UserLoginDto userDto) {
         return userService.login(userDto, stuType);
     }
 
-    @ApiOperation(value = "学生绑定手机号", notes = "学生绑定手机号，输入发送给手机的验证码")
+    @ApiOperation(value = "绑定手机号", notes = "学生绑定手机号，输入发送给手机的验证码")
     @PostMapping("api/student/bindPhone.do")
     public ResultInfo bindPhone(@RequestBody UserValidDto userDto) {
         return userService.bindPhone(userDto, stuType);
@@ -52,22 +52,28 @@ public class StudentController {
         return userService.findPassword(findPSWDTO, stuType);
     }
 
-    @ApiOperation(value = "查询学生列表",notes = "查询学生列表")
+    @ApiOperation(value = "查询所有学生",notes = "查询所有学生")
     @GetMapping("api/student/selectAll.do")
     public ResultInfo selectAll(){
         return studentService.selectAll();
     }
 
-    @ApiOperation(value = "学生退出登陆", notes = "学生退出登陆")
+    @ApiOperation(value = "退出登陆", notes = "学生退出登陆")
     @PostMapping("api/student/logOut.do")
     public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
         return userService.logOut(tokenDto, stuType);
     }
 
-    @ApiOperation(value = "学生使用已绑定手机登录", notes = "学生登录，使用手机号、验证码")
+    @ApiOperation(value = "手机号登录", notes = "学生登录，使用手机号、验证码")
     @PostMapping("api/student/phoneLogin.do")
     public ResultInfo phoneLogin(@RequestBody UserPhoneLoginDto userDto) {
         return userService.phoneLogin(userDto, stuType);
+    }
+
+    @ApiOperation(value = "获取学生信息", notes = "根据学生token查询学生信息")
+    @PostMapping("api/student/selectOne.do")
+    public ResultInfo selectOne(@RequestParam String token) {
+        return userService.selectOne(token, stuType);
     }
 }
 

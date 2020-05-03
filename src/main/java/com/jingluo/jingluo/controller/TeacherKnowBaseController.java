@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "教师的知识库操作", tags = "教师的知识库操作")
 public class TeacherKnowBaseController {
 
-    @Autowired
-    private KnowBaseService knowBaseService;
-
-    @ApiOperation(value = "创建课程知识库", notes = "教师创建课程知识库" )
-    @PostMapping("api/teacher/knowBase/createCourseKnowBase.do")
-    public ResultInfo createCourseKnowBase(@RequestBody KnowBaseCreateDto dto) {
-        return knowBaseService.createKnowBase(dto);
-    }
+//    @Autowired
+//    private KnowBaseService knowBaseService;
+//
+//    @ApiOperation(value = "创建课程知识库", notes = "教师创建课程知识库" )
+//    @PostMapping("api/teacher/knowBase/createCourseKnowBase.do")
+//    public ResultInfo createCourseKnowBase(@RequestBody KnowBaseCreateDto dto) {
+//        return knowBaseService.createKnowBase(dto);
+//    }
 }

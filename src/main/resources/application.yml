@@ -13,6 +13,18 @@ spring:
     multipart:
       max-file-size: -1
       max-request-size: -1
+#  redis:
+#    jedis:
+#      pool:
+#        max-idle: 30  # 连接池中的最小空闲连接
+#        min-idle: 10  # 连接池中的最大空闲连接
+#        max-active: 200  # 连接池最大连接数（使用负值表示没有限制）
+#        max-wait: 10000  # 连接池最大阻塞等待时间（使用负值表示没有限制）
+#    host: 47.98.174.241
+#    password: 123456
+#    port: 6379
+#    timeout: 0  # 连接超时时间（毫秒）
+
   #开启驼峰命名转换
   #mybatis.configuration.map-underscore-to-camel-case=true
 #Tomcat发布端口号

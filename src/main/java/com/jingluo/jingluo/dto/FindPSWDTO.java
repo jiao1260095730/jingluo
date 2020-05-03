@@ -14,7 +14,7 @@ public class FindPSWDTO {
     //手机号
     private String phone;
     //验证码
-    private String validateCode;
+    private String validCode;
     //新密码
     private String newPassword;
 }
