@@ -29,6 +29,12 @@ public class RedissonUtilTest {
     }
 
     @Test
+    public void test1() {
+        RedissonUtil.setStr("key1","value1");
+        //System.out.println(RedissonUtil.getStr("key1"));
+    }
+
+    @Test
     public void testStr() {
         for (int i = 0; i < 10; i++) {
 

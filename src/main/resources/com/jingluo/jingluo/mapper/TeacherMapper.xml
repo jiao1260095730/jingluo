@@ -7,6 +7,7 @@
     <result column="teacher_code" property="teacherCode" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
     <result column="head_img" property="headImg" jdbcType="VARCHAR" />
     <result column="reserved_1" property="reserved1" jdbcType="VARCHAR" />

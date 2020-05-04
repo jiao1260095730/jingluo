@@ -23,11 +23,14 @@ public class RedissonUtil {
         Config config = new Config();
         config.useSingleServer()
                 .setAddress(SystemConfig.REDIS_HOST)
-                .setPassword(SystemConfig.REDIS_PASS)
-                //设置对于master节点的连接池中连接数最大为1000
-                .setConnectionPoolSize(1000)
-                //如果当前连接池里的连接数量超过了最小空闲连接数，而同时有连接空闲时间超过了该数值，那么这些连接将会自动被关闭，并从连接池里去掉。时间单位是毫秒
-                .setIdleConnectionTimeout(10000);
+                .setPassword(SystemConfig.REDIS_PASS) //设置对于master节点的连接池中连接数最大为1000
+                .setConnectionPoolSize(1000) //设置对于master节点的连接池中连接数最大为500
+                .setConnectTimeout(30000) //同任何节点建立连接时的等待超时。时间单位是毫秒。
+                .setTimeout(3000)//等待节点回复命令的时间。该时间从命令发送成功时开始计时。
+                .setPingTimeout(30000)
+                .setReconnectionTimeout(3000)//当与某个节点的连接断开时，等待与其重新建立连接的时间间隔。时间单位是毫秒。
+                .setIdleConnectionTimeout(10000) //如果当前连接池里的连接数量超过了最小空闲连接数，而同时有连接空闲时间超过了该数值，那么这些连接将会自动被关闭，并从连接池里去掉。时间单位是毫秒
+                .setPingConnectionInterval(60000);
         client = Redisson.create(config);
     }
 
@@ -71,7 +74,8 @@ public class RedissonUtil {
 
     //查询
     public static String getStr(String key) {
-        return (String) client.getBucket(key).get();
+        String str = (String) client.getBucket(key).get();
+        return str;
     }
 
     public static Collection<Object> getHash(String key) {
@@ -107,7 +111,8 @@ public class RedissonUtil {
 
     //验证key是否存在
     public static boolean checkKey(String key) {
-        return client.getKeys().countExists(key) > 0;
+        long exists = client.getKeys().countExists(key);
+        return exists > 0;
     }
 
     public static int getKeys(String k) {

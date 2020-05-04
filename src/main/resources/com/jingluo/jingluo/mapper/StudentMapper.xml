@@ -9,6 +9,7 @@
     <result column="is_admin" jdbcType="CHAR" property="isAdmin" />
     <result column="student_code" jdbcType="VARCHAR" property="studentCode" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="head_img" jdbcType="VARCHAR" property="headImg" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />

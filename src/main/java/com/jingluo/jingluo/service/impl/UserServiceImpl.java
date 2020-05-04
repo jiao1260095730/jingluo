@@ -154,10 +154,12 @@ public class UserServiceImpl implements UserService {
         String userCode = TokenUtil.getUserCodeFormToken(token);
         if (type == 1) {
             Student student = studentDao.selectByCode(userCode);
+            LoggerCommon.info("获取的学生信息：" + student);
             return ResultInfo.success("获取成功", student);
         }
         if (type == 2) {
             Teacher teacher = teacherDao.selectByCode(userCode);
+            LoggerCommon.info("获取的教师信息：" + teacher);
             return ResultInfo.success("获取成功", teacher);
         }
         return ResultInfo.fail("获取失败");
@@ -181,8 +183,8 @@ public class UserServiceImpl implements UserService {
             Teacher tea = teacherDao.selectBindPhone(phone);
             if (stu != null || tea != null) {
                 //该手机号已经绑定
-                LoggerCommon.error("该手机号已经绑定，请直接登陆");
-                return ResultInfo.fail("该手机号已经绑定，请直接登陆");
+                LoggerCommon.error("该手机号已经绑定");
+                return ResultInfo.fail("该手机号已经绑定");
             }
 
             //校验redis中是否存在
