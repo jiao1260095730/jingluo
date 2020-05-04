@@ -315,12 +315,32 @@ public class UserServiceImpl implements UserService {
                 LoggerCommon.error("验证码不正确，请重新输入");
                 return ResultInfo.fail("验证码不正确，请重新输入");
             }
+            Student student1 = studentDao.selectBindPhone(phone);
+            Teacher teacher1 = teacherDao.selectBindPhone(phone);
+            if (student1 == null && teacher1 == null) {
+                LoggerCommon.error("手机号" + phone + "未绑定");
+                return ResultInfo.fail("手机号：" + phone + "未绑定");
+            }
+            String studentCode;
+            String teacherCode;
+            try {
+                 studentCode = student1.getStudentCode();
+                 teacherCode = teacher1.getTeacherCode();
+            } catch (Exception e) {
+                LoggerCommon.error("根据手机号查询的userCode无值");
+                return ResultInfo.fail("手机号和userCode不匹配");
+            }
+            if (!StringUtils.equals(userCode, studentCode)
+                    && !StringUtils.equals(userCode, teacherCode)) {
+                LoggerCommon.error("根据手机号查出的userCode和传入的userCode不匹配");
+                return ResultInfo.fail("根据手机号查出的userCode和传入的userCode不匹配");
+            }
             //校验通过，重置密码
             if (type == 1) {
                 //学生
                 Student student = new Student();
                 student.setStudentCode(userCode);
-                student.setPassword(newPassword);
+                student.setPassword(NumberUtil.getMd5Str(newPassword));
 
                 if (studentDao.update(student) == 1) {
                     LoggerCommon.info("重置学生密码成功");
@@ -331,7 +351,7 @@ public class UserServiceImpl implements UserService {
                 Teacher teacher = new Teacher();
                 //userCode，筛选条件
                 teacher.setTeacherCode(userCode);
-                teacher.setPassword(newPassword);
+                teacher.setPassword(NumberUtil.getMd5Str(newPassword));
 
                 if (teacherDao.update(teacher) == 1) {
                     LoggerCommon.info("重置教师密码成功");
