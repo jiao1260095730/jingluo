@@ -75,5 +75,11 @@ public class StudentController {
     public ResultInfo selectOne(@RequestParam String token) {
         return userService.selectOne(token, stuType);
     }
+
+    @ApiOperation(value = "修改学生信息", notes = "修改学生信息")
+    @PostMapping("api/student/updateMsg.do")
+    public ResultInfo updateMsg(@RequestBody UserUpdateMsgDto dto) {
+        return userService.updateMsg(dto, stuType);
+    }
 }
 

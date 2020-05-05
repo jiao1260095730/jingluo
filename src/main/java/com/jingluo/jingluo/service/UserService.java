@@ -23,4 +23,6 @@ public interface UserService {
     ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type);
 
     ResultInfo selectOne(String token, int type);
+
+    ResultInfo updateMsg(UserUpdateMsgDto dto, int type);
 }

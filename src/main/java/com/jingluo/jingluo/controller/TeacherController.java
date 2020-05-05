@@ -74,4 +74,10 @@ public class TeacherController {
     public ResultInfo selectOne(@RequestParam String token) {
         return userService.selectOne(token, teaType);
     }
+
+    @ApiOperation(value = "修改教师信息", notes = "修改教师信息")
+    @PostMapping("api/teacher/updateMsg.do")
+    public ResultInfo updateMsg(@RequestBody UserUpdateMsgDto dto) {
+        return userService.updateMsg(dto, teaType);
+    }
 }

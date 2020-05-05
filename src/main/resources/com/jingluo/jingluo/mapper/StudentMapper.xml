@@ -41,85 +41,85 @@
       This element was generated on Sun Apr 12 14:02:13 CST 2020.
     -->
     insert into student
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="studentId != null">
+      <if test="studentId != null" >
         student_id,
       </if>
-      <if test="classId != null">
+      <if test="classId != null" >
         class_id,
       </if>
-      <if test="groupId != null">
+      <if test="groupId != null" >
         group_id,
       </if>
-      <if test="isAdmin != null">
-        is_admin,
-      </if>
-      <if test="studentCode != null">
+      <if test="studentCode != null" >
         student_code,
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         password,
       </if>
-      <if test="phone != null">
+      <if test="phone != null" >
         phone,
       </if>
-      <if test="headImg != null">
+      <if test="headImg != null" >
         head_img,
       </if>
-      <if test="nickName != null">
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nickName != null" >
         nick_name,
       </if>
-      <if test="reserved1 != null">
+      <if test="reserved1 != null" >
         reserved_1,
       </if>
-      <if test="reserved2 != null">
+      <if test="reserved2 != null" >
         reserved_2,
       </if>
-      <if test="reserved3 != null">
+      <if test="reserved3 != null" >
         reserved_3,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="studentId != null">
+      <if test="studentId != null" >
         #{studentId,jdbcType=INTEGER},
       </if>
-      <if test="classId != null">
+      <if test="classId != null" >
         #{classId,jdbcType=INTEGER},
       </if>
-      <if test="groupId != null">
+      <if test="groupId != null" >
         #{groupId,jdbcType=INTEGER},
       </if>
-      <if test="isAdmin != null">
-        #{isAdmin,jdbcType=CHAR},
-      </if>
-      <if test="studentCode != null">
+      <if test="studentCode != null" >
         #{studentCode,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
+      <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="headImg != null">
+      <if test="headImg != null" >
         #{headImg,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
         #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="reserved1 != null">
+      <if test="reserved1 != null" >
         #{reserved1,jdbcType=VARCHAR},
       </if>
-      <if test="reserved2 != null">
+      <if test="reserved2 != null" >
         #{reserved2,jdbcType=VARCHAR},
       </if>
-      <if test="reserved3 != null">
+      <if test="reserved3 != null" >
         #{reserved3,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -132,38 +132,38 @@
       This element was generated on Sun Apr 12 14:02:13 CST 2020.
     -->
     update student
-    <set>
-      <if test="classId != null">
+    <set >
+      <if test="classId != null" >
         class_id = #{classId,jdbcType=INTEGER},
       </if>
-      <if test="groupId != null">
+      <if test="groupId != null" >
         group_id = #{groupId,jdbcType=INTEGER},
       </if>
-      <if test="isAdmin != null">
-        is_admin = #{isAdmin,jdbcType=CHAR},
-      </if>
-      <if test="studentCode != null">
+      <if test="studentCode != null" >
         student_code = #{studentCode,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
+      <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="headImg != null">
+      <if test="headImg != null" >
         head_img = #{headImg,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
         nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="reserved1 != null">
+      <if test="reserved1 != null" >
         reserved_1 = #{reserved1,jdbcType=VARCHAR},
       </if>
-      <if test="reserved2 != null">
+      <if test="reserved2 != null" >
         reserved_2 = #{reserved2,jdbcType=VARCHAR},
       </if>
-      <if test="reserved3 != null">
+      <if test="reserved3 != null" >
         reserved_3 = #{reserved3,jdbcType=VARCHAR},
       </if>
     </set>

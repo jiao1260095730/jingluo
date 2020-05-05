@@ -165,6 +165,46 @@ public class UserServiceImpl implements UserService {
         return ResultInfo.fail("获取失败");
     }
 
+    @Override
+    public ResultInfo updateMsg(UserUpdateMsgDto dto, int type) {
+
+        String name = dto.getName();
+        String nickName = dto.getNickName();
+        String headImg = dto.getHeadImg();
+        String token = dto.getToken();
+        String userCode = TokenUtil.getUserCodeFormToken(token);
+
+        //校验token是否有效
+        if (TokenUtil.tokenValidate(token, userCode)) {
+            LoggerCommon.error("登录已失效，请重新登陆");
+            return ResultInfo.fail("登录已失效，请重新登陆");
+        }
+        if (type == 1) {
+            Student student = new Student();
+            student.setStudentCode(userCode);
+            student.setHeadImg(headImg);
+            student.setName(name);
+            student.setNickName(nickName);
+
+            studentDao.update(student);
+            LoggerCommon.info("修改学生信息成功");
+            return ResultInfo.success("修改学生信息成功");
+        }
+        if (type == 2) {
+            Teacher teacher = new Teacher();
+            teacher.setTeacherCode(userCode);
+            teacher.setName(name);
+            teacher.setNickName(nickName);
+            teacher.setHeadImg(headImg);
+
+            teacherDao.update(teacher);
+            LoggerCommon.info("修改教师信息成功");
+            return ResultInfo.success("修改教师信息成功");
+        }
+        LoggerCommon.error("修改资料失败");
+        return ResultInfo.fail("修改资料失败");
+    }
+
     /**
      * 校验验证码，绑定手机号
      */
@@ -324,8 +364,8 @@ public class UserServiceImpl implements UserService {
             String studentCode;
             String teacherCode;
             try {
-                 studentCode = student1.getStudentCode();
-                 teacherCode = teacher1.getTeacherCode();
+                studentCode = student1.getStudentCode();
+                teacherCode = teacher1.getTeacherCode();
             } catch (Exception e) {
                 LoggerCommon.error("根据手机号查询的userCode无值");
                 return ResultInfo.fail("手机号和userCode不匹配");
