@@ -11,6 +11,8 @@
     <id column="doc_id" property="docId" jdbcType="INTEGER" />
     <result column="base_id" property="baseId" jdbcType="INTEGER" />
     <result column="dir_id" property="dirId" jdbcType="INTEGER" />
+    <result column="author_id" property="authorId" jdbcType="INTEGER" />
+    <result column="last_author_id" property="lastAuthorId" jdbcType="INTEGER" />
     <result column="doc_title" property="docTitle" jdbcType="VARCHAR" />
     <result column="read_num" property="readNum" jdbcType="INTEGER" />
     <result column="yest_num" property="yestNum" jdbcType="INTEGER" />

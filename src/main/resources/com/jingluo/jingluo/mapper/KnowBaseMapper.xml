@@ -20,8 +20,10 @@
     <result column="read_num" property="readNum" jdbcType="INTEGER" />
     <result column="att_num" property="attNum" jdbcType="INTEGER" />
     <result column="base_kind" property="baseKind" jdbcType="CHAR" />
+    <result column="is_show" property="isShow" jdbcType="CHAR" />
     <result column="is_public" property="isPublic" jdbcType="CHAR" />
     <result column="is_delete" property="isDelete" jdbcType="CHAR" />
+    <result column="create_from" property="createFrom" jdbcType="CHAR" />
     <result column="reserved_1" property="reserved1" jdbcType="VARCHAR" />
     <result column="reserved_2" property="reserved2" jdbcType="VARCHAR" />
     <result column="reserved_3" property="reserved3" jdbcType="VARCHAR" />

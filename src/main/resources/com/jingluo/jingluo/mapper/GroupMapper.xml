@@ -13,8 +13,11 @@
     <result column="class_id" property="classId" jdbcType="INTEGER" />
     <result column="group_name" property="groupName" jdbcType="VARCHAR" />
     <result column="group_info" property="groupInfo" jdbcType="VARCHAR" />
+    <result column="head_img" property="headImg" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="student_code" property="studentCode" jdbcType="VARCHAR" />
     <result column="stu_num" property="stuNum" jdbcType="INTEGER" />
+    <result column="is_public" property="isPublic" jdbcType="CHAR" />
     <result column="create_from" property="createFrom" jdbcType="CHAR" />
     <result column="reserved_1" property="reserved1" jdbcType="VARCHAR" />
     <result column="reserved_2" property="reserved2" jdbcType="VARCHAR" />

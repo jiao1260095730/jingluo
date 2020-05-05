@@ -6,7 +6,6 @@
     <id column="student_id" jdbcType="INTEGER" property="studentId" />
     <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
-    <result column="is_admin" jdbcType="CHAR" property="isAdmin" />
     <result column="student_code" jdbcType="VARCHAR" property="studentCode" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="name" jdbcType="VARCHAR" property="name" />
