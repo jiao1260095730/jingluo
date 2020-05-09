@@ -2,6 +2,7 @@ package com.jingluo.jingluo.service.impl;
 
 import com.jingluo.jingluo.dto.GroupDto;
 import com.jingluo.jingluo.dto.GroupStuId;
+import com.jingluo.jingluo.dto.TransferManagerDto;
 import com.jingluo.jingluo.entity.Class;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.entity.Student;
@@ -64,6 +65,8 @@ public class GroupServiceImpl implements GroupService {
                 group.setCreateFrom(groupDto.getCreateFrom());
                 //所在班级
                 group.setClassId(stu.getClassId());
+                //添加管理员
+                group.setStudentCode(stu.getStudentCode());
                 //团队成员加 1
                 group.setStuNum(1);
                 //创建时间
@@ -95,6 +98,7 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 删除团队
+     *
      * @param groupStuId
      * @return
      */
@@ -116,6 +120,7 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 删除团队中的成员
+     *
      * @param groupStuId
      * @return
      */
@@ -125,6 +130,7 @@ public class GroupServiceImpl implements GroupService {
             Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             //成员减一
             group.setStuNum(group.getStuNum() - 1);
+            groupMapper.updateByPrimaryKeySelective(group);
             groupMapper.deleteGroupMember(groupStuId.getStudentId());
             //删除学生信息里的团队id
             Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
@@ -139,18 +145,22 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 添加成员
+     *
      * @param groupStuId
      * @return
      */
     @Override
     public ResultInfo addGroupMember(GroupStuId groupStuId) {
         try {
+            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
+            student.setGroupId(groupStuId.getGroupId());
+            studentMapper.update(student);
             Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             StudentGroup sg = new StudentGroup();
             if (group != null) {
                 //成员加一
                 group.setStuNum(group.getStuNum() + 1);
-                groupMapper.updateByPrimaryKey(group);
+                groupMapper.updateByPrimaryKeySelective(group);
             } else {
                 return ResultInfo.fail("没有这个团队");
             }
@@ -169,6 +179,7 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 通过 班级名称 团队名称查询 团队
+     *
      * @param selectName
      * @param type
      * @return
@@ -199,6 +210,7 @@ public class GroupServiceImpl implements GroupService {
 
     /**
      * 修改团队信息
+     *
      * @param groupDto
      * @return
      */
@@ -213,6 +225,48 @@ public class GroupServiceImpl implements GroupService {
         } else {
             return ResultInfo.fail("修改失败");
         }
+    }
+
+    /**
+     * 转让管理员
+     * @param transferManagerDto
+     * @return
+     */
+    @Override
+    public ResultInfo transferManager(TransferManagerDto transferManagerDto) {
+
+        //根据老管理员获取学生信息
+        Student oldStudent = studentMapper.selectByCode(transferManagerDto.getOldAdministratorCode());
+        //根据老管理员获取这个团队信息
+        Group group = groupMapper.findGroupId(oldStudent.getGroupId());
+        //根基新管理员code 获取这个学生信息
+        Student xinStudent = studentMapper.selectByCode(transferManagerDto.getXinAdministratorCode());
+
+        //判断转让后是否退出
+        if (transferManagerDto.getType().equals("1")) {
+            //判断是否是管理员 如果是 && 新管理员是这个团队中的成员
+            if (group.getStudentCode().equals(transferManagerDto.getOldAdministratorCode()) && xinStudent.getGroupId().equals(group.getGroupId())) {
+                group.setStudentCode(transferManagerDto.getXinAdministratorCode());
+                groupMapper.updateByPrimaryKeySelective(group);
+                GroupStuId groupStuId = new GroupStuId();
+                groupStuId.setGroupId(group.getGroupId());
+                groupStuId.setStudentId(oldStudent.getStudentId());
+                groupStuId.setStudentCode(oldStudent.getStudentCode());
+                deleteGroupMember(groupStuId);
+            } else {
+                return ResultInfo.fail("不是管理员或新管理员不是团队成员,请正确操作");
+            }
+        } else {
+            //判断是否是管理员 如果是 && 新管理员是这个团队中的成员
+            if (group.getStudentCode().equals(transferManagerDto.getOldAdministratorCode()) && xinStudent.getGroupId().equals(group.getGroupId())) {
+                group.setStudentCode(transferManagerDto.getXinAdministratorCode());
+                groupMapper.updateByPrimaryKeySelective(group);
+            } else {
+                return ResultInfo.fail("请正确操作");
+            }
+        }
+
+        return ResultInfo.success("管理员转让成功");
     }
 
 }

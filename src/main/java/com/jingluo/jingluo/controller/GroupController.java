@@ -2,6 +2,7 @@ package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.dto.GroupDto;
 import com.jingluo.jingluo.dto.GroupStuId;
+import com.jingluo.jingluo.dto.TransferManagerDto;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.service.GroupService;
 import com.jingluo.jingluo.vo.ResultInfo;
@@ -41,7 +42,7 @@ public class GroupController {
 
     @ApiOperation(value = "删除团队中成员", notes = "删除团队中成员")
     @DeleteMapping("api/group/deleteGroupMember.do")
-    public ResultInfo deleteGroupMember(GroupStuId groupStuId) {
+    public ResultInfo deleteGroupMember(@RequestBody GroupStuId groupStuId) {
 
         return groupService.deleteGroupMember(groupStuId);
     }
@@ -60,4 +61,9 @@ public class GroupController {
         return groupService.updataGroup(groupDto);
     }
 
+    @ApiOperation(value = "转让管理员", notes = "转让管理员")
+    @PostMapping("api/group/transferManager.do")
+    public ResultInfo transferManager(@RequestBody TransferManagerDto transferManagerDto) {
+        return groupService.transferManager(transferManagerDto);
+    }
 }

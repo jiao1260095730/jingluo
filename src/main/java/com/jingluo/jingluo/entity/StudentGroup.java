@@ -5,6 +5,16 @@ public class StudentGroup {
     private Integer StudentId;
     private Integer GroupId;
 
+    private String isCollect;
+
+    public String getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(String isCollect) {
+        this.isCollect = isCollect;
+    }
+
     public Integer getStuGroId() {
         return StuGroId;
     }

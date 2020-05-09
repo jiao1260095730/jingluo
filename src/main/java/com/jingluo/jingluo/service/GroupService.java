@@ -2,6 +2,7 @@ package com.jingluo.jingluo.service;
 
 import com.jingluo.jingluo.dto.GroupDto;
 import com.jingluo.jingluo.dto.GroupStuId;
+import com.jingluo.jingluo.dto.TransferManagerDto;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.vo.ResultInfo;
@@ -25,4 +26,6 @@ public interface GroupService {
 
     //修改团队信息
     ResultInfo updataGroup(GroupDto groupDto);
+
+    ResultInfo transferManager(TransferManagerDto transferManagerDto);
 }
