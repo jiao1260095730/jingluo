@@ -51,9 +51,6 @@ public class Group {
      * @mbggenerated Sun Apr 12 14:02:13 CST 2020
      */
 
-    //
-    private String studentCode;
-
     private String groupName;
 
     /**
