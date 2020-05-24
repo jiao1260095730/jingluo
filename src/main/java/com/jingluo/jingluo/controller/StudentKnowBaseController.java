@@ -1,6 +1,7 @@
 package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.dto.KnowBaseCreateDto;
+import com.jingluo.jingluo.dto.KnowBaseShowDto;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
@@ -22,15 +23,15 @@ public class StudentKnowBaseController {
     @Autowired
     private KnowBaseService knowBaseService;
 
-//    @ApiOperation(value = "创建个人知识库", notes = "学生创建个人知识库" )
-//    @PostMapping("api/student/knowBase/createPersonKnowBase.do")
-//    public ResultInfo createPersonKnowBase(@RequestBody KnowBaseCreateDto dto) {
-//        return knowBaseService.createKnowBase(dto);
-//    }
-//
-//    @ApiOperation(value = "创建团队知识库", notes = "学生创建团队知识库" )
-//    @PostMapping("api/student/knowBase/createGroupKnowBase.do")
-//    public ResultInfo createGroupKnowBase(@RequestBody KnowBaseCreateDto dto) {
-//        return knowBaseService.createKnowBase(dto);
-//    }
+    @ApiOperation(value = "创建知识库", notes = "学生创建个人/团队知识库 createFrom字段： 1个人 2团队" )
+    @PostMapping("api/student/knowBase/createKnowBase.do")
+    public ResultInfo createPersonKnowBase(@RequestBody KnowBaseCreateDto dto) {
+        return knowBaseService.createKnowBase(dto);
+    }
+
+    @ApiOperation(value = "展示知识库列表", notes = "学生展示相关的所有知识库(个人和团队关联的知识库)" )
+    @PostMapping("api/student/knowBase/showAllKnowBase.do")
+    public ResultInfo showAllKnowBase(@RequestBody KnowBaseShowDto dto) {
+        return knowBaseService.showAllKnowBase(dto);
+    }
 }

@@ -1,6 +1,7 @@
 package com.jingluo.jingluo.service;
 
 import com.jingluo.jingluo.dto.KnowBaseCreateDto;
+import com.jingluo.jingluo.dto.KnowBaseShowDto;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
@@ -11,4 +12,6 @@ import com.jingluo.jingluo.vo.ResultInfo;
 public interface KnowBaseService {
 
     ResultInfo createKnowBase(KnowBaseCreateDto dto);
+
+    ResultInfo showAllKnowBase(KnowBaseShowDto dto);
 }

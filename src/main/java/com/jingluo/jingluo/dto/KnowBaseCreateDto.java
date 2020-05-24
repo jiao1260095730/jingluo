@@ -9,9 +9,7 @@ import lombok.Data;
  */
 @Data
 public class KnowBaseCreateDto {
-    //用户userCode
-    private String userCode;
-    //用户token
+    //用户token   可解析用户的userCode
     private String userToken;
     //创建来源 1个人 2团队 3教师通过课程创建
     private String createFrom;

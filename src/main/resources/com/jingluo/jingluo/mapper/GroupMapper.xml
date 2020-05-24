@@ -53,6 +53,16 @@
         select * from `group` where group_name = #{selectName}
   </select>
 
+    <select id="selectGroupByGroupId" resultMap="BaseResultMap">
+        select * from `group` where group_id = #{groupId}
+    </select>
+
+    <select id="selectAllGroupByUserCode" resultMap="BaseResultMap">
+        select c.* from student a, student_group b, `group` c
+        where a.student_id = b.student_id
+        and b.group_id = c.group_id
+        and a.student_code = #{userCode}
+    </select>
     <sql id="Example_Where_Clause">
         <!--
           WARNING - @mbggenerated

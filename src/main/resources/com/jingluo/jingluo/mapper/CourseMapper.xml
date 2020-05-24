@@ -20,6 +20,11 @@
     <result column="reserved_2" property="reserved2" jdbcType="VARCHAR" />
     <result column="reserved_3" property="reserved3" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="selectCourseByCourseId" resultMap="BaseResultMap">
+    select * from course where course_id = #{courseId}
+  </select>
+
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated

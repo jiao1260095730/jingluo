@@ -29,7 +29,7 @@ public class TeacherController {
 
     @ApiOperation(value = "工号登录", notes = "教师登录")
     @PostMapping("api/teacher/login.do")
-    public ResultInfo login(UserLoginDto userDto) {
+    public ResultInfo login(@RequestBody UserLoginDto userDto) {
         return userService.login(userDto, teaType);
     }
 

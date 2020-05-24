@@ -28,6 +28,16 @@
     <result column="reserved_2" property="reserved2" jdbcType="VARCHAR" />
     <result column="reserved_3" property="reserved3" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="selectKnowBasesByUserCode" resultMap="BaseResultMap">
+    select * from know_base where know_base.student_code = #{userCode}
+  </select>
+
+  <select id="selectKnowBasesByGroupId" resultMap="BaseResultMap">
+    select * from know_base where know_base.group_id = #{groupId}
+  </select>
+
+
   <sql id="Example_Where_Clause" >
     <!--
       WARNING - @mbggenerated
