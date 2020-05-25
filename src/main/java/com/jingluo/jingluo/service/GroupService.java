@@ -1,10 +1,8 @@
 package com.jingluo.jingluo.service;
 
-import com.jingluo.jingluo.dto.GroupDto;
-import com.jingluo.jingluo.dto.GroupStuId;
-import com.jingluo.jingluo.dto.TransferManagerDto;
-import com.jingluo.jingluo.entity.Group;
-import com.jingluo.jingluo.entity.Student;
+import com.jingluo.jingluo.dto.groupdto.GroupDto;
+import com.jingluo.jingluo.dto.groupdto.GroupStuId;
+import com.jingluo.jingluo.dto.groupdto.TransferManagerDto;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 public interface GroupService {

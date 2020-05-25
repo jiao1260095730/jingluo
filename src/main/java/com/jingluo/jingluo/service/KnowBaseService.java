@@ -1,7 +1,9 @@
 package com.jingluo.jingluo.service;
 
-import com.jingluo.jingluo.dto.KnowBaseCreateDto;
-import com.jingluo.jingluo.dto.KnowBaseShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.DirDocCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.DirectoryShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
@@ -14,4 +16,10 @@ public interface KnowBaseService {
     ResultInfo createKnowBase(KnowBaseCreateDto dto);
 
     ResultInfo showAllKnowBase(KnowBaseShowDto dto);
+
+    ResultInfo selectKnowBaseBykeys(String userToken, String keyWord);
+
+    ResultInfo createDirectory(DirDocCreateDto dto);
+
+    ResultInfo showAllDirectory(DirectoryShowDto dto);
 }

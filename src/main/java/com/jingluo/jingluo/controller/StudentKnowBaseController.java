@@ -1,7 +1,7 @@
 package com.jingluo.jingluo.controller;
 
-import com.jingluo.jingluo.dto.KnowBaseCreateDto;
-import com.jingluo.jingluo.dto.KnowBaseShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
@@ -34,4 +34,11 @@ public class StudentKnowBaseController {
     public ResultInfo showAllKnowBase(@RequestBody KnowBaseShowDto dto) {
         return knowBaseService.showAllKnowBase(dto);
     }
+
+    @ApiOperation(value = "根据关键字查询知识库", notes = "根据关键字查询知识库" )
+    @PostMapping("api/student/knowBase/selectKnowBaseBykeys.do")
+    public ResultInfo selectKnowBaseBykeys(String userToken, String keyWord) {
+        return knowBaseService.selectKnowBaseBykeys(userToken, keyWord);
+    }
+
 }

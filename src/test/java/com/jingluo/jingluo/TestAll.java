@@ -1,7 +1,12 @@
 package com.jingluo.jingluo;
 
-import com.jingluo.jingluo.dto.Page;
+import com.alibaba.fastjson.JSONObject;
+import com.jingluo.jingluo.common.LoggerCommon;
+import com.jingluo.jingluo.dto.commondto.Page;
+import com.jingluo.jingluo.dto.knowbasemodel.DirDocMsg;
+import com.jingluo.jingluo.service.KnowBaseService;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 
@@ -32,5 +37,65 @@ public class TestAll {
                 , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
 
         System.out.println(page);
+    }
+
+    //测试字符串包含
+    @Test
+    public void testContains() {
+        String name = "用户123123的知识库";
+        String keyWord = "用的知识库";
+        System.out.println(name.contains(keyWord));
+    }
+
+    //测试字符串解析
+    @Test
+    public void testStr() {
+        String json = "{\n" +
+                "\"firstMenu\":\n" +
+                "\t[\n" +
+                "\t\t{\n" +
+                "\t\t\t\"title\":\"11\",\n" +
+                "\t\t\t\"id\":\"1\"\n" +
+                "\t\t},\n" +
+                "\t\t{\n" +
+                "\t\t\t\"title\":\"22\",\n" +
+                "\t\t\t\"id\":\"2\"\n" +
+                "\t\t}\n" +
+                "\t],\n" +
+                "\"secondMenu\":\n" +
+                "\t[\n" +
+                "\t\t{\n" +
+                "\t\t\t\"title\":\"二级目录1\",\n" +
+                "\t\t\t\"id\":\"11\",\n" +
+                "\t\t\t\"parentId\":\"1\"\n" +
+                "\t\t},\n" +
+                "\t\t{\n" +
+                "\t\t\t\"title\":\"二级目录2\",\n" +
+                "\t\t\t\"id\":\"11\",\n" +
+                "\t\t\t\"parentId\":\"2\"\n" +
+                "\t\t}\n" +
+                "\t],\n" +
+                "\"docs\":\n" +
+                "\t[\n" +
+                "\t\t{\n" +
+                "\t\t\t\"title\":\"文档1\",\n" +
+                "\t\t\t\"id\":\"111\",\n" +
+                "\t\t\t\"parentId\":\"11\",\n" +
+                "\t\t\t\"createTime\":\"2020-3-11 11:11\",\n" +
+                "\t\t\t\"updateTime\":\"2020-3-12 12:12\",\n" +
+                "\t\t\t\"author\":\"高黎明\"\n" +
+                "\t\t},\n" +
+                "\t\t{\n" +
+                "\t\t\t\"title\":\"文档2\",\n" +
+                "\t\t\t\"id\":\"111\",\n" +
+                "\t\t\t\"parentId\":\"11\",\n" +
+                "\t\t\t\"createTime\":\"2020-3-11 11:11\",\n" +
+                "\t\t\t\"updateTime\":\"2020-3-12 12:12\",\n" +
+                "\t\t\t\"author\":\"高黎明\"\n" +
+                "\t\t}\n" +
+                "\t]\n" +
+                "}";
+        DirDocMsg dirDocMsg = JSONObject.parseObject(json, DirDocMsg.class);
+        LoggerCommon.info("转换后的实体：" + dirDocMsg);
     }
 }

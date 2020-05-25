@@ -1,7 +1,8 @@
 package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.common.UserType;
-import com.jingluo.jingluo.dto.*;
+import com.jingluo.jingluo.dto.userdto.*;
+import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.service.StudentService;
 import com.jingluo.jingluo.service.UserService;
 import com.jingluo.jingluo.vo.ResultInfo;
@@ -81,5 +82,12 @@ public class StudentController {
     public ResultInfo updateMsg(@RequestBody UserUpdateMsgDto dto) {
         return userService.updateMsg(dto, stuType);
     }
+
+    @ApiOperation(value = "添加学生", notes = "添加学生")
+    @PostMapping("api/student/insertStu.do")
+    public ResultInfo insertStu(@RequestBody Student dto) {
+        return studentService.insertStu(dto);
+    }
+
 }
 

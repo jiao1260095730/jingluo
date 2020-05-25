@@ -1,6 +1,6 @@
 package com.jingluo.jingluo.controller;
 
-import com.jingluo.jingluo.dto.KnowBaseCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;

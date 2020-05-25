@@ -1,18 +1,19 @@
 package com.jingluo.jingluo.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.SystemConfig;
-import com.jingluo.jingluo.dto.KnowBaseCreateDto;
-import com.jingluo.jingluo.dto.KnowBaseShowDto;
-import com.jingluo.jingluo.dto.Page;
-import com.jingluo.jingluo.entity.Course;
-import com.jingluo.jingluo.entity.Group;
-import com.jingluo.jingluo.entity.KnowBase;
-import com.jingluo.jingluo.entity.Student;
-import com.jingluo.jingluo.mapper.CourseMapper;
-import com.jingluo.jingluo.mapper.GroupMapper;
-import com.jingluo.jingluo.mapper.KnowBaseMapper;
-import com.jingluo.jingluo.mapper.StudentMapper;
+import com.jingluo.jingluo.dto.knowbasedto.DirDocCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.DirectoryShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
+import com.jingluo.jingluo.dto.commondto.Page;
+import com.jingluo.jingluo.dto.knowbasemodel.DirDocMsg;
+import com.jingluo.jingluo.dto.knowbasemodel.Docs;
+import com.jingluo.jingluo.dto.knowbasemodel.FirstMenu;
+import com.jingluo.jingluo.dto.knowbasemodel.SecondMenu;
+import com.jingluo.jingluo.entity.*;
+import com.jingluo.jingluo.mapper.*;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.utils.IdCode;
 import com.jingluo.jingluo.utils.TokenUtil;
@@ -43,6 +44,9 @@ public class KnowBaseServiceImpl implements KnowBaseService {
 
     @Autowired
     private CourseMapper courseMapper;
+
+    @Autowired
+    private DirectoryMapper directoryMapper;
 
     /**
      * 创建知识库
@@ -132,20 +136,8 @@ public class KnowBaseServiceImpl implements KnowBaseService {
                 LoggerCommon.error("登录已失效，请重新登陆");
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
-            //创建总的知识库列表
-            List<KnowBase> resultKB = new ArrayList<>();
-            //查询个人下所有知识库
-            List<KnowBase> knowBases1 = knowBaseMapper.selectKnowBasesByUserCode(userCode);
-            List<KnowBase> knowBases2 = new ArrayList<>();
-            //查询个人相关的团队的知识库
-            List<Group> groups = groupMapper.selectAllGroupByUserCode(userCode);
-            for (Group group : groups) {
-                //遍历所有团队下相关的知识库
-                knowBases2.addAll(knowBaseMapper.selectKnowBasesByGroupId(group.getGroupId()));
-            }
-            //汇总查询结果
-            resultKB.addAll(knowBases1);
-            resultKB.addAll(knowBases2);
+
+            List<KnowBase> resultKB = getKnowBases(userCode);
 
             //实现分页功能
             Page page = new Page();
@@ -160,10 +152,102 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             page.setDataList(resultKB.subList(page.getStar()
                     , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
 
+            LoggerCommon.info("查询成功，集合：" + page.getDataList());
             return ResultInfo.success(page);
         } catch (Exception e) {
             LoggerCommon.error("出现异常");
             return ResultInfo.fail("出现异常, 查询失败");
         }
+    }
+
+    //提取方法，获取学生个人和团队相关的知识库集合
+    private List<KnowBase> getKnowBases(String userCode) {
+        //创建总的知识库列表
+        List<KnowBase> resultKB = new ArrayList<>();
+        //查询个人下所有知识库
+        List<KnowBase> knowBases1 = knowBaseMapper.selectKnowBasesByUserCode(userCode);
+        List<KnowBase> knowBases2 = new ArrayList<>();
+        //查询个人相关的团队的知识库
+        List<Group> groups = groupMapper.selectAllGroupByUserCode(userCode);
+        for (Group group : groups) {
+            //遍历所有团队下相关的知识库
+            knowBases2.addAll(knowBaseMapper.selectKnowBasesByGroupId(group.getGroupId()));
+        }
+        //汇总查询结果
+        resultKB.addAll(knowBases1);
+        resultKB.addAll(knowBases2);
+        return resultKB;
+    }
+
+    //模糊查询知识库
+    @Override
+    public ResultInfo selectKnowBaseBykeys(String userToken, String keyWord) {
+        try {
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            List<KnowBase> resultKB = new ArrayList<>();
+            List<KnowBase> knowBases1 = knowBaseMapper.selectKBByUserCodeAndKeyWord(userCode, keyWord);
+            List<KnowBase> knowBases2 = new ArrayList<>();
+            List<Group> groups = groupMapper.selectAllGroupByUserCode(userCode);
+            for (Group group : groups) {
+                //遍历所有团队下相关的知识库
+                knowBases2.addAll(knowBaseMapper.selectKBByGroupIdAndKeyWord(group.getGroupId(), keyWord));
+            }
+            resultKB.addAll(knowBases1);
+            resultKB.addAll(knowBases2);
+
+            LoggerCommon.info("查询成功，集合：" + resultKB);
+            return ResultInfo.success(resultKB);
+        } catch (Exception e) {
+            LoggerCommon.error("出现异常");
+            return ResultInfo.fail("出现异常, 查询失败");
+        }
+    }
+
+    @Override
+    public ResultInfo createDirectory(DirDocCreateDto dto) {
+        String userToken = dto.getUserToken();
+        String userCode = TokenUtil.getUserCodeFormToken(userToken);
+        //校验token是否失效
+        if (TokenUtil.tokenValidate(userToken, userCode)) {
+            LoggerCommon.error("登录已失效，请重新登陆");
+            return ResultInfo.fail("登录已失效，请重新登陆");
+        }
+        //获取知识库id
+        Integer knowBaseId = dto.getKnowBaseId();
+        //获取json串
+        String json = dto.getDirDocMsgJson();
+        DirDocMsg dirDocMsg = JSONObject.parseObject(json, DirDocMsg.class);
+        LoggerCommon.info("转换后的实体：" + dirDocMsg);
+        //获取每个子对象集合
+        List<FirstMenu> firstMenu = dirDocMsg.getFirstMenu();
+        List<SecondMenu> secondMenu = dirDocMsg.getSecondMenu();
+        List<Docs> docs = dirDocMsg.getDocs();
+        for (FirstMenu menu : firstMenu) {
+            Directory directory = new Directory();
+            //设置业务主键为传入的id
+            directory.setDirId(Integer.valueOf(menu.getId()));
+            //设置目录中的知识库id
+            directory.setBaseId(knowBaseId);
+            directory.setParentId(0);
+            directory.setDirTitle(menu.getTitle());
+            if (directoryMapper.insert(directory) == 0) {
+                LoggerCommon.info("目录表dir_id为：" + menu.getId() + "的目录插入目录表成功");
+            }
+            LoggerCommon.error("一级目录落表失败");
+        }
+
+        return null;
+    }
+
+    //展示选定知识库下所有文档
+    @Override
+    public ResultInfo showAllDirectory(DirectoryShowDto dto) {
+
+        return null;
     }
 }

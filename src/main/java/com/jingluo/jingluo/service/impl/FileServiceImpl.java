@@ -1,7 +1,7 @@
 package com.jingluo.jingluo.service.impl;
 
 import com.jingluo.jingluo.common.LoggerCommon;
-import com.jingluo.jingluo.dto.OssBeanDto;
+import com.jingluo.jingluo.dto.commondto.OssBeanDto;
 import com.jingluo.jingluo.exception.MyException;
 import com.jingluo.jingluo.service.FileService;
 import com.jingluo.jingluo.utils.IdGenerator;

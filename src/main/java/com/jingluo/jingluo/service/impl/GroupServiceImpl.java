@@ -1,8 +1,8 @@
 package com.jingluo.jingluo.service.impl;
 
-import com.jingluo.jingluo.dto.GroupDto;
-import com.jingluo.jingluo.dto.GroupStuId;
-import com.jingluo.jingluo.dto.TransferManagerDto;
+import com.jingluo.jingluo.dto.groupdto.GroupDto;
+import com.jingluo.jingluo.dto.groupdto.GroupStuId;
+import com.jingluo.jingluo.dto.groupdto.TransferManagerDto;
 import com.jingluo.jingluo.entity.Class;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.entity.Student;
@@ -14,7 +14,6 @@ import com.jingluo.jingluo.service.GroupService;
 import com.jingluo.jingluo.utils.IdCode;
 import com.jingluo.jingluo.vo.ResultInfo;
 
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

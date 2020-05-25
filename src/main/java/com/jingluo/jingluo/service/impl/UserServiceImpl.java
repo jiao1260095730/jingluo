@@ -4,7 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.RedisConfig;
 import com.jingluo.jingluo.config.SystemConfig;
-import com.jingluo.jingluo.dto.*;
+import com.jingluo.jingluo.dto.userdto.*;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.mapper.TeacherMapper;
 import com.jingluo.jingluo.entity.Student;

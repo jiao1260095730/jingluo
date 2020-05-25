@@ -1,5 +1,6 @@
 package com.jingluo.jingluo.service;
 
+import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
@@ -10,4 +11,6 @@ import com.jingluo.jingluo.vo.ResultInfo;
 public interface StudentService {
 
     ResultInfo selectAll();
+
+    ResultInfo insertStu(Student dto);
 }

@@ -7,7 +7,7 @@ public class NumberUtilTest {
     @Test
     public void testMD5() {
 
-        String password = "520029bly-=0";
+        String password = "123456";
         System.out.println(NumberUtil.getMd5Str(password));
     }
 

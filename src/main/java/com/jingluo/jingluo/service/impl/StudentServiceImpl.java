@@ -4,6 +4,7 @@ import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.service.StudentService;
+import com.jingluo.jingluo.utils.NumberUtil;
 import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,5 +27,15 @@ public class StudentServiceImpl implements StudentService {
         List<Student> students = dao.selectAll();
         LoggerCommon.info("查询出的所有学生：" + students);
         return ResultInfo.success(students);
+    }
+
+    @Override
+    public ResultInfo insertStu(Student dto) {
+        dto.setPassword(NumberUtil.getMd5Str(dto.getPassword()));
+        int insert = dao.insert(dto);
+        if (insert > 0) {
+            return ResultInfo.success("添加成功");
+        }
+        return ResultInfo.fail("添加失败");
     }
 }
