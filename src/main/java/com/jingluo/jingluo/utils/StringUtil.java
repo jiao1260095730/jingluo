@@ -1,5 +1,9 @@
 package com.jingluo.jingluo.utils;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @Description TODO
  * @Author 焦斌
@@ -15,5 +19,10 @@ public class StringUtil {
             }
         }
         return r;
+    }
+
+    public static String dateFormat(Date date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(date);
     }
 }

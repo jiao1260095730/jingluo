@@ -19,7 +19,7 @@ public interface KnowBaseService {
 
     ResultInfo selectKnowBaseBykeys(String userToken, String keyWord);
 
-    ResultInfo createDirectory(DirDocCreateDto dto);
+    ResultInfo createDirAndDoc(DirDocCreateDto dto);
 
-    ResultInfo showAllDirectory(DirectoryShowDto dto);
+    ResultInfo showAllDirAndDoc(DirectoryShowDto dto);
 }

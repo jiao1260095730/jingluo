@@ -9,10 +9,10 @@ import lombok.Data;
  */
 @Data
 public class SecondMenu {
-
+    //二级目录标题
     private String title;
-
+    //二级目录业务id
     private String id;
-
+    //二级目录父级目录id
     private String parentId;
 }

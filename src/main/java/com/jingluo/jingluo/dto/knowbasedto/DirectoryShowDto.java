@@ -9,7 +9,8 @@ import lombok.Data;
  */
 @Data
 public class DirectoryShowDto {
-    //用户userCode
-    private String userCode;
-
+    //用户userToken
+    private String userToken;
+    //知识库id
+    private Integer knowBaseId;
 }

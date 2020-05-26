@@ -16,10 +16,12 @@ import com.jingluo.jingluo.entity.*;
 import com.jingluo.jingluo.mapper.*;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.utils.IdCode;
+import com.jingluo.jingluo.utils.StringUtil;
 import com.jingluo.jingluo.utils.TokenUtil;
 import com.jingluo.jingluo.vo.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +33,7 @@ import java.util.List;
  * @Date 2020/5/2 17:24
  */
 @Component
+@Transactional
 public class KnowBaseServiceImpl implements KnowBaseService {
 
     @Autowired
@@ -47,6 +50,9 @@ public class KnowBaseServiceImpl implements KnowBaseService {
 
     @Autowired
     private DirectoryMapper directoryMapper;
+
+    @Autowired
+    private KnowDocMapper knowDocMapper;
 
     /**
      * 创建知识库
@@ -209,7 +215,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
     }
 
     @Override
-    public ResultInfo createDirectory(DirDocCreateDto dto) {
+    public ResultInfo createDirAndDoc(DirDocCreateDto dto) {
         String userToken = dto.getUserToken();
         String userCode = TokenUtil.getUserCodeFormToken(userToken);
         //校验token是否失效
@@ -227,6 +233,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
         List<FirstMenu> firstMenu = dirDocMsg.getFirstMenu();
         List<SecondMenu> secondMenu = dirDocMsg.getSecondMenu();
         List<Docs> docs = dirDocMsg.getDocs();
+        //遍历一级目录对象
         for (FirstMenu menu : firstMenu) {
             Directory directory = new Directory();
             //设置业务主键为传入的id
@@ -235,19 +242,125 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             directory.setBaseId(knowBaseId);
             directory.setParentId(0);
             directory.setDirTitle(menu.getTitle());
-            if (directoryMapper.insert(directory) == 0) {
-                LoggerCommon.info("目录表dir_id为：" + menu.getId() + "的目录插入目录表成功");
+            if (directoryMapper.insert(directory) != 0) {
+                LoggerCommon.info("以及目录  目录表dir_id为：" + menu.getId() + "的目录插入目录表成功");
             }
             LoggerCommon.error("一级目录落表失败");
         }
+        //遍历二级目录对象
+        for (SecondMenu menu : secondMenu) {
+            Directory directory = new Directory();
+            //设置业务主键为传入的id
+            directory.setDirId(Integer.valueOf(menu.getId()));
 
-        return null;
+            //directory.setBaseId(knowBaseId);  二级目录不能关联知识库
+            directory.setParentId(0);
+            directory.setDirTitle(menu.getTitle());
+            directory.setParentId(Integer.valueOf(menu.getParentId()));
+            if (directoryMapper.insert(directory) != 0) {
+                LoggerCommon.info("二级目录  目录表dir_id为：" + menu.getId() + "的目录插入目录表成功");
+            }
+            LoggerCommon.error("二级目录落表失败");
+        }
+        //遍历文档对象
+        for (Docs doc : docs) {
+            KnowDoc knowDoc = new KnowDoc();
+            //业务主键
+            knowDoc.setDocId(Integer.valueOf(doc.getId()));
+            //knowDoc.setBaseId();    暂时不设置文档直属于知识库的情况
+            knowDoc.setDirId(Integer.valueOf(doc.getId()));
+            knowDoc.setAuthorId(Integer.valueOf(doc.getAuthorId()));
+            knowDoc.setAuthorName(doc.getAuthor());
+            //文章标题
+            knowDoc.setDocTitle(doc.getTitle());
+            //文章内容
+            knowDoc.setDocArticle(doc.getArticle());
+            //更新时间
+            knowDoc.setUpdateTime(new Date());
+            knowDoc.setCreateTime(new Date());
+            knowDoc.setReadNum(1);
+            knowDoc.setYestNum(0);
+            knowDoc.setCollectNum(0);
+            knowDoc.setAttNum(0);
+            knowDoc.setIsDelete("0");
+            if (knowDocMapper.insert(knowDoc) != 0) {
+                LoggerCommon.info("文档doc_id为：" + doc.getId() + "的文档插入文档表成功");
+            }
+            LoggerCommon.error("文档表落表失败");
+        }
+        return ResultInfo.success("目录和文档入表成功");
     }
 
     //展示选定知识库下所有文档
     @Override
-    public ResultInfo showAllDirectory(DirectoryShowDto dto) {
+    public ResultInfo showAllDirAndDoc(DirectoryShowDto dto) {
+        try {
+            String userToken = dto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            Integer knowBaseId = dto.getKnowBaseId();
+            //查询所有以及目录对象
+            List<Directory> firstDirs = directoryMapper.selectAllFirstDirs(knowBaseId);
+            //通过一级目录id查询二级目录对象
+            List<Directory> secondDirs = new ArrayList<>();
+            for (Directory directory : firstDirs) {
+                Integer dirId = directory.getDirId();
+                List<Directory> directories = directoryMapper.selectAllSecondDirs(dirId);
+                secondDirs.addAll(directories);
+            }
+            List<KnowDoc> knowDocs = new ArrayList<>();
+            for (Directory secondDir : secondDirs) {
+                Integer dirId = secondDir.getDirId();
+                List<KnowDoc> knowDocs1 = directoryMapper.selectAllDocs(dirId);
+                knowDocs.addAll(knowDocs1);
+            }
 
-        return null;
+            //创建返回对象的model
+            DirDocMsg dirDocMsg = new DirDocMsg();
+
+            List<FirstMenu> firstMenus = new ArrayList<>();
+            for (Directory firstDir : firstDirs) {
+                FirstMenu firstMenu = new FirstMenu();
+                firstMenu.setId(firstDir.getDirId() + "");
+                firstMenu.setTitle(firstDir.getDirTitle());
+                firstMenus.add(firstMenu);
+            }
+            dirDocMsg.setFirstMenu(firstMenus);
+
+            List<SecondMenu> secondMenus = new ArrayList<>();
+            for (Directory secondDir : secondDirs) {
+                SecondMenu secondMenu = new SecondMenu();
+                secondMenu.setId(secondDir.getDirId() + "");
+                secondMenu.setTitle(secondDir.getDirTitle());
+                secondMenu.setParentId(secondDir.getParentId() + "");
+                secondMenus.add(secondMenu);
+            }
+            dirDocMsg.setSecondMenu(secondMenus);
+
+            List<Docs> docses = new ArrayList<>();
+            for (KnowDoc knowDoc : knowDocs) {
+                Docs docs = new Docs();
+                docs.setId(knowDoc.getDocId() + "");
+                docs.setTitle(knowDoc.getDocTitle());
+                docs.setAuthor(knowDoc.getAuthorName());
+                docs.setParentId(knowDoc.getDirId() + "");
+                docs.setCreatTime(StringUtil.dateFormat(knowDoc.getCreateTime()));
+                docs.setUpdateTime(StringUtil.dateFormat(knowDoc.getUpdateTime()));
+                docs.setAuthorId(knowDoc.getAuthorId() + "");
+                docs.setArticle(knowDoc.getDocArticle());
+                docses.add(docs);
+            }
+            dirDocMsg.setDocs(docses);
+            String json = (String)JSONObject.toJSON(dirDocMsg);
+
+            return ResultInfo.success("查询成功", json);
+        } catch (Exception e) {
+            LoggerCommon.error("查询目录文档异常");
+            return ResultInfo.fail("查询目录文档异常");
+        }
     }
 }

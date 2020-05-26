@@ -1,5 +1,7 @@
 package com.jingluo.jingluo.controller;
 
+import com.jingluo.jingluo.dto.knowbasedto.DirDocCreateDto;
+import com.jingluo.jingluo.dto.knowbasedto.DirectoryShowDto;
 import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
 import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
 import com.jingluo.jingluo.service.KnowBaseService;
@@ -41,4 +43,15 @@ public class StudentKnowBaseController {
         return knowBaseService.selectKnowBaseBykeys(userToken, keyWord);
     }
 
+    @ApiOperation(value = "创建目录和文档", notes = "创建目录和文档" )
+    @PostMapping("api/student/knowBase/createDirAndDoc.do")
+    public ResultInfo createDirAndDoc(DirDocCreateDto dto) {
+        return knowBaseService.createDirAndDoc(dto);
+    }
+
+    @ApiOperation(value = "查询目录文档", notes = "查询目录文档" )
+    @PostMapping("api/student/knowBase/showAllDirAndDoc.do")
+    public ResultInfo showAllDirAndDoc(DirectoryShowDto dto) {
+        return knowBaseService.showAllDirAndDoc(dto);
+    }
 }
