@@ -27,7 +27,7 @@ public class FileController {
 
     @PostMapping("api/file/uploadImg.do")
     @ApiOperation(value = "上传图片到服务器", notes = "上传图片")
-    public ResultInfo uploadImg(@RequestParam MultipartFile file) {
+    public ResultInfo uploadImg(@RequestParam MultipartFile file, String ossImgObjectName) {
         //SystemConfig.OSS_IMG_OBJECT_NAME   图片存储文件夹 img-1
         return service.uploadImg(file, SystemConfig.OSS_IMG_OBJECT_NAME);
     }

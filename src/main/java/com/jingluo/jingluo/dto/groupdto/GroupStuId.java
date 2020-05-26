@@ -10,4 +10,6 @@ public class GroupStuId {
     private Integer StudentId;
     //学生账号
     private String StudentCode;
+    //用户
+    private String userToken;
 }
