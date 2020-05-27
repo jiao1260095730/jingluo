@@ -1,13 +1,12 @@
 package com.jingluo.jingluo.service.impl;
 
-
+import com.jingluo.jingluo.controller.FileController;
+import com.jingluo.jingluo.dto.SelectGroupDto;
 import com.jingluo.jingluo.dto.commondto.Page;
 import com.jingluo.jingluo.dto.groupdto.GroupDto;
 import com.jingluo.jingluo.dto.groupdto.GroupStuId;
 import com.jingluo.jingluo.dto.groupdto.TransferManagerDto;
 import com.jingluo.jingluo.common.LoggerCommon;
-import com.jingluo.jingluo.controller.FileController;
-import com.jingluo.jingluo.dto.*;
 import com.jingluo.jingluo.entity.Class;
 import com.jingluo.jingluo.entity.Group;
 import com.jingluo.jingluo.entity.Student;
@@ -38,8 +37,6 @@ public class GroupServiceImpl implements GroupService {
     private StudentMapper studentMapper;
     @Autowired
     private ClassMapper classMapper;
-    @Autowired
-    public FileController fileController;
     /**
      * 创建团队
      * @param groupDto
@@ -93,10 +90,8 @@ public class GroupServiceImpl implements GroupService {
                 sg.setStuGroId(IdCode.id());
                 int count = groupMapper.insertGroupStudent(sg);
 
-                //学生信息添加团队id
-                stu.setGroupId(group.getGroupId());
-                int insert = studentMapper.update(stu);
-                if (count == 1 && count2 == 1 && insert == 1) {
+
+                if (count == 1 && count2 == 1 ) {
                     return ResultInfo.success("团队创建成功");
                 } else {
                     return ResultInfo.fail("团队创建失败");
@@ -128,11 +123,8 @@ public class GroupServiceImpl implements GroupService {
             }
             int count = groupMapper.deleteGroup(groupStuId.getGroupId());
             int count2 = groupMapper.deleteStudentGroup(groupStuId.getGroupId());
-            //删除学生信息里的团队id
-            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
-            student.setGroupId(0);
-            int count3 = studentMapper.update(student);
-            if (count == 1 && count2 == 1 && count3 == 1) {
+
+            if (count == 1 && count2 == 1 ) {
                 return ResultInfo.success("删除成功");
             } else {
                 return ResultInfo.fail("删除失败");
@@ -165,10 +157,7 @@ public class GroupServiceImpl implements GroupService {
             group.setStuNum(group.getStuNum() - 1);
             groupMapper.updateByPrimaryKeySelective(group);
             groupMapper.deleteGroupMember(groupStuId.getStudentId());
-            //删除学生信息里的团队id
-            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
-            student.setGroupId(0);
-            studentMapper.update(student);
+
             return ResultInfo.success("删除成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,9 +182,6 @@ public class GroupServiceImpl implements GroupService {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
 
-            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
-            student.setGroupId(groupStuId.getGroupId());
-            studentMapper.update(student);
             Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             StudentGroup sg = new StudentGroup();
             if (group != null) {
@@ -233,14 +219,14 @@ public class GroupServiceImpl implements GroupService {
                 LoggerCommon.error("登录已失效，请重新登陆");
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
+            //实现分页功能
+            Page page = new Page();
             // 0 表示班级名称
             if (selectGroupDto.getType().equals("0")) {
                 Class aClass = classMapper.selectById(selectGroupDto.getSelevtName());
                 List<Group> group = groupMapper.selectGroupByClassId(aClass.getClassId());
                 if (group != null) {
 
-                    //实现分页功能
-                    Page page = new Page();
                     page.setCurrentPage(selectGroupDto.getPage());
                     //每页的开始数
                     page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
@@ -260,8 +246,7 @@ public class GroupServiceImpl implements GroupService {
             if (selectGroupDto.getType().equals("1")) {
                 List<Group>  group = groupMapper.selectGroupByGroupName(selectGroupDto.getSelevtName());
                 if (group != null) {
-                    //实现分页功能
-                    Page page = new Page();
+
                     page.setCurrentPage(selectGroupDto.getPage());
                     //每页的开始数
                     page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
@@ -280,7 +265,7 @@ public class GroupServiceImpl implements GroupService {
             //查询全部
             if (selectGroupDto.getType().equals("2")){
                 List<Group> AllGroup = groupMapper.selectAllGroup();
-                Page page = new Page();
+
                 page.setCurrentPage(selectGroupDto.getPage());
                 //每页的开始数
                 page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
@@ -293,7 +278,7 @@ public class GroupServiceImpl implements GroupService {
                         , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
                 return ResultInfo.success("查询成功", page);
             }
-            return ResultInfo.fail("查询失败,请正确输入要搜索的名称");
+            return ResultInfo.fail("查询失败");
         } catch (Exception e) {
             e.printStackTrace();
             return  ResultInfo.fail("查询失败哦");

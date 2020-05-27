@@ -24,11 +24,12 @@
         <result column="reserved_2" property="reserved2" jdbcType="VARCHAR"/>
         <result column="reserved_3" property="reserved3" jdbcType="VARCHAR"/>
     </resultMap>
+
     <insert id="insertGroupStudent" parameterType="com.jingluo.jingluo.entity.StudentGroup">
     INSERT  INTO student_group(stu_gro_id,student_id,group_id)VALUES (#{StuGroId}, #{StudentId}, #{GroupId})
   </insert>
 
-    <select id="selectAllGroup" parameterMap="BaseResultMap">
+    <select id="selectAllGroup" resultMap="BaseResultMap">
       select * from `group`
     </select>
 
@@ -53,7 +54,7 @@
   </select>
 
     <select id="selectGroupByGroupName" resultMap="BaseResultMap">
-        select * from `group` where group_name = #{selectName}
+        select * from `group` where group_name LIKE "%"#{selectName}
   </select>
 
     <select id="selectGroupByGroupId" resultMap="BaseResultMap">
