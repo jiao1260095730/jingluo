@@ -30,21 +30,25 @@
     </resultMap>
 
     <select id="selectKnowBasesByUserCode" resultMap="BaseResultMap">
-    select * from know_base where know_base.student_code = #{userCode}
-  </select>
+        select * from know_base where know_base.student_code = #{userCode}
+        and is_delete = '0'
+    </select>
 
     <select id="selectKnowBasesByGroupId" resultMap="BaseResultMap">
-    select * from know_base where know_base.group_id = #{groupId}
-  </select>
+        select * from know_base where know_base.group_id = #{groupId}
+        and is_delete = '0'
+    </select>
 
     <select id="selectKBByUserCodeAndKeyWord" resultMap="BaseResultMap">
-    select * from know_base where know_base.student_code = #{userCode}
-    and know_base.base_name like concat('%',#{keyWord},'%')
+        select * from know_base where know_base.student_code = #{userCode}
+        and know_base.base_name like concat('%',#{keyWord},'%')
+        and is_delete = '0'
   </select>
 
     <select id="selectKBByGroupIdAndKeyWord" resultMap="BaseResultMap">
         select * from know_base where know_base.group_id = #{groupId}
         and know_base.base_name like concat('%',#{keyWord},'%')
+         and is_delete = '0'
     </select>
 
 

@@ -3,10 +3,7 @@ package com.jingluo.jingluo.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.config.SystemConfig;
-import com.jingluo.jingluo.dto.knowbasedto.DirDocCreateDto;
-import com.jingluo.jingluo.dto.knowbasedto.DirectoryShowDto;
-import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
-import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.*;
 import com.jingluo.jingluo.dto.commondto.Page;
 import com.jingluo.jingluo.dto.knowbasemodel.DirDocMsg;
 import com.jingluo.jingluo.dto.knowbasemodel.Docs;
@@ -226,6 +223,9 @@ public class KnowBaseServiceImpl implements KnowBaseService {
         //获取知识库id
         Integer knowBaseId = dto.getKnowBaseId();
         //获取json串
+        /*String jsonStr = dto.getDirDocMsgJson();
+        JSONObject json =  JSON.parseObject(jsonStr);
+        DirDocMsg dirDocMsg = JSONObject.toJavaObject(json, DirDocMsg.class);*/
         String json = dto.getDirDocMsgJson();
         DirDocMsg dirDocMsg = JSONObject.parseObject(json, DirDocMsg.class);
         LoggerCommon.info("转换后的实体：" + dirDocMsg);
@@ -244,8 +244,9 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             directory.setDirTitle(menu.getTitle());
             if (directoryMapper.insert(directory) != 0) {
                 LoggerCommon.info("以及目录  目录表dir_id为：" + menu.getId() + "的目录插入目录表成功");
+            } else {
+                LoggerCommon.error("一级目录落表失败");
             }
-            LoggerCommon.error("一级目录落表失败");
         }
         //遍历二级目录对象
         for (SecondMenu menu : secondMenu) {
@@ -259,8 +260,9 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             directory.setParentId(Integer.valueOf(menu.getParentId()));
             if (directoryMapper.insert(directory) != 0) {
                 LoggerCommon.info("二级目录  目录表dir_id为：" + menu.getId() + "的目录插入目录表成功");
+            } else {
+                LoggerCommon.error("二级目录落表失败");
             }
-            LoggerCommon.error("二级目录落表失败");
         }
         //遍历文档对象
         for (Docs doc : docs) {
@@ -285,8 +287,9 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             knowDoc.setIsDelete("0");
             if (knowDocMapper.insert(knowDoc) != 0) {
                 LoggerCommon.info("文档doc_id为：" + doc.getId() + "的文档插入文档表成功");
+            } else {
+                LoggerCommon.error("文档表落表失败");
             }
-            LoggerCommon.error("文档表落表失败");
         }
         return ResultInfo.success("目录和文档入表成功");
     }
@@ -315,7 +318,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             List<KnowDoc> knowDocs = new ArrayList<>();
             for (Directory secondDir : secondDirs) {
                 Integer dirId = secondDir.getDirId();
-                List<KnowDoc> knowDocs1 = directoryMapper.selectAllDocs(dirId);
+                List<KnowDoc> knowDocs1 = knowDocMapper.selectAllDocs(dirId);
                 knowDocs.addAll(knowDocs1);
             }
 
@@ -355,12 +358,31 @@ public class KnowBaseServiceImpl implements KnowBaseService {
                 docses.add(docs);
             }
             dirDocMsg.setDocs(docses);
-            String json = (String)JSONObject.toJSON(dirDocMsg);
+            //String json = (String)JSONObject.toJSON(dirDocMsg);
+            String json = JSONObject.toJSONStringWithDateFormat(dirDocMsg, "yyyy-MM-dd HH:mm:ss");
 
             return ResultInfo.success("查询成功", json);
         } catch (Exception e) {
             LoggerCommon.error("查询目录文档异常");
             return ResultInfo.fail("查询目录文档异常");
         }
+    }
+
+    @Override
+    public ResultInfo delOneDoc(DocDeleteDto dto) {
+        Integer docId = dto.getDocId();
+        String userToken = dto.getUserToken();
+        String userCode = TokenUtil.getUserCodeFormToken(userToken);
+        //校验token是否失效
+        if (TokenUtil.tokenValidate(userToken, userCode)) {
+            LoggerCommon.error("登录已失效，请重新登陆");
+            return ResultInfo.fail("登录已失效，请重新登陆");
+        }
+
+        if (knowDocMapper.deleteOneDoc(docId) != 1) {
+            LoggerCommon.error("更新文档删除标志失败");
+            return ResultInfo.fail("更新文档删除标志失败");
+        }
+        return ResultInfo.success("删除成功");
     }
 }

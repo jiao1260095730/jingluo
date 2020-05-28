@@ -1,9 +1,6 @@
 package com.jingluo.jingluo.service;
 
-import com.jingluo.jingluo.dto.knowbasedto.DirDocCreateDto;
-import com.jingluo.jingluo.dto.knowbasedto.DirectoryShowDto;
-import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
-import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.*;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
@@ -22,4 +19,6 @@ public interface KnowBaseService {
     ResultInfo createDirAndDoc(DirDocCreateDto dto);
 
     ResultInfo showAllDirAndDoc(DirectoryShowDto dto);
+
+    ResultInfo delOneDoc(DocDeleteDto dto);
 }

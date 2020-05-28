@@ -17,17 +17,14 @@
     <result column="reserved_3" property="reserved3" jdbcType="VARCHAR" />
   </resultMap>
 
-  <select id="selectAllFirstDirs" resultMap="BaseResultMap">
-    select * from directory where base_id = #{baseId}
-  </select>
+    <select id="selectAllFirstDirs" resultMap="BaseResultMap">
+        select * from directory where base_id = #{baseId}
+    </select>
 
-  <select id="selectAllSecondDirs" resultMap="BaseResultMap">
-      select * from directory where parent_id = #{dirId}
-  </select>
+    <select id="selectAllSecondDirs" resultMap="BaseResultMap">
+        select * from directory where parent_id = #{dirId}
+    </select>
 
-  <select id="selectAllDocs" resultMap="BaseResultMap">
-      select * from know_doc where dir_id = #{dirId}
-  </select>
 
 
   <sql id="Example_Where_Clause" >

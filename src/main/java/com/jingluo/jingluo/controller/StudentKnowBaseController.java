@@ -1,9 +1,6 @@
 package com.jingluo.jingluo.controller;
 
-import com.jingluo.jingluo.dto.knowbasedto.DirDocCreateDto;
-import com.jingluo.jingluo.dto.knowbasedto.DirectoryShowDto;
-import com.jingluo.jingluo.dto.knowbasedto.KnowBaseCreateDto;
-import com.jingluo.jingluo.dto.knowbasedto.KnowBaseShowDto;
+import com.jingluo.jingluo.dto.knowbasedto.*;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
@@ -51,7 +48,13 @@ public class StudentKnowBaseController {
 
     @ApiOperation(value = "查询目录文档", notes = "查询目录文档" )
     @PostMapping("api/student/knowBase/showAllDirAndDoc.do")
-    public ResultInfo showAllDirAndDoc(DirectoryShowDto dto) {
+    public ResultInfo showAllDirAndDoc(@RequestBody DirectoryShowDto dto) {
         return knowBaseService.showAllDirAndDoc(dto);
+    }
+
+    @ApiOperation(value = "删除一个文档", notes = "删除一个文档" )
+    @PostMapping("api/student/knowBase/delOneDoc.do")
+    public ResultInfo delOneDoc(@RequestBody DocDeleteDto dto) {
+        return knowBaseService.delOneDoc(dto);
     }
 }
