@@ -31,25 +31,31 @@
 
     <select id="selectKnowBasesByUserCode" resultMap="BaseResultMap">
         select * from know_base where know_base.student_code = #{userCode}
-        and is_delete = '0'
     </select>
 
     <select id="selectKnowBasesByGroupId" resultMap="BaseResultMap">
         select * from know_base where know_base.group_id = #{groupId}
-        and is_delete = '0'
     </select>
 
     <select id="selectKBByUserCodeAndKeyWord" resultMap="BaseResultMap">
         select * from know_base where know_base.student_code = #{userCode}
         and know_base.base_name like concat('%',#{keyWord},'%')
-        and is_delete = '0'
   </select>
 
     <select id="selectKBByGroupIdAndKeyWord" resultMap="BaseResultMap">
         select * from know_base where know_base.group_id = #{groupId}
         and know_base.base_name like concat('%',#{keyWord},'%')
-         and is_delete = '0'
     </select>
+
+    <update id="deleteOneKnowBase" parameterType="int">
+        update know_base set is_delete = "1"
+        where base_id = #{baseId}
+    </update>
+
+    <delete id="deleteOneKnowBaseReally" parameterType="int">
+        delete from know_base
+        where base_id = #{baseId}
+    </delete>
 
 
     <sql id="Example_Where_Clause">

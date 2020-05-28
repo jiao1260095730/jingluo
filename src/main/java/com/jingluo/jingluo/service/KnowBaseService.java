@@ -21,4 +21,10 @@ public interface KnowBaseService {
     ResultInfo showAllDirAndDoc(DirectoryShowDto dto);
 
     ResultInfo delOneDoc(DocDeleteDto dto);
+
+    ResultInfo delOneKnowBase(KnowBaseDelDto dto);
+
+    ResultInfo showAllKBInDel(KnowBaseShowDto dto);
+
+    ResultInfo delOneKnowBaseReally(KnowBaseDelDto dto);
 }

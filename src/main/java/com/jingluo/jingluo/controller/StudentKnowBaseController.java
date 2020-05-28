@@ -6,9 +6,7 @@ import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description 学生对知识库的相关操作
@@ -53,8 +51,26 @@ public class StudentKnowBaseController {
     }
 
     @ApiOperation(value = "删除一个文档", notes = "删除一个文档" )
-    @PostMapping("api/student/knowBase/delOneDoc.do")
+    @DeleteMapping("api/student/knowBase/delOneDoc.do")
     public ResultInfo delOneDoc(@RequestBody DocDeleteDto dto) {
         return knowBaseService.delOneDoc(dto);
+    }
+
+    @ApiOperation(value = "删除一个知识库", notes = "删除一个知识库" )
+    @DeleteMapping("api/student/knowBase/delOneKnowBase.do")
+    public ResultInfo delOneKnowBase(@RequestBody KnowBaseDelDto dto) {
+        return knowBaseService.delOneKnowBase(dto);
+    }
+
+    @ApiOperation(value = "展示回收站中的知识库", notes = "展示回收站中的知识库" )
+    @PostMapping("api/student/knowBase/showAllKBInDel.do")
+    public ResultInfo showAllKBInDel(@RequestBody KnowBaseShowDto dto) {
+        return knowBaseService.showAllKBInDel(dto);
+    }
+
+    @ApiOperation(value = "彻底删除一个知识库", notes = "彻底删除一个知识库" )
+    @DeleteMapping("api/student/knowBase/delOneKnowBaseReally.do")
+    public ResultInfo delOneKnowBaseReally(@RequestBody KnowBaseDelDto dto) {
+        return knowBaseService.delOneKnowBaseReally(dto);
     }
 }

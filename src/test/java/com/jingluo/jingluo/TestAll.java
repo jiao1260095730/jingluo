@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.dto.commondto.Page;
 import com.jingluo.jingluo.dto.knowbasemodel.DirDocMsg;
-import com.jingluo.jingluo.service.KnowBaseService;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 
@@ -27,14 +25,14 @@ public class TestAll {
         Page page = new Page();
         page.setCurrentPage(5);
         //每页的开始数
-        page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
+        page.setStart((page.getCurrentPage() - 1) * page.getPageSize() + 1);
         //list的大小
         int count = strings.size();
         //设置总页数
         page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
         //对list进行截取
-        page.setDataList(strings.subList(page.getStar()
-                , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
+        page.setDataList(strings.subList(page.getStart()
+                , count - page.getStart() > page.getPageSize() ? page.getStart() + page.getPageSize() : count));
 
         System.out.println(page);
     }

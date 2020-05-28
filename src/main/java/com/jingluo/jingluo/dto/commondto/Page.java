@@ -20,5 +20,5 @@ public class Page {
     //每页显示的数据
     private List<?> dataList;
     //开始数据
-    private int star;
+    private int start;
 }

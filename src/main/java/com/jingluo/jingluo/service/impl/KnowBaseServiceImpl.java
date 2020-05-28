@@ -140,20 +140,27 @@ public class KnowBaseServiceImpl implements KnowBaseService {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
 
+            List<KnowBase> result = new ArrayList<>();
             List<KnowBase> resultKB = getKnowBases(userCode);
+
+            for (KnowBase knowBase : resultKB) {
+                if ("0".equals(knowBase.getIsDelete())) {
+                    result.add(knowBase);
+                }
+            }
 
             //实现分页功能
             Page page = new Page();
             page.setCurrentPage(dto.getPage());
             //每页的开始数
-            page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
+            page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
             //list的大小
-            int count = resultKB.size();
+            int count = result.size();
             //设置总页数
             page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
             //对list进行截取
-            page.setDataList(resultKB.subList(page.getStar()
-                    , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
+            page.setDataList(result.subList(page.getStart()
+                    , count - page.getStart() > page.getPageSize() ? page.getStart() + page.getPageSize() : count));
 
             LoggerCommon.info("查询成功，集合：" + page.getDataList());
             return ResultInfo.success(page);
@@ -203,14 +210,22 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             resultKB.addAll(knowBases1);
             resultKB.addAll(knowBases2);
 
-            LoggerCommon.info("查询成功，集合：" + resultKB);
-            return ResultInfo.success(resultKB);
+            List<KnowBase> result = new ArrayList<>();
+            for (KnowBase knowBase : resultKB) {
+                if ("0".equals(knowBase.getIsDelete())) {
+                    result.add(knowBase);
+                }
+            }
+
+            LoggerCommon.info("查询成功，集合：" + result);
+            return ResultInfo.success(result);
         } catch (Exception e) {
             LoggerCommon.error("出现异常");
             return ResultInfo.fail("出现异常, 查询失败");
         }
     }
 
+    //创建目录和文档
     @Override
     public ResultInfo createDirAndDoc(DirDocCreateDto dto) {
         String userToken = dto.getUserToken();
@@ -368,21 +383,116 @@ public class KnowBaseServiceImpl implements KnowBaseService {
         }
     }
 
+    //删除一个文档
     @Override
     public ResultInfo delOneDoc(DocDeleteDto dto) {
-        Integer docId = dto.getDocId();
-        String userToken = dto.getUserToken();
-        String userCode = TokenUtil.getUserCodeFormToken(userToken);
-        //校验token是否失效
-        if (TokenUtil.tokenValidate(userToken, userCode)) {
-            LoggerCommon.error("登录已失效，请重新登陆");
-            return ResultInfo.fail("登录已失效，请重新登陆");
-        }
+        try {
+            Integer docId = dto.getDocId();
+            String userToken = dto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
 
-        if (knowDocMapper.deleteOneDoc(docId) != 1) {
-            LoggerCommon.error("更新文档删除标志失败");
-            return ResultInfo.fail("更新文档删除标志失败");
+            if (knowDocMapper.deleteOneDoc(docId) != 1) {
+                LoggerCommon.error("更新文档删除标志失败");
+                return ResultInfo.fail("更新文档删除标志失败");
+            }
+            return ResultInfo.success("删除成功");
+        } catch (Exception e) {
+            LoggerCommon.error("出现异常");
+            return ResultInfo.fail("出现异常");
         }
-        return ResultInfo.success("删除成功");
     }
+
+    //删除一个知识库
+    @Override
+    public ResultInfo delOneKnowBase(KnowBaseDelDto dto) {
+        try {
+            String userToken = dto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            Integer baseId = dto.getBaseId();
+            if (knowBaseMapper.deleteOneKnowBase(baseId) != 1) {
+                LoggerCommon.error("更新知识库删除标志为已删除  失败");
+                return ResultInfo.fail("更新知识库删除标志为已删除  失败");
+            }
+            return ResultInfo.success("删除成功");
+        } catch (Exception e) {
+            LoggerCommon.error("出现异常");
+            return ResultInfo.fail("出现异常");
+        }
+    }
+
+    //展示回收站中的知识库
+    @Override
+    public ResultInfo showAllKBInDel(KnowBaseShowDto dto) {
+        try {
+            String userToken = dto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            List<KnowBase> resultKnowBase = getKnowBases(userCode);
+            List<KnowBase> result = new ArrayList<>();
+            for (KnowBase knowBase : resultKnowBase) {
+                //如果isDelete为1， 则为已删除
+                if ("1".equals(knowBase.getIsDelete())) {
+                    result.add(knowBase);
+                }
+            }
+
+            //实现分页功能
+            Page page = new Page();
+            page.setCurrentPage(dto.getPage());
+            //list的大小
+            int count = result.size();
+            //每页的开始数
+            page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
+            //设置总页数
+            page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
+            //对list进行截取
+            page.setDataList(result.subList(page.getStart()
+                    , count - page.getStart() > page.getPageSize() ? page.getStart() + page.getPageSize() : count));
+
+            LoggerCommon.info("查询成功，集合：" + page.getDataList());
+            return ResultInfo.success(page);
+        } catch (Exception e) {
+            LoggerCommon.error("出现异常");
+            return ResultInfo.fail("出现异常");
+        }
+    }
+
+    //彻底删除知识库
+    @Override
+    public ResultInfo delOneKnowBaseReally(KnowBaseDelDto dto) {
+        try {
+            String userToken = dto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            Integer baseId = dto.getBaseId();
+            if (knowBaseMapper.deleteOneKnowBaseReally(baseId) != 1) {
+                LoggerCommon.error("彻底删除知识库操作失败");
+                return ResultInfo.fail("彻底删除知识库操作失败");
+            }
+            return ResultInfo.success("知识库base_id为：" + baseId + "的知识库已彻底删除");
+        } catch (Exception e) {
+            LoggerCommon.error("出现异常");
+            return ResultInfo.fail("出现异常");
+        }
+    }
+
+
 }

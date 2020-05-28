@@ -1,6 +1,5 @@
 package com.jingluo.jingluo.service.impl;
 
-import com.jingluo.jingluo.controller.FileController;
 import com.jingluo.jingluo.dto.SelectGroupDto;
 import com.jingluo.jingluo.dto.commondto.Page;
 import com.jingluo.jingluo.dto.groupdto.GroupDto;
@@ -229,14 +228,14 @@ public class GroupServiceImpl implements GroupService {
 
                     page.setCurrentPage(selectGroupDto.getPage());
                     //每页的开始数
-                    page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
+                    page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
                     //list的大小
                     int count = group.size();
                     //设置总页数
                     page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                     //对list进行截取
-                    page.setDataList(group.subList(page.getStar()
-                            , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
+                    page.setDataList(group.subList(page.getStart()
+                            , count - page.getStart() > page.getPageSize() ? page.getStart() + page.getPageSize() : count));
                     return ResultInfo.success("查询成功", page);
                 } else {
                     return ResultInfo.fail("其输入正确的班级");
@@ -249,14 +248,14 @@ public class GroupServiceImpl implements GroupService {
 
                     page.setCurrentPage(selectGroupDto.getPage());
                     //每页的开始数
-                    page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
+                    page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
                     //list的大小
                     int count = group.size();
                     //设置总页数
                     page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                     //对list进行截取
-                    page.setDataList(group.subList(page.getStar()
-                            , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
+                    page.setDataList(group.subList(page.getStart()
+                            , count - page.getStart() > page.getPageSize() ? page.getStart() + page.getPageSize() : count));
                     return ResultInfo.success("查询成功", page);
                 } else {
                     return ResultInfo.fail("其输入正确的团队名称");
@@ -268,14 +267,14 @@ public class GroupServiceImpl implements GroupService {
 
                 page.setCurrentPage(selectGroupDto.getPage());
                 //每页的开始数
-                page.setStar((page.getCurrentPage() - 1) * page.getPageSize() + 1);
+                page.setStart((page.getCurrentPage() - 1) * page.getPageSize() + 1);
                 //list的大小
                 int count = AllGroup.size();
                 //设置总页数
                 page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                 //对list进行截取
-                page.setDataList(AllGroup.subList(page.getStar()
-                        , count - page.getStar() > page.getPageSize() ? page.getStar() + page.getPageSize() : count));
+                page.setDataList(AllGroup.subList(page.getStart()
+                        , count - page.getStart() > page.getPageSize() ? page.getStart() + page.getPageSize() : count));
                 return ResultInfo.success("查询成功", page);
             }
             return ResultInfo.fail("查询失败");
