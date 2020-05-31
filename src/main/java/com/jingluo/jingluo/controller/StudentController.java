@@ -89,5 +89,10 @@ public class StudentController {
         return studentService.insertStu(dto);
     }
 
+    @ApiOperation(value = "获取唯一业务id", notes = "获取唯一业务id")
+    @GetMapping("api/student/getUniqueId.do")
+    public ResultInfo getUniqueId() {
+        return studentService.getUniqueId();
+    }
 }
 

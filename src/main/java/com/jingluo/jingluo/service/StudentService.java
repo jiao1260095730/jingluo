@@ -13,4 +13,6 @@ public interface StudentService {
     ResultInfo selectAll();
 
     ResultInfo insertStu(Student dto);
+
+    ResultInfo getUniqueId();
 }
