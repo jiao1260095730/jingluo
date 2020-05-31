@@ -11,11 +11,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@Api(value = "团队创建", tags = "团队创建")
-@CrossOrigin
+@Api(value = "学生的团队操作", tags = "学生的团队操作")
 public class GroupController {
 
     @Autowired
