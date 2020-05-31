@@ -3,6 +3,7 @@ package com.jingluo.jingluo.controller;
 import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "学生的课程操作",tags = "学生的课程操作")
 @RestController
+@CrossOrigin
 public class StudentCourseController {
 
 

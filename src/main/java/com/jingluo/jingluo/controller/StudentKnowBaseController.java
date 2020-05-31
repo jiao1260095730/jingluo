@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(value = "学生的知识库操作",tags = "学生的知识库操作")
 @RestController
+@CrossOrigin
 public class StudentKnowBaseController {
 
     @Autowired
