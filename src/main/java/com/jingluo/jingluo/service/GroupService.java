@@ -3,6 +3,7 @@ package com.jingluo.jingluo.service;
 
 import com.jingluo.jingluo.dto.groupdto.GroupDto;
 import com.jingluo.jingluo.dto.groupdto.GroupStuId;
+import com.jingluo.jingluo.dto.groupdto.SelectGroup;
 import com.jingluo.jingluo.dto.groupdto.TransferManagerDto;
 import com.jingluo.jingluo.dto.SelectGroupDto;
 import com.jingluo.jingluo.vo.ResultInfo;
@@ -29,4 +30,6 @@ public interface GroupService {
     ResultInfo updataGroup(GroupDto groupDto);
 
     ResultInfo transferManager(TransferManagerDto transferManagerDto);
+
+    ResultInfo selectAllGroupByGroupId(SelectGroup selectGroup);
 }

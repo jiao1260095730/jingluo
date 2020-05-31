@@ -17,8 +17,7 @@ public class GroupDto {
     private String isPublic;
     //图片
     private String headImg;
-
-
+    private Integer groupId;
 
 
 }

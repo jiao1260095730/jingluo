@@ -4,6 +4,7 @@ import com.jingluo.jingluo.dto.SelectGroupDto;
 import com.jingluo.jingluo.dto.commondto.Page;
 import com.jingluo.jingluo.dto.groupdto.GroupDto;
 import com.jingluo.jingluo.dto.groupdto.GroupStuId;
+import com.jingluo.jingluo.dto.groupdto.SelectGroup;
 import com.jingluo.jingluo.dto.groupdto.TransferManagerDto;
 import com.jingluo.jingluo.common.LoggerCommon;
 import com.jingluo.jingluo.entity.Class;
@@ -12,18 +13,17 @@ import com.jingluo.jingluo.entity.Student;
 import com.jingluo.jingluo.entity.StudentGroup;
 import com.jingluo.jingluo.mapper.ClassMapper;
 import com.jingluo.jingluo.mapper.GroupMapper;
+import com.jingluo.jingluo.mapper.StudentGroupMapper;
 import com.jingluo.jingluo.mapper.StudentMapper;
 import com.jingluo.jingluo.service.GroupService;
 import com.jingluo.jingluo.utils.IdCode;
 import com.jingluo.jingluo.utils.TokenUtil;
 import com.jingluo.jingluo.vo.ResultInfo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.util.Date;
+
 import java.util.List;
 
 @Component
@@ -36,6 +36,8 @@ public class GroupServiceImpl implements GroupService {
     private StudentMapper studentMapper;
     @Autowired
     private ClassMapper classMapper;
+    @Autowired
+    private StudentGroupMapper studentGroupMapper;
     /**
      * 创建团队
      * @param groupDto
@@ -151,11 +153,13 @@ public class GroupServiceImpl implements GroupService {
                 LoggerCommon.error("登录已失效，请重新登陆");
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
+            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
+
             Group group = groupMapper.findGroupId(groupStuId.getGroupId());
             //成员减一
             group.setStuNum(group.getStuNum() - 1);
             groupMapper.updateByPrimaryKeySelective(group);
-            groupMapper.deleteGroupMember(groupStuId.getStudentId());
+            studentGroupMapper.deleteGroupMember(student.getStudentId(),group.getGroupId());
 
             return ResultInfo.success("删除成功");
         } catch (Exception e) {
@@ -190,8 +194,9 @@ public class GroupServiceImpl implements GroupService {
             } else {
                 return ResultInfo.fail("没有这个团队");
             }
+            Student student = studentMapper.selectByCode(groupStuId.getStudentCode());
             //学生团队关联
-            sg.setStudentId(groupStuId.getStudentId());
+            sg.setStudentId(student.getStudentId());
             sg.setGroupId(groupStuId.getGroupId());
             sg.setStuGroId(IdCode.id());
             groupMapper.insertGroupStudent(sg);
@@ -301,6 +306,7 @@ public class GroupServiceImpl implements GroupService {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
             Group group = new Group();
+            group.setGroupId(groupDto.getGroupId());
             group.setGroupName(groupDto.getGroupName());
             group.setGroupInfo(groupDto.getGroupInfo());
             group.setHeadImg(groupDto.getHeadImg());
@@ -309,7 +315,7 @@ public class GroupServiceImpl implements GroupService {
             if (count == 1) {
                 return ResultInfo.success("修改成功");
             } else {
-                return ResultInfo.fail("修改失败");
+                return ResultInfo.fail("修改失败了");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -334,39 +340,64 @@ public class GroupServiceImpl implements GroupService {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
             //根据老管理员获取学生信息
-            Student oldStudent = studentMapper.selectByCode(transferManagerDto.getOldAdministratorCode());
+            Student oldStudent = studentMapper.selectByCode(userCode);
             //根据老管理员获取这个团队信息
-            Group group = groupMapper.findGroupId(oldStudent.getGroupId());
-            //根基新管理员code 获取这个学生信息
+            Group group = groupMapper.findGroupId(transferManagerDto.getGroupId());
             Student xinStudent = studentMapper.selectByCode(transferManagerDto.getXinAdministratorCode());
+
+           StudentGroup sg = new StudentGroup();
+           sg.setStudentId(xinStudent.getStudentId());
+           sg.setGroupId(transferManagerDto.getGroupId());
+
+            //判断是否是团队的成员
+            StudentGroup studentGroup = studentGroupMapper.selectStundentGroup(sg);
             //判断转让后是否退出
             if (transferManagerDto.getType().equals("1")) {
                 //判断是否是管理员 如果是 && 新管理员是这个团队中的成员
-                if (group.getStudentCode().equals(transferManagerDto.getOldAdministratorCode()) && xinStudent.getGroupId().equals(group.getGroupId())) {
+                if (group.getStudentCode().equals(userCode) && studentGroup != null) {
+                    //修改管理员
                     group.setStudentCode(transferManagerDto.getXinAdministratorCode());
+                    //成员减一
+                    group.setStuNum(group.getStuNum() - 1);
                     groupMapper.updateByPrimaryKeySelective(group);
-                    GroupStuId groupStuId = new GroupStuId();
-                    groupStuId.setGroupId(group.getGroupId());
-                    groupStuId.setStudentId(oldStudent.getStudentId());
-                    groupStuId.setStudentCode(oldStudent.getStudentCode());
-                    deleteGroupMember(groupStuId);
+                    studentGroupMapper.deleteGroupMember(oldStudent.getStudentId(),group.getGroupId());
+                    return ResultInfo.success("管理员转让成功");
                 } else {
                     return ResultInfo.fail("不是管理员或新管理员不是团队成员,请正确操作");
                 }
             } else {
                 //判断是否是管理员 如果是 && 新管理员是这个团队中的成员
-                if (group.getStudentCode().equals(transferManagerDto.getOldAdministratorCode()) && xinStudent.getGroupId().equals(group.getGroupId())) {
+                if (group.getStudentCode().equals(userCode) && studentGroup != null ) {
                     group.setStudentCode(transferManagerDto.getXinAdministratorCode());
                     groupMapper.updateByPrimaryKeySelective(group);
+                    return ResultInfo.success("管理员转让成功");
                 } else {
                     return ResultInfo.fail("请正确操作");
                 }
             }
-
-            return ResultInfo.success("管理员转让成功");
         } catch (Exception e) {
             e.printStackTrace();
             return ResultInfo.fail("操作失败");
+        }
+    }
+
+    @Override
+    public ResultInfo selectAllGroupByGroupId(SelectGroup selectGroup) {
+        try {
+            String userToken = selectGroup.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            Group group = groupMapper.selectGroupByGroupId(selectGroup.getGroupId());
+            List<Student> studentList = groupMapper.selectStudentByGroupId(selectGroup.getGroupId());
+            group.setStudent(studentList);
+            return ResultInfo.success(group);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultInfo.fail("查询失败");
         }
     }
 

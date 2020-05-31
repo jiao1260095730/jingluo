@@ -3,6 +3,7 @@ package com.jingluo.jingluo.entity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Group {
@@ -111,4 +112,6 @@ public class Group {
      * @mbggenerated Sun Apr 12 14:02:13 CST 2020
      */
     private String reserved3;
+
+    private List<Student> student;
 }

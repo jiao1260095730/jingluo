@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class TransferManagerDto {
-    //老管理员
-    private String oldAdministratorCode;
+
     //新管理员
     private String xinAdministratorCode;
     //团队 id

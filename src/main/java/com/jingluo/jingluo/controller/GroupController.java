@@ -2,6 +2,7 @@ package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.dto.groupdto.GroupDto;
 import com.jingluo.jingluo.dto.groupdto.GroupStuId;
+import com.jingluo.jingluo.dto.groupdto.SelectGroup;
 import com.jingluo.jingluo.dto.groupdto.TransferManagerDto;
 import com.jingluo.jingluo.dto.SelectGroupDto;
 
@@ -55,12 +56,11 @@ public class GroupController {
         return groupService.selectGroup(selectGroupDto);
     }
 
-  /*  @ApiOperation(value = "分页查询所有团队",notes = "分页查询所有团队")
+    @ApiOperation(value = "根据团队id查询",notes = "根据团队id查询")
     @PostMapping("api/group/selectAllGroup.do")
-    public ResultInfo selectAllGroup(){
-        return groupService.selectAllGroup();
+    public ResultInfo selectAllGroupByGroupId(@RequestBody SelectGroup selectGroup){
+        return groupService.selectAllGroupByGroupId(selectGroup);
     }
-*/
     @ApiOperation(value = "修改团队信息", notes = "修改团队信息")
     @PostMapping("api/group/updataGroup.do")
     public ResultInfo updataGroup(@RequestBody GroupDto groupDto) {
