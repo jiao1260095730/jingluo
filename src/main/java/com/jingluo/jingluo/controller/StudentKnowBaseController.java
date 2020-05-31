@@ -80,7 +80,7 @@ public class StudentKnowBaseController {
     }
 
     @ApiOperation(value = "获取一个知识库详情", notes = "userToken : 学生token   knowBaseId ：知识库id" )
-    @DeleteMapping("api/student/knowBase/selectOneBaseMsg.do")
+    @PostMapping("api/student/knowBase/selectOneBaseMsg.do")
     public ResultInfo selectOneBaseMsg(@RequestParam String userToken, @RequestParam Integer baseId) {
         return knowBaseService.selectOneBaseMsg(userToken, baseId);
     }
