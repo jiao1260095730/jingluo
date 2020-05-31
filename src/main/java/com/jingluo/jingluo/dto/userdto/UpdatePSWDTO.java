@@ -9,12 +9,10 @@ import lombok.Data;
  */
 @Data
 public class UpdatePSWDTO {
-    //用户code  学号、工号
-    private String userCode;
-    //新密码
-    private String newPassword;
+    //userToken
+    private String userToken;
     //旧密码
     private String oldPassword;
-    //token
-    private String token;
+    //新密码
+    private String newPassword;
 }

@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class KnowBaseDelDto {
-
+    //用户token
     private String userToken;
-
+    //知识库id
     private Integer baseId;
 }

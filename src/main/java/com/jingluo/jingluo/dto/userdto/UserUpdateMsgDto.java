@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class UserUpdateMsgDto {
-    //token
-    private String token;
+    //userToken
+    private String userToken;
     //姓名
     private String name;
     //昵称

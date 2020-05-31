@@ -18,11 +18,11 @@ public interface UserService {
 
     ResultInfo findPassword(FindPSWDTO findPSWDTO, int type);
 
-    ResultInfo logOut(TokenDto tokenDto, int type);
+    ResultInfo logOut(String userToken, int type);
 
     ResultInfo phoneLogin(UserPhoneLoginDto loginDto, int type);
 
-    ResultInfo selectOne(String token, int type);
+    ResultInfo selectOne(String userToken, int type);
 
     ResultInfo updateMsg(UserUpdateMsgDto dto, int type);
 }

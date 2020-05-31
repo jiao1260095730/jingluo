@@ -9,12 +9,10 @@ import lombok.Data;
  */
 @Data
 public class UserValidDto {
-    //学号、工号
-    private String userCode;
+    //userToken
+    private String userToken;
     //手机号
     private String phone;
     //验证码
     private String validCode;
-    //token
-    private String token;
 }

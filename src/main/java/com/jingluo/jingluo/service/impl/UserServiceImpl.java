@@ -85,10 +85,10 @@ public class UserServiceImpl implements UserService {
     /**
      * 如果登录成功教师、学生共用方法
      *
-     * @param code     用于存储 token 的 key 和值的后缀 统一为userCode
+     * @param code     用于存储 userToken 的 key 和值的后缀 统一为userCode
      * @param tokenStr 存储token 的 key 的前缀，
-     *                 老师：token:teacher:
-     *                 学生：token:student:
+     *                 老师：userToken:teacher:
+     *                 学生：userToken:student:
      */
     private ResultInfo isLogin(String code, String tokenStr) {
         //登录成功，设置token
@@ -146,12 +146,12 @@ public class UserServiceImpl implements UserService {
      * 根据token中的userCode查询用户信息
      */
     @Override
-    public ResultInfo selectOne(String token, int type) {
-        if (StringUtil.isEmpty(token) || token.length() <= 18) {
-            LoggerCommon.error("token字符串异常，token：" + token);
-            return ResultInfo.fail("token字符串异常，token：" + token);
+    public ResultInfo selectOne(String userToken, int type) {
+        if (StringUtil.isEmpty(userToken) || userToken.length() <= 18) {
+            LoggerCommon.error("token字符串异常，userToken：" + userToken);
+            return ResultInfo.fail("token字符串异常，userToken：" + userToken);
         }
-        String userCode = TokenUtil.getUserCodeFormToken(token);
+        String userCode = TokenUtil.getUserCodeFormToken(userToken);
         if (type == 1) {
             Student student = studentDao.selectByCode(userCode);
             LoggerCommon.info("获取的学生信息：" + student);
@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
         String name = dto.getName();
         String nickName = dto.getNickName();
         String headImg = dto.getHeadImg();
-        String token = dto.getToken();
+        String token = dto.getUserToken();
         String userCode = TokenUtil.getUserCodeFormToken(token);
 
         //校验token是否有效
@@ -211,10 +211,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultInfo bindPhone(UserValidDto userDto, int type) {
         try {
-            String userCode = userDto.getUserCode();
             String phone = userDto.getPhone();
             String validCode = userDto.getValidCode();
-            String userToken = userDto.getToken();
+            String userToken = userDto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
             if (TokenUtil.tokenValidate(userToken, userCode)) {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
@@ -275,11 +275,11 @@ public class UserServiceImpl implements UserService {
     public ResultInfo updatePassword(UpdatePSWDTO userDto, int type) {
         try {
             //获取参数值
-            String userCode = userDto.getUserCode();
             String oldPassword = userDto.getOldPassword();
             String newPassword = userDto.getNewPassword();
             //获取token值和存储的key
-            String userToken = userDto.getToken();
+            String userToken = userDto.getUserToken();
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
             if (TokenUtil.tokenValidate(userToken, userCode)) {
                 return ResultInfo.fail("登录已失效，请重新登陆");
             }
@@ -410,9 +410,8 @@ public class UserServiceImpl implements UserService {
      * 退出登录
      */
     @Override
-    public ResultInfo logOut(TokenDto tokenDto, int type) {
-        String userCode = tokenDto.getUserCode();
-        String userToken = tokenDto.getToken();
+    public ResultInfo logOut(String userToken, int type) {
+        String userCode = TokenUtil.getUserCodeFormToken(userToken);
         String stuTokenKey = stuTokenPre + userCode;
         String teaTokenKey = teaTokenPre + userCode;
         if (TokenUtil.tokenValidate(userToken, userCode)) {

@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class DocDeleteDto {
-
+    //用户token
     private String userToken;
-
+    //文档id
     private Integer docId;
 }

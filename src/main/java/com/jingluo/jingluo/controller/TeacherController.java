@@ -28,25 +28,25 @@ public class TeacherController {
 
     private int teaType = UserType.teacher.getCode();
 
-    @ApiOperation(value = "工号登录", notes = "教师登录")
+    @ApiOperation(value = "工号登录", notes = "userCode : 教师工号      password ： 密码")
     @PostMapping("api/teacher/login.do")
     public ResultInfo login(@RequestBody UserLoginDto userDto) {
         return userService.login(userDto, teaType);
     }
 
-    @ApiOperation(value = "绑定手机号", notes = "教师绑定手机号")
+    @ApiOperation(value = "绑定手机号", notes = "userToken ：教师token    phone ： 手机号     validCode ： 验证码")
     @PostMapping("api/teacher/bindPhone.do")
     public ResultInfo bindPhone(@RequestBody UserValidDto userDto) {
         return userService.bindPhone(userDto, teaType);
     }
 
-    @ApiOperation(value = "修改密码", notes = "教师修改密码，输入旧密码修改")
+    @ApiOperation(value = "修改密码", notes = "userToken : 教师token     oldPassword : 旧密码   newPassword ： 新密码")
     @PostMapping("api/teacher/updatePSW.do")
     public ResultInfo updatePSW(@RequestBody UpdatePSWDTO userDto) {
         return userService.updatePassword(userDto, teaType);
     }
 
-    @ApiOperation(value = "找回密码", notes = "教师修改密码，使用手机验证码修改，用于忘记密码时找回密码")
+    @ApiOperation(value = "找回密码", notes = "userCode : 工号   phone ： 手机号   validCode ： 验证码   newPassword : 新密码")
     @PostMapping("api/teacher/findPSW.do")
     public ResultInfo findPSW(@RequestBody FindPSWDTO findPSWDTO) {
         return userService.findPassword(findPSWDTO, teaType);
@@ -58,25 +58,25 @@ public class TeacherController {
         return teacherService.selectAll();
     }
 
-    @ApiOperation(value = "退出登陆", notes = "教师退出登陆")
+    @ApiOperation(value = "退出登陆", notes = "userToken : 教师token")
     @PostMapping("api/teacher/logOut.do")
-    public ResultInfo logOut(@RequestBody TokenDto tokenDto) {
-        return userService.logOut(tokenDto, teaType);
+    public ResultInfo logOut(@RequestParam String userToken) {
+        return userService.logOut(userToken, teaType);
     }
 
-    @ApiOperation(value = "手机号登录", notes = "教师登录，使用手机号、验证码")
+    @ApiOperation(value = "手机号登录", notes = "phone : 手机号   validCode : 验证码")
     @PostMapping("api/teacher/phoneLogin.do")
     public ResultInfo phoneLogin(@RequestBody UserPhoneLoginDto userDto) {
         return userService.phoneLogin(userDto, teaType);
     }
 
-    @ApiOperation(value = "获取教师信息", notes = "根据教师token查询学生信息")
+    @ApiOperation(value = "获取教师信息", notes = "userToken : 教师token")
     @PostMapping("api/teacher/selectOne.do")
-    public ResultInfo selectOne(@RequestParam String token) {
-        return userService.selectOne(token, teaType);
+    public ResultInfo selectOne(@RequestParam String userToken) {
+        return userService.selectOne(userToken, teaType);
     }
 
-    @ApiOperation(value = "修改教师信息", notes = "修改教师信息")
+    @ApiOperation(value = "修改教师信息", notes = "userToken : 教师token    name : 姓名   nickName ： 昵称   headImg ：头像url")
     @PostMapping("api/teacher/updateMsg.do")
     public ResultInfo updateMsg(@RequestBody UserUpdateMsgDto dto) {
         return userService.updateMsg(dto, teaType);
