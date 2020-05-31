@@ -21,7 +21,7 @@ public class SystemConfig {
     public static final int OSS_URL_MONTHS = 120;
     //短信验证码的有效期5分钟
     public static final int SMS_CODE_TIME = 5;
-    //登录成功后token的时效  30分钟
+    //登录成功后token的时效  60分钟
     public static final int TOKEN_REDIS_TIME = 60 * 60;
     //知识库创建来源 1个人 2团队 3教师通过课程创建
     public static final String CREATE_FROM_PERSON = "1";

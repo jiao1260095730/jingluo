@@ -1,6 +1,7 @@
 package com.jingluo.jingluo.controller;
 
 import com.jingluo.jingluo.dto.knowbasedto.*;
+import com.jingluo.jingluo.entity.KnowBase;
 import com.jingluo.jingluo.service.KnowBaseService;
 import com.jingluo.jingluo.vo.ResultInfo;
 import io.swagger.annotations.Api;
@@ -83,5 +84,11 @@ public class StudentKnowBaseController {
     @PostMapping("api/student/knowBase/selectOneBaseMsg.do")
     public ResultInfo selectOneBaseMsg(@RequestParam String userToken, @RequestParam Integer baseId) {
         return knowBaseService.selectOneBaseMsg(userToken, baseId);
+    }
+
+    @ApiOperation(value = "修改知识库资料", notes = "必输 ：baseId    其余若字段不修改则不填" )
+    @PostMapping("api/student/knowBase/updateKnowBase.do")
+    public ResultInfo updateKnowBase(@RequestBody KnowBase knowBase) {
+        return knowBaseService.updateKnowBase(knowBase);
     }
 }

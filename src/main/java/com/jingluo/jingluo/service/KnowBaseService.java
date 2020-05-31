@@ -1,6 +1,7 @@
 package com.jingluo.jingluo.service;
 
 import com.jingluo.jingluo.dto.knowbasedto.*;
+import com.jingluo.jingluo.entity.KnowBase;
 import com.jingluo.jingluo.vo.ResultInfo;
 
 /**
@@ -29,4 +30,6 @@ public interface KnowBaseService {
     ResultInfo delOneKnowBaseReally(KnowBaseDelDto dto);
 
     ResultInfo selectOneBaseMsg(String userToken, Integer baseId);
+
+    ResultInfo updateKnowBase(KnowBase knowBase);
 }

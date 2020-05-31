@@ -371,8 +371,7 @@
                 reserved_3 = #{reserved3,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
-        and base_id = #{baseId,jdbcType=INTEGER}
+        where base_id = #{baseId,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.jingluo.jingluo.entity.KnowBase">
         <!--
@@ -400,7 +399,6 @@
         reserved_1 = #{reserved1,jdbcType=VARCHAR},
         reserved_2 = #{reserved2,jdbcType=VARCHAR},
         reserved_3 = #{reserved3,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=INTEGER}
-        and base_id = #{baseId,jdbcType=INTEGER}
+        where base_id = #{baseId,jdbcType=INTEGER}
     </update>
 </mapper>

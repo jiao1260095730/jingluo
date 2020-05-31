@@ -514,4 +514,19 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             return ResultInfo.fail("查询失败 ：" + e);
         }
     }
+
+    @Override
+    public ResultInfo updateKnowBase(KnowBase knowBase) {
+        try {
+            if (knowBaseMapper.updateByPrimaryKeySelective(knowBase) == 1) {
+                LoggerCommon.info("修改知识库成功");
+                return ResultInfo.success("修改知识库成功");
+            }
+            LoggerCommon.error("修改知识库失败");
+            return ResultInfo.fail("修改知识库失败");
+        } catch (Exception e) {
+            LoggerCommon.error("修改知识库异常");
+            return ResultInfo.fail("修改知识库异常");
+        }
+    }
 }
