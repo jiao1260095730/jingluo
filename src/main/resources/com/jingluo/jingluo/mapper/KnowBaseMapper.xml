@@ -57,6 +57,10 @@
         where base_id = #{baseId}
     </delete>
 
+    <select id="selectknowBaseByBaseId" parameterType="int" resultMap="BaseResultMap">
+        select * from know_base where base_id = #{baseId}
+    </select>
+
 
     <sql id="Example_Where_Clause">
         <!--

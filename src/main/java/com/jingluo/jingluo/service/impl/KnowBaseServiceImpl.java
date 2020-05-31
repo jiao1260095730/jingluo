@@ -77,8 +77,10 @@ public class KnowBaseServiceImpl implements KnowBaseService {
         //三种创建方式共用
         KnowBase knowBase = new KnowBase();
 
+        int baseId = IdCode.id();
+
         knowBase.setCreateTime(new Date());
-        knowBase.setBaseId(IdCode.id());
+        knowBase.setBaseId(baseId);
         knowBase.setBaseName(baseName);
         knowBase.setBaseInfo(baseInfo);
         knowBase.setIsPublic(dto.getIsPublic() == null ? SystemConfig.KNOWBASE_PUBLIC : dto.getIsPublic());
@@ -96,9 +98,11 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             //查询用户，设置知识库的关联parentName为学生昵称
             Student student = studentMapper.selectByCode(userCode);
             knowBase.setParentName(student.getNickName());
-            knowBaseMapper.insertSelective(knowBase);
-            LoggerCommon.info("创建个人知识库成功");
-            return ResultInfo.success("创建个人知识库成功");
+
+            if (knowBaseMapper.insertSelective(knowBase) == 1) {
+                LoggerCommon.info("创建个人知识库成功");
+                return ResultInfo.success("创建个人知识库成功, base_id : " + baseId, baseId);
+            }
         }
         if (SystemConfig.CREATE_FROM_GROUP.equals(createFrom)) {
             //团队创建知识库
@@ -111,7 +115,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             knowBase.setParentName(group.getGroupName());
             knowBaseMapper.insertSelective(knowBase);
             LoggerCommon.info("创建团队知识库成功");
-            return ResultInfo.success("创建团队知识库成功");
+            return ResultInfo.success("创建团队知识库成功, base_id : " + baseId, baseId);
         }
         if (SystemConfig.CREATE_FROM_COURSE.equals(createFrom)) {
             //教师从课程创建知识库
@@ -121,7 +125,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             Course course = courseMapper.selectCourseByCourseId(courseId);
             knowBase.setParentName(course.getCourseName());
             knowBaseMapper.insertSelective(knowBase);
-            return ResultInfo.success("创建课程知识库成功");
+            return ResultInfo.success("创建课程知识库成功, base_id : " + baseId, baseId);
         }
         return ResultInfo.fail("创建知识库失败");
     }
@@ -494,5 +498,20 @@ public class KnowBaseServiceImpl implements KnowBaseService {
         }
     }
 
-
+    @Override
+    public ResultInfo selectOneBaseMsg(String userToken, Integer baseId) {
+        try {
+            String userCode = TokenUtil.getUserCodeFormToken(userToken);
+            //校验token是否失效
+            if (TokenUtil.tokenValidate(userToken, userCode)) {
+                LoggerCommon.error("登录已失效，请重新登陆");
+                return ResultInfo.fail("登录已失效，请重新登陆");
+            }
+            KnowBase knowBase = knowBaseMapper.selectknowBaseByBaseId(baseId);
+            return ResultInfo.success("查询成功", knowBase);
+        } catch (Exception e) {
+            LoggerCommon.error("查询失败 : " + e);
+            return ResultInfo.fail("查询失败 ：" + e);
+        }
+    }
 }

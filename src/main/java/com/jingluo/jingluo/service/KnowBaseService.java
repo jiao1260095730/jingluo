@@ -27,4 +27,6 @@ public interface KnowBaseService {
     ResultInfo showAllKBInDel(KnowBaseShowDto dto);
 
     ResultInfo delOneKnowBaseReally(KnowBaseDelDto dto);
+
+    ResultInfo selectOneBaseMsg(String userToken, Integer baseId);
 }
