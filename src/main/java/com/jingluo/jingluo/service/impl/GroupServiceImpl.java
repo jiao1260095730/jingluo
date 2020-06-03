@@ -237,6 +237,8 @@ public class GroupServiceImpl implements GroupService {
                     //list的大小
                     int count = group.size();
                     page.setTotalNum(count);
+
+                    page.setPageSize(100);
                     //设置总页数
                     page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                     //对list进行截取
@@ -258,6 +260,7 @@ public class GroupServiceImpl implements GroupService {
                     //list的大小
                     int count = group.size();
                     page.setTotalNum(count);
+                    page.setPageSize(100);
                     //设置总页数
                     page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                     //对list进行截取
@@ -278,6 +281,7 @@ public class GroupServiceImpl implements GroupService {
                 //list的大小
                 int count = AllGroup.size();
                 page.setTotalNum(count);
+                page.setPageSize(100);
                 //设置总页数
                 page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                 //对list进行截取
