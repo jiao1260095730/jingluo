@@ -160,6 +160,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
             //list的大小
             int count = result.size();
+            page.setTotalNum(count);
             //设置总页数
             page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
             //对list进行截取
@@ -459,6 +460,7 @@ public class KnowBaseServiceImpl implements KnowBaseService {
             page.setCurrentPage(dto.getPage());
             //list的大小
             int count = result.size();
+            page.setTotalNum(count);
             //每页的开始数
             page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
             //设置总页数

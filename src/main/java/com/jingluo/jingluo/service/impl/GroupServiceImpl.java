@@ -93,7 +93,7 @@ public class GroupServiceImpl implements GroupService {
 
 
                 if (count == 1 && count2 == 1 ) {
-                    return ResultInfo.success("团队创建成功");
+                    return ResultInfo.success("团队创建成功", group.getGroupId());
                 } else {
                     return ResultInfo.fail("团队创建失败");
                 }
@@ -236,6 +236,7 @@ public class GroupServiceImpl implements GroupService {
                     page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
                     //list的大小
                     int count = group.size();
+                    page.setTotalNum(count);
                     //设置总页数
                     page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                     //对list进行截取
@@ -256,6 +257,7 @@ public class GroupServiceImpl implements GroupService {
                     page.setStart((page.getCurrentPage() - 1) * page.getPageSize());
                     //list的大小
                     int count = group.size();
+                    page.setTotalNum(count);
                     //设置总页数
                     page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                     //对list进行截取
@@ -275,6 +277,7 @@ public class GroupServiceImpl implements GroupService {
                 page.setStart((page.getCurrentPage() - 1) * page.getPageSize() + 1);
                 //list的大小
                 int count = AllGroup.size();
+                page.setTotalNum(count);
                 //设置总页数
                 page.setTotalPage(count % 10 == 0 ? count / 10 : count / 10 + 1);
                 //对list进行截取

@@ -21,4 +21,6 @@ public class Page {
     private List<?> dataList;
     //开始数据
     private int start;
+    //总条数
+    private int totalNum;
 }

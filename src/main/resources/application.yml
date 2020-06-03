@@ -1,7 +1,7 @@
 #数据库的连接信息
 spring:
-  application:
-    name: jingluo
+#  application:
+#    name: jingluo
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://47.98.174.241:3306/db_jingluo?serverTimezone=UTC&characterEncoding=utf-8
@@ -29,7 +29,7 @@ spring:
   #mybatis.configuration.map-underscore-to-camel-case=true
 #Tomcat发布端口号
 server:
-  port: 8080
+  port: 80
   #启用调试日志
 debug: true
   #启用日志文件

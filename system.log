@@ -1,0 +1,211 @@
+2020-06-03 00:02:25.463  INFO 19004 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 19004 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 00:02:25.538  INFO 19004 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 00:02:32.015  INFO 19004 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 00:02:32.711  INFO 19004 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 00:02:32.737  INFO 19004 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 00:02:32.738  INFO 19004 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 00:02:32.920  INFO 19004 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 00:02:32.920  INFO 19004 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 7049 ms
+2020-06-03 00:02:34.945  INFO 19004 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 00:02:35.164  INFO 19004 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 00:02:35.313  INFO 19004 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 00:02:35.607  INFO 19004 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 00:02:35.635  INFO 19004 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 00:02:35.708  INFO 19004 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 00:02:36.280  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 00:02:36.291  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 00:02:36.310  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 00:02:36.326  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 00:02:36.331  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 00:02:36.335  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 00:02:36.340  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 00:02:36.343  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 00:02:36.349  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 00:02:36.355  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 00:02:36.360  INFO 19004 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 00:02:36.456  INFO 19004 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 00:02:36.462  INFO 19004 --- [main] com.jingluo.jingluo.Application          : Started Application in 12.412 seconds (JVM running for 15.213)
+2020-06-03 00:02:42.161  INFO 19004 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 00:02:42.161  INFO 19004 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 00:02:42.172  INFO 19004 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
+2020-06-03 00:07:07.529  INFO 12044 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 12044 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 00:07:07.537  INFO 12044 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 00:07:10.777  INFO 12044 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 00:07:11.227  INFO 12044 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 00:07:11.240  INFO 12044 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 00:07:11.241  INFO 12044 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 00:07:11.370  INFO 12044 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 00:07:11.370  INFO 12044 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3258 ms
+2020-06-03 00:07:12.924  INFO 12044 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 00:07:13.045  INFO 12044 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 00:07:13.117  INFO 12044 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 00:07:13.362  INFO 12044 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 00:07:13.395  INFO 12044 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 00:07:13.435  INFO 12044 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 00:07:13.855  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 00:07:13.859  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 00:07:13.862  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 00:07:13.874  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 00:07:13.877  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 00:07:13.880  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 00:07:13.882  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 00:07:13.887  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 00:07:13.891  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 00:07:13.897  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 00:07:13.901  INFO 12044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 00:07:13.953  INFO 12044 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 00:07:13.959  INFO 12044 --- [main] com.jingluo.jingluo.Application          : Started Application in 7.527 seconds (JVM running for 10.101)
+2020-06-03 00:07:24.321  INFO 12044 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 00:07:24.322  INFO 12044 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 00:07:24.340  INFO 12044 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 17 ms
+2020-06-03 08:48:49.589  INFO 19812 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 19812 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 08:48:49.627  INFO 19812 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 08:48:52.100  INFO 19812 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 08:48:52.496  INFO 19812 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 08:48:52.519  INFO 19812 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 08:48:52.520  INFO 19812 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 08:48:52.828  INFO 19812 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 08:48:52.828  INFO 19812 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3063 ms
+2020-06-03 08:48:54.505  INFO 19812 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 08:48:54.627  INFO 19812 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 08:48:54.720  INFO 19812 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 08:48:54.915  INFO 19812 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 08:48:54.941  INFO 19812 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 08:48:54.998  INFO 19812 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 08:48:55.352  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 08:48:55.355  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 08:48:55.358  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 08:48:55.366  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 08:48:55.368  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 08:48:55.372  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 08:48:55.374  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 08:48:55.376  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 08:48:55.378  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 08:48:55.380  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 08:48:55.385  INFO 19812 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 08:48:55.434  INFO 19812 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 08:48:55.438  INFO 19812 --- [main] com.jingluo.jingluo.Application          : Started Application in 7.58 seconds (JVM running for 11.044)
+2020-06-03 08:49:12.764  INFO 19812 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 08:49:12.764  INFO 19812 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 08:49:12.777  INFO 19812 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 13 ms
+2020-06-03 08:51:07.265  INFO 1304 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 1304 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 08:51:07.271  INFO 1304 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 08:51:09.486  INFO 1304 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 08:51:09.804  INFO 1304 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 08:51:09.813  INFO 1304 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 08:51:09.814  INFO 1304 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 08:51:09.927  INFO 1304 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 08:51:09.928  INFO 1304 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2467 ms
+2020-06-03 08:51:11.165  INFO 1304 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 08:51:11.305  INFO 1304 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 08:51:11.377  INFO 1304 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 08:51:11.545  INFO 1304 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 08:51:11.563  INFO 1304 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 08:51:11.606  INFO 1304 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 08:51:12.012  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 08:51:12.016  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 08:51:12.019  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 08:51:12.030  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 08:51:12.034  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 08:51:12.038  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 08:51:12.041  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 08:51:12.045  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 08:51:12.048  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 08:51:12.052  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 08:51:12.055  INFO 1304 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 08:51:12.112  INFO 1304 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 08:51:12.116  INFO 1304 --- [main] com.jingluo.jingluo.Application          : Started Application in 6.076 seconds (JVM running for 8.195)
+2020-06-03 08:51:50.958  INFO 1304 --- [http-nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 08:51:50.958  INFO 1304 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 08:51:50.968  INFO 1304 --- [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 10 ms
+2020-06-03 08:58:43.818  INFO 21640 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 21640 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 08:58:43.823  INFO 21640 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 08:58:46.414  INFO 21640 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 08:58:46.881  INFO 21640 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 08:58:46.896  INFO 21640 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 08:58:46.897  INFO 21640 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 08:58:47.047  INFO 21640 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 08:58:47.048  INFO 21640 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3090 ms
+2020-06-03 08:58:48.420  INFO 21640 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 08:58:48.533  INFO 21640 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 08:58:48.619  INFO 21640 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 08:58:48.806  INFO 21640 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 08:58:48.823  INFO 21640 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 08:58:48.876  INFO 21640 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 08:58:49.192  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 08:58:49.196  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 08:58:49.198  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 08:58:49.207  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 08:58:49.209  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 08:58:49.213  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 08:58:49.218  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 08:58:49.222  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 08:58:49.226  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 08:58:49.229  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 08:58:49.233  INFO 21640 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 08:58:49.277  INFO 21640 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 08:58:49.281  INFO 21640 --- [main] com.jingluo.jingluo.Application          : Started Application in 6.943 seconds (JVM running for 8.966)
+2020-06-03 08:59:00.706  INFO 21640 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 08:59:00.707  INFO 21640 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 08:59:00.722  INFO 21640 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 15 ms
+2020-06-03 09:00:24.447  INFO 17696 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 17696 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 09:00:24.452  INFO 17696 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 09:00:26.657  INFO 17696 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 09:00:26.983  INFO 17696 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 09:00:26.993  INFO 17696 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 09:00:26.994  INFO 17696 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 09:00:27.089  INFO 17696 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 09:00:27.090  INFO 17696 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2519 ms
+2020-06-03 09:00:28.103  INFO 17696 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 09:00:28.198  INFO 17696 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 09:00:28.261  INFO 17696 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 09:00:28.427  INFO 17696 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 09:00:28.444  INFO 17696 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 09:00:28.477  INFO 17696 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 09:00:28.854  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 09:00:28.857  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 09:00:28.860  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 09:00:28.868  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 09:00:28.871  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 09:00:28.873  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 09:00:28.875  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 09:00:28.877  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 09:00:28.879  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 09:00:28.882  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 09:00:28.886  INFO 17696 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 09:00:28.933  INFO 17696 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 09:00:28.937  INFO 17696 --- [main] com.jingluo.jingluo.Application          : Started Application in 5.383 seconds (JVM running for 7.437)
+2020-06-03 09:00:34.981  INFO 17696 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 09:00:34.981  INFO 17696 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 09:00:34.999  INFO 17696 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 18 ms
+2020-06-03 09:04:25.091  INFO 2792 --- [main] com.jingluo.jingluo.Application          : Starting Application on DESKTOP-HRB5EVP with PID 2792 (G:\Java\jingluo\target\classes started by DELL in G:\Java\jingluo)
+2020-06-03 09:04:25.095  INFO 2792 --- [main] com.jingluo.jingluo.Application          : No active profile set, falling back to default profiles: default
+2020-06-03 09:04:27.958  INFO 2792 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-06-03 09:04:28.276  INFO 2792 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-03 09:04:28.286  INFO 2792 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-03 09:04:28.287  INFO 2792 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-06-03 09:04:28.394  INFO 2792 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-03 09:04:28.395  INFO 2792 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3138 ms
+2020-06-03 09:04:29.634  INFO 2792 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2020-06-03 09:04:29.742  INFO 2792 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-03 09:04:29.810  INFO 2792 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [public/index.html]
+2020-06-03 09:04:29.980  INFO 2792 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2020-06-03 09:04:29.999  INFO 2792 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2020-06-03 09:04:30.037  INFO 2792 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2020-06-03 09:04:30.470  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getClassMsgUsingPOST_1
+2020-06-03 09:04:30.475  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: bindPhoneUsingPOST_1
+2020-06-03 09:04:30.481  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: findPSWUsingPOST_1
+2020-06-03 09:04:30.510  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: logOutUsingPOST_1
+2020-06-03 09:04:30.514  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: loginUsingPOST_1
+2020-06-03 09:04:30.519  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: phoneLoginUsingPOST_1
+2020-06-03 09:04:30.521  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectAllUsingGET_1
+2020-06-03 09:04:30.525  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: selectOneUsingPOST_1
+2020-06-03 09:04:30.528  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updateMsgUsingPOST_1
+2020-06-03 09:04:30.531  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: updatePSWUsingPOST_1
+2020-06-03 09:04:30.536  INFO 2792 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getCourseMsgUsingPOST_1
+2020-06-03 09:04:30.591  INFO 2792 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-03 09:04:30.594  INFO 2792 --- [main] com.jingluo.jingluo.Application          : Started Application in 6.378 seconds (JVM running for 9.093)
+2020-06-03 09:04:30.726  INFO 2792 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-03 09:04:30.726  INFO 2792 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-03 09:04:30.744  INFO 2792 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 18 ms
+2020-06-03 09:09:49.961  WARN 2792 --- [http-nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported]
